@@ -14,16 +14,8 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State var isLoginScreen = false
-    
     var body: some View {
-        ZStack {
-            if isLoginScreen {
-                LoginScreenView()
-            } else {
-                SplashScreenView(isLoginScreen: $isLoginScreen)
-            }
-        }
+        SplashScreenView()
     }
 }
 

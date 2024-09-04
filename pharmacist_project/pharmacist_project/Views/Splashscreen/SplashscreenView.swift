@@ -5,7 +5,7 @@
  Assessment: Assignment 3
  Author: Do Phan Nhat Anh
  ID: s3915034
- Created  date: 04/09/2024
+ Created date: 04/09/2024
  Last modified: 04/09/2024
  Acknowledgement:
  
@@ -15,7 +15,6 @@
 import SwiftUI
 
 struct SplashScreenView: View {
-    @Binding var isLoginScreen: Bool
     @State var scaleAmount: CGFloat = 1
     @State var titleOpacity: Double = 0
     
@@ -48,15 +47,12 @@ struct SplashScreenView: View {
                     scaleAmount = 1.0
                 }
                 
+
                 withAnimation(.easeInOut(duration: 1).delay(1.0)) {
                     titleOpacity = 1.0
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    isLoginScreen = true
-                }
             }
         }
     }
 }
-
