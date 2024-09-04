@@ -55,7 +55,7 @@
 		C48032872C88498200E662AE /* pharmacist_project */ = {
 			isa = PBXGroup;
 			children = (
-				C48032A42C88537A00E662AE /* Resources */,
+				C480329A2C884EDC00E662AE /* Resources */,
 				C48032962C884DE400E662AE /* Models */,
 				C48032972C884DF300E662AE /* Views */,
 				C48032982C884E0300E662AE /* ViewModels */,
@@ -109,6 +109,13 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		C480329A2C884EDC00E662AE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		C480329B2C884EFE00E662AE /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -144,13 +151,6 @@
 			children = (
 			);
 			path = Order;
-			sourceTree = "<group>";
-		};
-		C48032A42C88537A00E662AE /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
