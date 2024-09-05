@@ -8,7 +8,6 @@
  Created date: 04/09/2024
  Last modified: 04/09/2024
  Acknowledgement:
- 
  Healthcare Medicine Database 1
  */
 
@@ -47,7 +46,6 @@ struct SplashScreenView: View {
                     scaleAmount = 1.0
                 }
                 
-
                 withAnimation(.easeInOut(duration: 1).delay(1.0)) {
                     titleOpacity = 1.0
                 }
