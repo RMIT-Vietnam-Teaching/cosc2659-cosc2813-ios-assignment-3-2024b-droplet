@@ -58,18 +58,18 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
-		1994C0F92C8980A3004EF663 /* Resource */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resource;
-			sourceTree = "<group>";
-		};
 		1994C0FA2C8980B3004EF663 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		1994C0FB2C89811C004EF663 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resource;
 			sourceTree = "<group>";
 		};
 		19A159DB2C897F5E0025681C /* Splashscreen */ = {
@@ -131,7 +131,7 @@
 		C48032872C88498200E662AE /* pharmacist_project */ = {
 			isa = PBXGroup;
 			children = (
-				1994C0F92C8980A3004EF663 /* Resource */,
+				1994C0FB2C89811C004EF663 /* Resource */,
 				C40879B12C897BED00829660 /* Models */,
 				C48032972C884DF300E662AE /* Views */,
 				C48032982C884E0300E662AE /* ViewModels */,
