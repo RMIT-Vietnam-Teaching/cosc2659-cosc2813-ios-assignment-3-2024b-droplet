@@ -39,19 +39,42 @@ struct AuthenView: View {
         SecureField("password...", text: $authVM.password)
         
         Button {
-            authVM.signIn()
+            Task {
+                let errorMsg = await authVM.register()
+                if errorMsg != nil {
+                    // display error
+                    print(errorMsg!)
+                } else {
+                    // register success => home view
+                    print("resgister un success")
+                }
+            }
+        } label: {
+            Text("register")
+        }
+        
+        Button {
+            Task {
+                let errorMsg = await authVM.signIn()
+                if errorMsg != nil {
+                    // display error
+                    print(errorMsg!)
+                } else {
+                    // sign in success => home view
+                    print("sign in success")
+                }
+            }
         } label: {
             Text("sign in")
         }
         
         Button {
-            do {
-                try authVM.signOut()
-                print("sign out success")
-            } catch {
+            let errorMsg = authVM.signOut()
+            if errorMsg != nil {
                 print("sign out error")
+            } else {
+                print("sign out success")
             }
-            
         } label: {
             Text("log out")
         }

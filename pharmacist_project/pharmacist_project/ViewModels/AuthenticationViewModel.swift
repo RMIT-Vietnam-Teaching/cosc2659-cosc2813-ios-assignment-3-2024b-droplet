@@ -6,49 +6,24 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 @MainActor
 final class AuthenticationViewModel: ObservableObject {
     @Published var email = ""
     @Published var password = ""
     
-    func signIn() {
-        let emailErrorMessage = isValidEmail(emai: email)
-        if emailErrorMessage != nil {
-            print(emailErrorMessage!)
-            return
-        }
-        
-        let passwordErrorMessage = isValidPassword(password: password)
-        if passwordErrorMessage != nil {
-            print(passwordErrorMessage!)
-            return
-        }
-        
-        // create user
-        Task {
-            do {
-                let returnedUserData = try await AuthenticationService.shared.createUser(email: email, password: password)
-                print("Sign in success")
-                print("User data: \(returnedUserData)")
-            } catch {
-                print("Error: \(error)")
-            }
-        }
+    func register() async -> (String?) {
+        let (errorMsg, _) = await AuthenticationService.shared.createUser(email: email, password: password)
+        return errorMsg
     }
     
-    func signOut() throws {
-        try AuthenticationService.shared.signOut()
+    func signIn() async -> (String?) {
+        let (errorMsg, _) = await AuthenticationService.shared.signIn(email: email, password: password)
+        return errorMsg
     }
     
-    private func isValidEmail(emai: String) -> String? {
-        if GlobalUtils.isValidEmail(email: email) {
-            return nil
-        }
-        return "Invalid email due to.."
-    }
-    
-    private func isValidPassword(password: String) -> String? {
-        return nil
+    func signOut() -> String? {
+        return AuthenticationService.shared.signOut()
     }
 }
