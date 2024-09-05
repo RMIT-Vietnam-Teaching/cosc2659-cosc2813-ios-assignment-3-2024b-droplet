@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1994C0F82C89809B004EF663 /* homeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C0F72C89809B004EF663 /* homeView.swift */; };
+		1994C1012C898732004EF663 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C1002C898732004EF663 /* CustomColors.swift */; };
 		19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A159DA2C897F5E0025681C /* SplashscreenView.swift */; };
 		C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */; };
 		C40879BD2C897CD500829660 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BC2C897CD500829660 /* CartView.swift */; };
@@ -24,6 +25,7 @@
 
 /* Begin PBXFileReference section */
 		1994C0F72C89809B004EF663 /* homeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeView.swift; sourceTree = "<group>"; };
+		1994C1002C898732004EF663 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		19A159DA2C897F5E0025681C /* SplashscreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashscreenView.swift; sourceTree = "<group>"; };
 		C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C40879BC2C897CD500829660 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
@@ -61,6 +63,7 @@
 		1994C0FA2C8980B3004EF663 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				1994C1002C898732004EF663 /* CustomColors.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -253,6 +256,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C480329E2C884FFB00E662AE /* LoginView.swift in Sources */,
+				1994C1012C898732004EF663 /* CustomColors.swift in Sources */,
 				C40879BF2C897CE600829660 /* OrderView.swift in Sources */,
 				C40879BD2C897CD500829660 /* CartView.swift in Sources */,
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
