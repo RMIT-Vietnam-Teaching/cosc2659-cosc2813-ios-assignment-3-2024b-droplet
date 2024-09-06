@@ -12,18 +12,43 @@ import FirebaseAuth
 final class AuthenticationViewModel: ObservableObject {
     @Published var email = ""
     @Published var password = ""
+    @Published var errorMessage = ""
     
-    func register() async -> (String?) {
-        let (errorMsg, _) = await AuthenticationService.shared.createUser(email: email, password: password)
-        return errorMsg
+    func register() {
+        Task {
+            let (errorMsg, _) = await AuthenticationService.shared.createUser(email: email, password: password)
+            
+            if errorMsg != nil {
+                // display error
+                print(errorMsg!)
+                errorMessage = errorMsg!
+            } else {
+                // register success => home view
+                print("resgister un success")
+            }
+        }
     }
     
-    func signIn() async -> (String?) {
-        let (errorMsg, _) = await AuthenticationService.shared.signIn(email: email, password: password)
-        return errorMsg
+    func signIn() {
+        Task {
+            let (errorMsg, _) = await AuthenticationService.shared.signIn(email: email, password: password)
+            if errorMsg != nil {
+                // display error
+                print(errorMsg!)
+                errorMessage = errorMsg!
+            } else {
+                // sign in success => home view
+                print("sign in success")
+            }
+        }
     }
     
-    func signOut() -> String? {
-        return AuthenticationService.shared.signOut()
+    func signOut() {
+        let errorMsg = AuthenticationService.shared.signOut()
+        if errorMsg != nil {
+            print("sign out error")
+        } else {
+            print("sign out success")
+        }
     }
 }

@@ -19,16 +19,23 @@ struct ContentView: View {
             AuthenView()
         }
         .onAppear {
-            // get user from previous sign in
-            let user = try? AuthenticationService.shared.getAuthenticatedUser()
-            if user == nil {
-                print("need to sign in")
+            if isUserLoggedIn() {
                 // adjust state var to open sign in view. Ex: self.isShowSignInView = true
             } else {
-                print("success get previous authenticated user \(user?.email ?? "")")
                 // adjust state var to open home view
             }
         }
+    }
+    
+    private func isUserLoggedIn() -> Bool {
+        // get user from previous sign in
+        let user = try? AuthenticationService.shared.getAuthenticatedUser()
+        if user != nil {
+            print("success get previous authenticated user \(user?.email ?? "")")
+        } else {
+            print("need to sign in")
+        }
+        return user != nil
     }
 }
 
