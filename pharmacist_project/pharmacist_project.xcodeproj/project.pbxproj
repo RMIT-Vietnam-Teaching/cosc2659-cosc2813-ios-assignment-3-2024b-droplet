@@ -20,6 +20,7 @@
 		8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */; };
 		8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */; };
 		8AEB8BE02C8B76EB002AA1B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */; };
+		8AEB8BE32C8B779D002AA1B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */; };
 		C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */; };
 		C40879BD2C897CD500829660 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BC2C897CD500829660 /* CartView.swift */; };
 		C40879BF2C897CE600829660 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BE2C897CE600829660 /* OrderView.swift */; };
@@ -53,6 +54,7 @@
 		8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pharmacist-project-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C40879BC2C897CD500829660 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		C40879BE2C897CE600829660 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -121,6 +123,15 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8AEB8BE12C8B7782002AA1B7 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */,
+				8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */,
+			);
+			path = Authentication;
 			sourceTree = "<group>";
 		};
 		C40879B12C897BED00829660 /* Models */ = {
@@ -227,7 +238,7 @@
 		C48032982C884E0300E662AE /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */,
+				8AEB8BE12C8B7782002AA1B7 /* Authentication */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -356,6 +367,7 @@
 				8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
 				C4F06C212C8B17BD00BDB1F8 /* OrderSummaryCardView.swift in Sources */,
+				8AEB8BE32C8B779D002AA1B7 /* LoginViewModel.swift in Sources */,
 				19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */,
 				C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */,
 				C4F06C1D2C8AFC7900BDB1F8 /* CartItemCardView.swift in Sources */,

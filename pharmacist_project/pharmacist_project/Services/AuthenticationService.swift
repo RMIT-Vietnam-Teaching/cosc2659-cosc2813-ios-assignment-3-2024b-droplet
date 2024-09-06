@@ -10,6 +10,11 @@ import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
 
+enum AuthProvider: String {
+    case email = "password"
+    case google = "google.com"
+}
+
 final class AuthenticationService {
     static let shared = AuthenticationService()
     private init() { }
@@ -31,6 +36,27 @@ final class AuthenticationService {
         } catch let error as NSError {
             return error.localizedDescription
         }
+    }
+    
+    func isUserLoggedIn() -> Bool {
+        return self.getAuthenticatedUser() != nil
+    }
+    
+    func getUserAvailableAuthProviders() -> [AuthProvider] {
+        guard let providerData = Auth.auth().currentUser?.providerData else {
+            return []
+        }
+        
+        var providers: [AuthProvider] = []
+        for provider in providerData {
+            if let option = AuthProvider(rawValue: provider.providerID) {
+                providers.append(option)
+            } else {
+                assertionFailure("Auth provider not found: \(provider.providerID)")
+            }
+        }
+        
+        return providers
     }
     
     private func getAppUserFromFirebaseUser(firebaseUser: FirebaseUser) -> AppUser {
@@ -172,3 +198,55 @@ extension AuthenticationService {
         }
     }
 }
+
+
+// DO NOT DELETE
+//struct AuthenView: View {
+//    @StateObject private var authVM = AuthenticationViewModel()
+//    
+//    var body: some View {
+//        TextField("email...", text: $authVM.email)
+//        
+//        SecureField("password...", text: $authVM.password)
+//        
+//        Button {
+//            authVM.register()
+//        } label: {
+//            Text("register")
+//        }
+//        
+//        Button {
+//            authVM.signIn()
+//        } label: {
+//            Text("sign in")
+//        }
+//        
+//        Button {
+//            authVM.signOut()
+//        } label: {
+//            Text("log out")
+//        }
+//        
+//        Button {
+//            authVM.resetPassword()
+//        } label: {
+//            Text("reset password")
+//        }
+//        
+//        Button {
+//            authVM.resetPassword()
+//        } label: {
+//            Text("update password")
+//        }
+//        
+//        GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .wide, state: .normal)) {
+//            authVM.signInGoogle()
+//        }
+//        
+//        Button {
+//            authVM.printCurrentUser()
+//        } label: {
+//            Text("Print user info")
+//        }
+//    }
+//}

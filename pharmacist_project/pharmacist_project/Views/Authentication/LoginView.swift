@@ -16,8 +16,7 @@
 import SwiftUI
 
 struct LoginScreenView: View {
-    @State private var email = ""
-    @State private var password = ""
+    @StateObject var loginVM = LoginViewModel()
     
     @State private var navigateToRegister = false
     
@@ -34,22 +33,27 @@ struct LoginScreenView: View {
                     Spacer()
                     
                     VStack(spacing: 16) {
-                        TextField("Email", text: $email)
+                        TextField("Email", text: $loginVM.email)
                             .padding()
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
-                        SecureField("Password", text: $password)
+                        SecureField("Password", text: $loginVM.password)
                             .padding()
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                     }
                     
+                    if loginVM.errorMessage != nil {
+                        Text(loginVM.errorMessage!)
+                    }
+                    
                     // Login Button
                     Button(action: {
                         // Login action
+                        loginVM.signIn()
                     }) {
                         Text("Login")
                             .frame(maxWidth: .infinity)
@@ -90,6 +94,7 @@ struct LoginScreenView: View {
                     HStack(spacing: 16) {
                         Button(action: {
                             // Google login
+                            loginVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
                                 .interpolation(.none)
@@ -113,10 +118,23 @@ struct LoginScreenView: View {
                     }
                     .padding(.bottom, geometry.size.height * 0.02)
                 }
+                // MARK: check user login state
+                .onAppear {
+                    if loginVM.isUserLoggedIn() {
+                        loginVM.isShowHomeView = true
+                    } else {
+                        loginVM.isShowHomeView = false
+                    }
+                }
                 .background(Color(hex: "F9F9F9"))
                 .navigationBarBackButtonHidden(true)
+                
+                // MARK: navigation
                 .navigationDestination(isPresented: $navigateToRegister) {
                     RegisterScreenView()
+                }
+                .navigationDestination(isPresented: $loginVM.isShowHomeView) {
+                    HomeView()
                 }
             }
         }
