@@ -28,6 +28,7 @@
 		C4F06C1A2C8AE0DC00BDB1F8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C192C8AE0DC00BDB1F8 /* Currency.swift */; };
 		C4F06C1D2C8AFC7900BDB1F8 /* CartItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C1C2C8AFC7900BDB1F8 /* CartItemCardView.swift */; };
 		C4F06C1F2C8AFC8000BDB1F8 /* AddToCartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C1E2C8AFC8000BDB1F8 /* AddToCartButtonView.swift */; };
+		C4F06C212C8B17BD00BDB1F8 /* OrderSummaryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C202C8B17BD00BDB1F8 /* OrderSummaryCardView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		C4F06C192C8AE0DC00BDB1F8 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		C4F06C1C2C8AFC7900BDB1F8 /* CartItemCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartItemCardView.swift; sourceTree = "<group>"; };
 		C4F06C1E2C8AFC8000BDB1F8 /* AddToCartButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddToCartButtonView.swift; sourceTree = "<group>"; };
+		C4F06C202C8B17BD00BDB1F8 /* OrderSummaryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderSummaryCardView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -213,6 +215,7 @@
 				C4F06C1C2C8AFC7900BDB1F8 /* CartItemCardView.swift */,
 				C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift */,
 				C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */,
+				C4F06C202C8B17BD00BDB1F8 /* OrderSummaryCardView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -304,6 +307,7 @@
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
 				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
+				C4F06C212C8B17BD00BDB1F8 /* OrderSummaryCardView.swift in Sources */,
 				19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */,
 				C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */,
 				C4F06C1D2C8AFC7900BDB1F8 /* CartItemCardView.swift in Sources */,
