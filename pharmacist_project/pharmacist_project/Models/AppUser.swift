@@ -8,14 +8,14 @@
 import Foundation
 import FirebaseAuth
 
-struct AppUser {
+struct AppUser: Codable {
     let id: String
     let email: String?
-    let photoUrl: String?
+    let photoURL: String?
     
-    init(firebaseUser: FirebaseUser) {
-        self.id = firebaseUser.id
-        self.email = firebaseUser.email
-        self.photoUrl = firebaseUser.photoUrl
+    init(authDataResultUser: User) {
+        self.id = authDataResultUser.uid
+        self.email = authDataResultUser.email
+        self.photoURL = authDataResultUser.photoURL?.absoluteString
     }
 }

@@ -28,7 +28,7 @@ final class LoginViewModel: ObservableObject {
     }
     
     func isUserLoggedIn() -> Bool {
-        let user = AuthenticationService.shared.getAuthenticatedUser()
+        let user = AuthenticationService.shared.getAuthenticatedUserOffline()
         if user != nil {
             print("success get previous authenticated user \(user?.email ?? "")")
         } else {

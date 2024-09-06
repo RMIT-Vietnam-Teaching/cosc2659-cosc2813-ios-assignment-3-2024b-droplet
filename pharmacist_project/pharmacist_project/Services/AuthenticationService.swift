@@ -19,14 +19,20 @@ final class AuthenticationService {
     static let shared = AuthenticationService()
     private init() { }
     
-    func getAuthenticatedUser() -> AppUser? {
+    func getAuthenticatedUser() async -> AppUser? {
         guard let user = Auth.auth().currentUser else {
             return nil
         }
         
-        let firebaseUser = FirebaseUser(user: user)
+        return await getUserFromFileStore(userId: user.uid)
+    }
+    
+    func getAuthenticatedUserOffline() -> AppUser? {
+        guard let user = Auth.auth().currentUser else {
+            return nil
+        }
         
-        return getAppUserFromFirebaseUser(firebaseUser: firebaseUser)
+        return AppUser(authDataResultUser: user)
     }
     
     func signOut() -> String? {
@@ -39,7 +45,7 @@ final class AuthenticationService {
     }
     
     func isUserLoggedIn() -> Bool {
-        return self.getAuthenticatedUser() != nil
+        return self.getAuthenticatedUserOffline() != nil
     }
     
     func getUserAvailableAuthProviders() -> [AuthProvider] {
@@ -59,11 +65,20 @@ final class AuthenticationService {
         return providers
     }
     
-    private func getAppUserFromFirebaseUser(firebaseUser: FirebaseUser) -> AppUser {
-        // TODO: implement logic to get user's info from firestore
-        
-        return AppUser(firebaseUser: firebaseUser)
+    private func getUserFromFileStore(userId: String) async -> AppUser? {
+        do {
+            let user = try await UserService.shared.getUser(userId: userId)
+            return user
+        } catch {
+            return nil
+        }
     }
+    
+//    private func getAppUserFromFirebaseUser(firebaseUser: FirebaseUser) -> AppUser {
+//        // TODO: implement logic to get user's info from firestore
+//        
+//        return AppUser(firebaseUser: firebaseUser)
+//    }
 }
 
 // MARK: Sign in email
@@ -72,12 +87,12 @@ extension AuthenticationService {
         do {
             let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
             
-            let firebaseUser = FirebaseUser(user: authDataResult.user)
+            let appUser = AppUser(authDataResultUser: authDataResult.user)
             
             // create user in db
-            try await UserService.shared.createNewUser(user: firebaseUser)
+            try await UserService.shared.createNewUser(user: appUser)
             
-            return (nil, getAppUserFromFirebaseUser(firebaseUser: firebaseUser))
+            return (nil, appUser)
         } catch let error as NSError  {
             return (error.localizedDescription, nil)
         }
@@ -86,10 +101,8 @@ extension AuthenticationService {
     func signIn(email: String, password: String) async -> (String?, AppUser?) {
         do {
             let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
-            
-            let firebaseUser = FirebaseUser(user: authDataResult.user)
-            
-            return (nil, getAppUserFromFirebaseUser(firebaseUser: firebaseUser))
+
+            return (nil, await getUserFromFileStore(userId: authDataResult.user.uid))
         } catch let error as NSError  {
             return (error.localizedDescription, nil)
         }
@@ -150,7 +163,7 @@ extension AuthenticationService {
             
             let firebaseUser = FirebaseUser(user: authDataResult.user)
             
-            return (nil, getAppUserFromFirebaseUser(firebaseUser: firebaseUser))
+            return (nil, await getUserFromFileStore(userId: authDataResult.user.uid))
         } catch let error as NSError {
             return (error.localizedDescription, nil)
         }

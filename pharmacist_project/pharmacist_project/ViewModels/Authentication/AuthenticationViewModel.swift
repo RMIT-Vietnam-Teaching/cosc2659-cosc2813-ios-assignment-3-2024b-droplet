@@ -86,7 +86,7 @@ final class AuthenticationViewModel: ObservableObject {
     }
     
     func printCurrentUser() {
-        let user = AuthenticationService.shared.getAuthenticatedUser()
+        let user = AuthenticationService.shared.getAuthenticatedUserOffline()
         if user == nil {
             print("Please login first")
         } else {
