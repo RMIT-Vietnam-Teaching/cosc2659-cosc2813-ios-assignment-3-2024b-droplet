@@ -1,5 +1,5 @@
 //
-//  VerticalProductItemView.swift
+//  HorizontalProductItemCardView.swift
 //  pharmacist_project
 //
 //  Created by Long Pham Hoang on 6/9/24.
@@ -7,81 +7,71 @@
 
 import SwiftUI
 
-struct VerticalProductItemView: View {
+struct HorizontalProductItemCardView: View {
     let medicine: Medicine
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            HStack {
-                Spacer()
+        Button(action: {
+            // go to product details
+            print("product details")
+        }) {
+            HStack(spacing: 15) {
                 AsyncImage(url: URL(string: medicine.images.first ?? "")) { phase in
                     if let image = phase.image {
                         image
                             .resizable()
+                            .interpolation(.none)
                             .aspectRatio(contentMode: .fit)
-                            .frame(height: 150)
+                            .frame(width: 100, height: 100)
                             .cornerRadius(10)
                     } else if phase.error != nil {
-                        Color.gray.frame(height: 150)
+                        Color.gray.frame(width: 100, height: 100)
                     } else {
-                        ProgressView().frame(height: 150)
+                        ProgressView().frame(width: 100, height: 100)
                     }
                 }
-                Spacer()
-            }
-            
-            ScrollView(.vertical, showsIndicators: true) {
-                Text(medicine.name)
-                    .font(.headline)
-                    .padding(.horizontal, 5)
-            }
-            .frame(maxHeight: 50)
-            
-            HStack {
-                Text(medicine.price.formatAsCurrency())
-                    .font(.title3)
-                    .fontWeight(.bold)
                 
-                if medicine.priceDiscount > 0 {
-                    Text(medicine.priceDiscount.formatAsCurrency())
+                VStack(alignment: .leading, spacing: 5) {
+                    ScrollView(.vertical, showsIndicators: true) {
+                        Text(medicine.name)
+                            .font(.headline)
+                            .padding(.horizontal, 5)
+                    }
+                    .frame(maxHeight: 50)
+                    
+                    HStack {
+                        Text(medicine.price.formatAsCurrency())
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        
+                        if medicine.priceDiscount > 0 {
+                            Text(medicine.priceDiscount.formatAsCurrency())
+                                .font(.subheadline)
+                                .strikethrough()
+                                .foregroundColor(.gray)
+                            
+                            Text("\(medicine.price.calculateDiscountPercentage(priceDiscount: medicine.priceDiscount))% Off")
+                                .font(.subheadline)
+                                .foregroundColor(.red)
+                        }
+                    }
+                    
+                    // Stock Information
+                    Text("In stock: \(medicine.availableQuantity)")
                         .font(.subheadline)
-                        .strikethrough()
-                        .foregroundColor(.gray)
                 }
-                
-                Spacer()
-                
-                Text("\(medicine.price.calculateDiscountPercentage(priceDiscount: medicine.priceDiscount))% Off")
-                    .font(.subheadline)
-                    .foregroundColor(.red)
             }
-            
-            Text("In stock: \(medicine.availableQuantity)")
-                .font(.subheadline)
-                .padding(.top, -5)
-            
-            // Implement later with async
-            Button(action: {
-
-            }) {
-                Text("Add To Cart")
-                    .fontWeight(.bold)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(Color.orange)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }
+            .padding()
+            .background(Color.white)
+            .cornerRadius(10)
+            .shadow(radius: 2)
         }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(15)
-        .shadow(radius: 5)
-        .frame(width: 300)
+        .buttonStyle(PlainButtonStyle())
+        .frame(height: 200)
     }
 }
 
-// #Preview
+
 #Preview {
     let exampleMedicine = Medicine(
         id: "1",
@@ -101,6 +91,5 @@ struct VerticalProductItemView: View {
         pharmacyId: "123"
     )
     
-    return VerticalProductItemView(medicine: exampleMedicine)
+    return HorizontalProductItemCardView(medicine: exampleMedicine)
 }
-

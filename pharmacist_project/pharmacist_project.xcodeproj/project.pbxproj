@@ -21,8 +21,8 @@
 		C48032902C88498400E662AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C480328F2C88498400E662AE /* Preview Assets.xcassets */; };
 		C480329E2C884FFB00E662AE /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480329D2C884FFB00E662AE /* LoginView.swift */; };
 		C48032A02C8850F300E662AE /* RegistrationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480329F2C8850F300E662AE /* RegistrationView.swift */; };
-		C4F06C142C8AC5F700BDB1F8 /* HorizontalProductItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemView.swift */; };
-		C4F06C162C8AC66800BDB1F8 /* VerticalProductItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C152C8AC66800BDB1F8 /* VerticalProductItemView.swift */; };
+		C4F06C142C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift */; };
+		C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */; };
 		C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C172C8ACB7C00BDB1F8 /* Medicine.swift */; };
 		C4F06C1A2C8AE0DC00BDB1F8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C192C8AE0DC00BDB1F8 /* Currency.swift */; };
 /* End PBXBuildFile section */
@@ -43,8 +43,8 @@
 		C480328F2C88498400E662AE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		C480329D2C884FFB00E662AE /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		C480329F2C8850F300E662AE /* RegistrationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationView.swift; sourceTree = "<group>"; };
-		C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalProductItemView.swift; sourceTree = "<group>"; };
-		C4F06C152C8AC66800BDB1F8 /* VerticalProductItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProductItemView.swift; sourceTree = "<group>"; };
+		C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalProductItemCardView.swift; sourceTree = "<group>"; };
+		C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProductItemCardView.swift; sourceTree = "<group>"; };
 		C4F06C172C8ACB7C00BDB1F8 /* Medicine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medicine.swift; sourceTree = "<group>"; };
 		C4F06C192C8AE0DC00BDB1F8 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,8 +199,8 @@
 		C4F06C122C8AC56400BDB1F8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
-				C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemView.swift */,
-				C4F06C152C8AC66800BDB1F8 /* VerticalProductItemView.swift */,
+				C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift */,
+				C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -281,12 +281,12 @@
 				C40879BF2C897CE600829660 /* OrderView.swift in Sources */,
 				C40879BD2C897CD500829660 /* CartView.swift in Sources */,
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
-				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemView.swift in Sources */,
+				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
 				C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */,
 				C480328B2C88498200E662AE /* ContentView.swift in Sources */,
 				C48032892C88498200E662AE /* pharmacist_projectApp.swift in Sources */,
-				C4F06C142C8AC5F700BDB1F8 /* HorizontalProductItemView.swift in Sources */,
+				C4F06C142C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift in Sources */,
 				1994C0F82C89809B004EF663 /* homeView.swift in Sources */,
 				19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */,
 				C40879C32C897D4300829660 /* User.swift in Sources */,
