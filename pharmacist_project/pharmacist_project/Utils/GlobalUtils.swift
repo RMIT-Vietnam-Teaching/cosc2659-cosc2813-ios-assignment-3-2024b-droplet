@@ -8,7 +8,11 @@
 import Foundation
 
 class GlobalUtils {
-    static func isValidEmail(email: String) -> Bool {
-        return true
+    static func isValidEmail(email: String) -> String? {
+        return nil
+    }
+    
+    static func isValidName(name: String) -> String? {
+        return nil
     }
 }

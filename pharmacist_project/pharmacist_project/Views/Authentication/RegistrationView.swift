@@ -16,10 +16,7 @@
 import SwiftUI
 
 struct RegisterScreenView: View {
-    @State private var name = ""
-    @State private var email = ""
-    @State private var password = ""
-    @State private var confirmPassword = ""
+    @StateObject var regisVM = RegistrationViewModel()
     
     @State private var navigateToLogin = false
     
@@ -36,29 +33,33 @@ struct RegisterScreenView: View {
                     Spacer()
                     
                     VStack(spacing: 16) {
-                        TextField("Name", text: $name)
+                        TextField("Name", text: $regisVM.name)
                             .padding()
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
-                        TextField("Email", text: $email)
+                        TextField("Email", text: $regisVM.email)
                             .padding()
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
-                        SecureField("Password", text: $password)
+                        SecureField("Password", text: $regisVM.password)
                             .padding()
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
-                        SecureField("Confirm Password", text: $confirmPassword)
+                        SecureField("Confirm Password", text: $regisVM.confirmPassword)
                             .padding()
                             .background(Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
+                        
+                        if regisVM.errorMessage != nil {
+                            Text(regisVM.errorMessage!)
+                        }
                     }
                     
                     HStack {
@@ -76,7 +77,7 @@ struct RegisterScreenView: View {
                     
                     // Register Button
                     Button(action: {
-                        // Register action
+                        regisVM.register()
                     }) {
                         Text("Sign up")
                             .frame(maxWidth: .infinity)
@@ -99,7 +100,7 @@ struct RegisterScreenView: View {
                     // Register with social account buttons
                     HStack(spacing: 16) {
                         Button(action: {
-                            // Google register
+                            regisVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
                                 .resizable()
@@ -126,6 +127,9 @@ struct RegisterScreenView: View {
                 .navigationBarBackButtonHidden(true)
                 .navigationDestination(isPresented: $navigateToLogin) {
                     LoginScreenView()
+                }
+                .navigationDestination(isPresented: $regisVM.isShowHomeView) {
+                    HomeView()
                 }
             }
         }

@@ -21,6 +21,9 @@
 		8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */; };
 		8AEB8BE02C8B76EB002AA1B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */; };
 		8AEB8BE32C8B779D002AA1B7 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */; };
+		8AEB8BE52C8B90C2002AA1B7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BE42C8B90C2002AA1B7 /* FirebaseFirestore */; };
+		8AEB8BE72C8B9338002AA1B7 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BE62C8B9338002AA1B7 /* UserService.swift */; };
+		8AEB8BE92C8B963F002AA1B7 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BE82C8B963F002AA1B7 /* RegistrationViewModel.swift */; };
 		C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */; };
 		C40879BD2C897CD500829660 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BC2C897CD500829660 /* CartView.swift */; };
 		C40879BF2C897CE600829660 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BE2C897CE600829660 /* OrderView.swift */; };
@@ -55,6 +58,8 @@
 		8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
+		8AEB8BE62C8B9338002AA1B7 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
+		8AEB8BE82C8B963F002AA1B7 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C40879BC2C897CD500829660 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		C40879BE2C897CE600829660 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -84,6 +89,7 @@
 				8A4A02392C8A0A55004CF016 /* FirebaseAnalytics in Frameworks */,
 				8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */,
 				8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */,
+				8AEB8BE52C8B90C2002AA1B7 /* FirebaseFirestore in Frameworks */,
 				8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -130,6 +136,7 @@
 			children = (
 				C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */,
 				8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */,
+				8AEB8BE82C8B963F002AA1B7 /* RegistrationViewModel.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -150,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				C40879C02C897D1300829660 /* AuthenticationService.swift */,
+				8AEB8BE62C8B9338002AA1B7 /* UserService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -294,6 +302,7 @@
 				8A4A023B2C8A0C30004CF016 /* FirebaseAuth */,
 				8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */,
 				8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */,
+				8AEB8BE42C8B90C2002AA1B7 /* FirebaseFirestore */,
 			);
 			productName = pharmacist_project;
 			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
@@ -360,9 +369,11 @@
 				1994C1012C898732004EF663 /* CustomColors.swift in Sources */,
 				C40879BF2C897CE600829660 /* OrderView.swift in Sources */,
 				8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */,
+				8AEB8BE72C8B9338002AA1B7 /* UserService.swift in Sources */,
 				C40879BD2C897CD500829660 /* CartView.swift in Sources */,
 				8A4A02462C8A1CC4004CF016 /* FirebaseUser.swift in Sources */,
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
+				8AEB8BE92C8B963F002AA1B7 /* RegistrationViewModel.swift in Sources */,
 				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */,
 				8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
@@ -628,6 +639,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		8AEB8BE42C8B90C2002AA1B7 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
