@@ -23,7 +23,6 @@ struct SplashScreenView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                // Animated background with updated colors
                 LinearGradient(gradient: Gradient(colors: [Color(hex: "#2EB5FA").opacity(0.2), Color(hex: "#FAFBFC")]),
                                startPoint: .topLeading,
                                endPoint: .bottomTrailing)
@@ -37,7 +36,7 @@ struct SplashScreenView: View {
                         .scaleEffect(scaleAmount)
                         .rotationEffect(.degrees(imageRotation))
                         .opacity(imageOpacity)
-                        .frame(width: geometry.size.width * 0.6) // Dynamic size based on screen width
+                        .frame(width: geometry.size.width * 0.6)
                         .onAppear {
                             withAnimation(.easeOut(duration: 0.8)) {
                                 scaleAmount = 0.6
@@ -50,7 +49,7 @@ struct SplashScreenView: View {
                         }
                     
                     Text("Smart Pharmacy")
-                        .font(.custom("Helvetica Neue", size: geometry.size.width * 0.1)) // Dynamic font size
+                        .font(.custom("Helvetica Neue", size: geometry.size.width * 0.1)) 
                         .foregroundColor(.black)
                         .padding(.top, geometry.size.height * 0.05)
                         .opacity(titleOpacity)

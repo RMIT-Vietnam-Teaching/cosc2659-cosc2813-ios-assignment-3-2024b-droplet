@@ -47,19 +47,6 @@ struct LoginScreenView: View {
                             .padding(.horizontal)
                     }
                     
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            // Forgot Password
-                        }) {
-                            Text("Forgot your password?")
-                                .font(.body)
-                                .foregroundColor(.blue)
-                        }
-                        .padding(.trailing)
-                    }
-                    .padding(.top, 8)
-                    
                     // Login Button
                     Button(action: {
                         // Login action
@@ -73,7 +60,7 @@ struct LoginScreenView: View {
                             .shadow(radius: 4)
                     }
                     .padding(.horizontal)
-                    .padding(.top, 10)
+                    .padding(.top, 15)
                     
                     // Sign Up Button
                     Button(action: {
