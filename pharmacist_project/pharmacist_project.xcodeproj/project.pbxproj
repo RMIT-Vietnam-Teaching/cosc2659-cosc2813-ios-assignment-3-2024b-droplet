@@ -10,6 +10,7 @@
 		1994C0F82C89809B004EF663 /* homeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C0F72C89809B004EF663 /* homeView.swift */; };
 		1994C1012C898732004EF663 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C1002C898732004EF663 /* CustomColors.swift */; };
 		19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A159DA2C897F5E0025681C /* SplashscreenView.swift */; };
+		19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BE73A42C8AC92200C4E82D /* CartItem.swift */; };
 		C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */; };
 		C40879BD2C897CD500829660 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BC2C897CD500829660 /* CartView.swift */; };
 		C40879BF2C897CE600829660 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BE2C897CE600829660 /* OrderView.swift */; };
@@ -25,12 +26,17 @@
 		C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */; };
 		C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C172C8ACB7C00BDB1F8 /* Medicine.swift */; };
 		C4F06C1A2C8AE0DC00BDB1F8 /* Currency.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C192C8AE0DC00BDB1F8 /* Currency.swift */; };
+		C4F06C1D2C8AFC7900BDB1F8 /* CartItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C1C2C8AFC7900BDB1F8 /* CartItemCardView.swift */; };
+		C4F06C1F2C8AFC8000BDB1F8 /* AddToCartButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F06C1E2C8AFC8000BDB1F8 /* AddToCartButtonView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1994C0F72C89809B004EF663 /* homeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeView.swift; sourceTree = "<group>"; };
 		1994C1002C898732004EF663 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		19A159DA2C897F5E0025681C /* SplashscreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashscreenView.swift; sourceTree = "<group>"; };
+		19BE73A22C8AC5DE00C4E82D /* AddToCartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartButtonView.swift; sourceTree = "<group>"; };
+		19BE73A42C8AC92200C4E82D /* CartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItem.swift; sourceTree = "<group>"; };
+		19BE73A62C8AC9F300C4E82D /* CartItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItemCardView.swift; sourceTree = "<group>"; };
 		C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C40879BC2C897CD500829660 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		C40879BE2C897CE600829660 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -47,6 +53,8 @@
 		C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerticalProductItemCardView.swift; sourceTree = "<group>"; };
 		C4F06C172C8ACB7C00BDB1F8 /* Medicine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Medicine.swift; sourceTree = "<group>"; };
 		C4F06C192C8AE0DC00BDB1F8 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
+		C4F06C1C2C8AFC7900BDB1F8 /* CartItemCardView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CartItemCardView.swift; sourceTree = "<group>"; };
+		C4F06C1E2C8AFC8000BDB1F8 /* AddToCartButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddToCartButtonView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +97,7 @@
 			isa = PBXGroup;
 			children = (
 				C40879C22C897D4300829660 /* User.swift */,
+				19BE73A42C8AC92200C4E82D /* CartItem.swift */,
 				C4F06C172C8ACB7C00BDB1F8 /* Medicine.swift */,
 			);
 			path = Models;
@@ -130,6 +139,7 @@
 			children = (
 				C48032872C88498200E662AE /* pharmacist_project */,
 				C48032862C88498200E662AE /* Products */,
+				C4F06C1B2C8AFC4500BDB1F8 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -199,10 +209,21 @@
 		C4F06C122C8AC56400BDB1F8 /* Component */ = {
 			isa = PBXGroup;
 			children = (
+				C4F06C1E2C8AFC8000BDB1F8 /* AddToCartButtonView.swift */,
+				C4F06C1C2C8AFC7900BDB1F8 /* CartItemCardView.swift */,
 				C4F06C132C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift */,
 				C4F06C152C8AC66800BDB1F8 /* VerticalProductItemCardView.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		C4F06C1B2C8AFC4500BDB1F8 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				19BE73A22C8AC5DE00C4E82D /* AddToCartButtonView.swift */,
+				19BE73A62C8AC9F300C4E82D /* CartItemCardView.swift */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -283,7 +304,10 @@
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
 				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
+				19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */,
 				C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */,
+				C4F06C1D2C8AFC7900BDB1F8 /* CartItemCardView.swift in Sources */,
+				C4F06C1F2C8AFC8000BDB1F8 /* AddToCartButtonView.swift in Sources */,
 				C480328B2C88498200E662AE /* ContentView.swift in Sources */,
 				C48032892C88498200E662AE /* pharmacist_projectApp.swift in Sources */,
 				C4F06C142C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift in Sources */,
