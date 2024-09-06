@@ -29,7 +29,7 @@ struct ContentView: View {
     
     private func isUserLoggedIn() -> Bool {
         // get user from previous sign in
-        let user = try? AuthenticationService.shared.getAuthenticatedUser()
+        let user = AuthenticationService.shared.getAuthenticatedUser()
         if user != nil {
             print("success get previous authenticated user \(user?.email ?? "")")
         } else {

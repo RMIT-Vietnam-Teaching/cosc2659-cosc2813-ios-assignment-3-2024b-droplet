@@ -10,12 +10,15 @@
 		1994C0F82C89809B004EF663 /* homeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C0F72C89809B004EF663 /* homeView.swift */; };
 		1994C1012C898732004EF663 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C1002C898732004EF663 /* CustomColors.swift */; };
 		19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A159DA2C897F5E0025681C /* SplashscreenView.swift */; };
-		8A4A02372C8A0964004CF016 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8A4A02362C8A0964004CF016 /* GoogleService-Info.plist */; };
 		8A4A02392C8A0A55004CF016 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8A4A02382C8A0A55004CF016 /* FirebaseAnalytics */; };
 		8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A4A023B2C8A0C30004CF016 /* FirebaseAuth */; };
 		8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02412C8A1093004CF016 /* GlobalUtils.swift */; };
 		8A4A02442C8A13B7004CF016 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02432C8A13B7004CF016 /* AppUser.swift */; };
 		8A4A02462C8A1CC4004CF016 /* FirebaseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02452C8A1CC4004CF016 /* FirebaseUser.swift */; };
+		8AEB8BD42C8B5D79002AA1B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8AEB8BD32C8B5D79002AA1B7 /* GoogleService-Info.plist */; };
+		8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */; };
+		8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */; };
+		8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */; };
 		C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */; };
 		C40879BD2C897CD500829660 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BC2C897CD500829660 /* CartView.swift */; };
 		C40879BF2C897CE600829660 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BE2C897CE600829660 /* OrderView.swift */; };
@@ -33,10 +36,12 @@
 		1994C0F72C89809B004EF663 /* homeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = homeView.swift; sourceTree = "<group>"; };
 		1994C1002C898732004EF663 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		19A159DA2C897F5E0025681C /* SplashscreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashscreenView.swift; sourceTree = "<group>"; };
-		8A4A02362C8A0964004CF016 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		8A4A02412C8A1093004CF016 /* GlobalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUtils.swift; sourceTree = "<group>"; };
 		8A4A02432C8A13B7004CF016 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
 		8A4A02452C8A1CC4004CF016 /* FirebaseUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseUser.swift; sourceTree = "<group>"; };
+		8AEB8BD32C8B5D79002AA1B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pharmacist-project-Info.plist"; sourceTree = SOURCE_ROOT; };
+		8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C40879BC2C897CD500829660 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		C40879BE2C897CE600829660 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -58,6 +63,8 @@
 			files = (
 				8A4A02392C8A0A55004CF016 /* FirebaseAnalytics in Frameworks */,
 				8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */,
+				8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */,
+				8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -77,6 +84,7 @@
 			children = (
 				1994C1002C898732004EF663 /* CustomColors.swift */,
 				8A4A02412C8A1093004CF016 /* GlobalUtils.swift */,
+				8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -157,7 +165,8 @@
 		C48032872C88498200E662AE /* pharmacist_project */ = {
 			isa = PBXGroup;
 			children = (
-				8A4A02362C8A0964004CF016 /* GoogleService-Info.plist */,
+				8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */,
+				8AEB8BD32C8B5D79002AA1B7 /* GoogleService-Info.plist */,
 				C40879C62C8981DC00829660 /* Resources */,
 				C40879B12C897BED00829660 /* Models */,
 				C48032972C884DF300E662AE /* Views */,
@@ -228,6 +237,8 @@
 			packageProductDependencies = (
 				8A4A02382C8A0A55004CF016 /* FirebaseAnalytics */,
 				8A4A023B2C8A0C30004CF016 /* FirebaseAuth */,
+				8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */,
+				8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */,
 			);
 			productName = pharmacist_project;
 			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
@@ -259,6 +270,7 @@
 			mainGroup = C480327C2C88498200E662AE;
 			packageReferences = (
 				8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 			);
 			productRefGroup = C48032862C88498200E662AE /* Products */;
 			projectDirPath = "";
@@ -276,7 +288,7 @@
 			files = (
 				C48032902C88498400E662AE /* Preview Assets.xcassets in Resources */,
 				C480328D2C88498400E662AE /* Assets.xcassets in Resources */,
-				8A4A02372C8A0964004CF016 /* GoogleService-Info.plist in Resources */,
+				8AEB8BD42C8B5D79002AA1B7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -291,6 +303,7 @@
 				C480329E2C884FFB00E662AE /* LoginView.swift in Sources */,
 				1994C1012C898732004EF663 /* CustomColors.swift in Sources */,
 				C40879BF2C897CE600829660 /* OrderView.swift in Sources */,
+				8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */,
 				C40879BD2C897CD500829660 /* CartView.swift in Sources */,
 				8A4A02462C8A1CC4004CF016 /* FirebaseUser.swift in Sources */,
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
@@ -437,6 +450,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"pharmacist_project/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "pharmacist-project-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Smart Pharmacist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -467,6 +481,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"pharmacist_project/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "pharmacist-project-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Smart Pharmacist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -519,6 +534,14 @@
 				minimumVersion = 11.1.0;
 			};
 		};
+		8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -531,6 +554,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

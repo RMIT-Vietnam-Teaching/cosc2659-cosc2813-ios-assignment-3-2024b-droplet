@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import FirebaseAuth
 
 @MainActor
 final class AuthenticationViewModel: ObservableObject {
@@ -46,9 +45,52 @@ final class AuthenticationViewModel: ObservableObject {
     func signOut() {
         let errorMsg = AuthenticationService.shared.signOut()
         if errorMsg != nil {
-            print("sign out error")
+            print("sign out error \(errorMsg!)")
         } else {
             print("sign out success")
+        }
+    }
+    
+    func resetPassword() {
+        Task {
+            let errorMsg = await AuthenticationService.shared.resetPassword(email: email)
+            if errorMsg != nil {
+                print("reset password error \(errorMsg!)")
+            } else {
+                print("reset password succcess")
+            }
+        }
+    }
+    
+    func updatePassword() {
+        Task {
+            let errorMsg = await AuthenticationService.shared.updatePassword(password: password)
+            if errorMsg != nil {
+                print("update password error \(errorMsg!)")
+            } else {
+                print("update password succcess")
+            }
+        }
+    }
+    
+    func signInGoogle() {
+        Task {
+            let (errorMsg, _) = await AuthenticationService.shared.signInWithGoogle()
+            
+            if errorMsg != nil {
+                print("sign in with google error \(errorMsg!)")
+            } else {
+                print("sign in with google succcess")
+            }
+        }
+    }
+    
+    func printCurrentUser() {
+        let user = AuthenticationService.shared.getAuthenticatedUser()
+        if user == nil {
+            print("Please login first")
+        } else {
+            print(user!)
         }
     }
 }

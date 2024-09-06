@@ -7,14 +7,16 @@
 
 import Foundation
 import FirebaseAuth
+import GoogleSignIn
+import GoogleSignInSwift
 
 final class AuthenticationService {
     static let shared = AuthenticationService()
     private init() { }
     
-    func getAuthenticatedUser() throws -> AppUser {
+    func getAuthenticatedUser() -> AppUser? {
         guard let user = Auth.auth().currentUser else {
-            throw URLError(.badServerResponse)
+            return nil
         }
         
         let firebaseUser = FirebaseUser(user: user)
@@ -22,6 +24,24 @@ final class AuthenticationService {
         return getAppUserFromFirebaseUser(firebaseUser: firebaseUser)
     }
     
+    func signOut() -> String? {
+        do {
+            try Auth.auth().signOut()
+            return nil
+        } catch let error as NSError {
+            return error.localizedDescription
+        }
+    }
+    
+    private func getAppUserFromFirebaseUser(firebaseUser: FirebaseUser) -> AppUser {
+        // TODO: implement logic to get user's info from firestore
+        
+        return AppUser(firebaseUser: firebaseUser)
+    }
+}
+
+// MARK: Sign in email
+extension AuthenticationService {
     func createUser(email: String, password: String) async -> (String?, AppUser?) {
         // prevalidate rules
         let emailErrorMessage = isValidEmail(email: email)
@@ -63,17 +83,8 @@ final class AuthenticationService {
 //                    return ("Internal server error", nil)
 //                }
 //            }
-//            
+//
 //            return ("Internal server error", nil)
-        }
-    }
-    
-    func signOut() -> String? {
-        do {
-            try Auth.auth().signOut()
-            return nil
-        } catch let error as NSError {
-            return error.localizedDescription
         }
     }
     
@@ -89,12 +100,27 @@ final class AuthenticationService {
         }
     }
     
-    private func getAppUserFromFirebaseUser(firebaseUser: FirebaseUser) -> AppUser {
-        // TODO: implement logic to get user's info from firestore
-        
-        return AppUser(firebaseUser: firebaseUser)
+    func resetPassword(email: String) async -> String? {
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+        } catch let error as NSError {
+            return error.localizedDescription
+        }
+        return nil
     }
     
+    func updatePassword(password: String) async -> String? {
+        guard let appUser = Auth.auth().currentUser else {
+            return "Please login first before update password"
+        }
+        
+        do {
+            try await appUser.updatePassword(to: password)
+        } catch let error as NSError  {
+            return error.localizedDescription
+        }
+        return nil
+    }
     
     private func isValidEmail(email: String) -> String? {
         if GlobalUtils.isValidEmail(email: email) {
@@ -105,5 +131,44 @@ final class AuthenticationService {
     
     private func isValidPassword(password: String) -> String? {
         return nil
+    }
+}
+
+// MARK: Sign in SSO
+extension AuthenticationService {
+    func signInWithGoogle() async -> (String?, AppUser?) {
+        guard let topVC = await TopViewControllerUtil.shared.topViewController() else {
+            return ("Can not find top view controller", nil)
+        }
+        
+        do {
+            // Get GG credential
+            let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
+            
+            guard let idToken: String = gidSignInResult.user.idToken?.tokenString else {
+                return ("Can not get ID token from GID result", nil)
+            }
+            let accessToken: String = gidSignInResult.user.accessToken.tokenString
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                             accessToken: accessToken)
+            
+            // Sign in new account with credential
+            return await self.signInWithCredential(credential: credential)
+        } catch let error as NSError  {
+            return (error.localizedDescription, nil)
+        }
+    }
+    
+    func signInWithCredential(credential: AuthCredential) async -> (String?, AppUser?) {
+        do {
+            let authDataResult = try await Auth.auth().signIn(with: credential)
+            
+            let firebaseUser = FirebaseUser(user: authDataResult.user)
+            
+            return (nil, getAppUserFromFirebaseUser(firebaseUser: firebaseUser))
+        } catch let error as NSError {
+            return (error.localizedDescription, nil)
+        }
     }
 }

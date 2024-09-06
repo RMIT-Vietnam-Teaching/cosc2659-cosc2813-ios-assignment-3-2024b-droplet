@@ -7,6 +7,8 @@
 
 import SwiftUI
 import FirebaseCore
+import GoogleSignIn
+import GoogleSignInSwift
 
 @main
 struct pharmacist_projectApp: App {
@@ -55,5 +57,31 @@ struct AuthenView: View {
         } label: {
             Text("log out")
         }
+        
+        Button {
+            authVM.resetPassword()
+        } label: {
+            Text("reset password")
+        }
+        
+        Button {
+            authVM.resetPassword()
+        } label: {
+            Text("update password")
+        }
+        
+        GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .wide, state: .normal)) {
+            authVM.signInGoogle()
+        }
+        
+        Button {
+            authVM.printCurrentUser()
+        } label: {
+            Text("Print user info")
+        }
     }
+}
+
+#Preview {
+    AuthenView()
 }
