@@ -11,4 +11,9 @@ final class CartService: CRUDService<Cart> {
     static let shared = CartService()
     
     override var collectionName: String {"carts"}
+    
+    func createEmptyCart(for userId: String) async throws {
+        let newCart = Cart(userId: userId)
+        try await self.createDocument(newCart)
+    }
 }

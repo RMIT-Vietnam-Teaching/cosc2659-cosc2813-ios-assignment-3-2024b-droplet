@@ -88,6 +88,9 @@ extension AuthenticationService {
             // create user in db
             try await UserService.shared.createNewUser(user: appUser)
             
+            // create cart for user
+            try await CartService.shared.createEmptyCart(for: appUser.id)
+            
             return (nil, appUser)
         } catch let error as NSError  {
             return (error.localizedDescription, nil)
@@ -103,6 +106,9 @@ extension AuthenticationService {
             
             // create user in db
             try await UserService.shared.createNewUser(user: appUser)
+            
+            // create cart for user
+            try await CartService.shared.createEmptyCart(for: appUser.id)
             
             return (nil, appUser)
         } catch let error as NSError  {
@@ -174,8 +180,13 @@ extension AuthenticationService {
             let authDataResult = try await Auth.auth().signIn(with: credential)
             
             if await !UserService.shared.isUserExist(userId: authDataResult.user.uid) {
+                let appUser = AppUser(authDataResultUser: authDataResult.user)
+                
                 // create new user in db
-                try await UserService.shared.createNewUser(user: AppUser(authDataResultUser: authDataResult.user))
+                try await UserService.shared.createNewUser(user: appUser)
+                
+                // create cart for user
+                try await CartService.shared.createEmptyCart(for: appUser.id)
             }
             
             return (nil, await getUserFromFileStore(userId: authDataResult.user.uid))

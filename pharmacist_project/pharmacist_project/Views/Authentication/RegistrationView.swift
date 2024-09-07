@@ -75,7 +75,7 @@ struct RegisterScreenView: View {
                     }
                     .padding(.top, 8)
                     
-                    // Register Button
+                    // MARK: Register Button
                     Button(action: {
                         regisVM.register()
                     }) {
@@ -97,9 +97,10 @@ struct RegisterScreenView: View {
                         .foregroundColor(.gray)
                         .padding(.top, geometry.size.height * 0.03)
                     
-                    // Register with social account buttons
+                    // MARK: Register with social account buttons
                     HStack(spacing: 16) {
                         Button(action: {
+                            // MARK: Google register
                             regisVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
@@ -111,7 +112,7 @@ struct RegisterScreenView: View {
                         }
                         
                         Button(action: {
-                            // Facebook register
+                            // MARK: Facebook register
                         }) {
                             Image("FacebookIcon")
                                 .resizable()
