@@ -49,7 +49,7 @@ struct CartItemCardView: View {
                                 .foregroundColor(.gray)
                         }
                         
-                        Text("\(cartItem.quantity)")
+                        Text("\(cartItem.quantity ?? 0)")
                             .font(.headline)
                             .frame(width: 40, height: 20)
                         
@@ -74,7 +74,7 @@ struct CartItemCardView: View {
 
                     HStack {
                         Spacer()
-                        Text("\((cartItem.pricePerUnit*Double(cartItem.quantity)).formatAsCurrency())")
+                        Text("\(((cartItemVM.medicine?.price ?? 0)*Double(cartItem.quantity ?? 0)).formatAsCurrency())")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
                             .padding(.top, 4)
@@ -104,8 +104,7 @@ struct CartItemCardView: View {
         cartId: PreviewsUtil.getPreviewUserId(),
         medicineId: PreviewsUtil.getPreviewMedicineId(),
         quantity: 1,
-        pricePerUnit: 551650,
-        pricePerUnitDiscount: 421352
+        createDate: Date()
     )
     
     return CartItemCardView(cartItem: exampleCartItem)

@@ -16,4 +16,30 @@ final class CartService: CRUDService<Cart> {
         let newCart = Cart(userId: userId)
         try await self.createDocument(newCart)
     }
+    
+    func hasCartItemWith(medicineId: String) async throws -> Bool {
+        let cartItems = try await CartItemService.shared.fetchDocuments(filter: { query in
+            query.whereField("medicineId", isEqualTo: medicineId)
+        })
+        
+        return !cartItems.isEmpty
+    }
+    
+    func addNewCartItem(cart: Cart, medicine: Medicine, quantity: Int) async throws {
+        let newCartItem = CartItem(cartId: cart.id,
+                                   medicineId: medicine.id,
+                                   quantity: 1,
+                                   createDate: Date())
+        try await CartItemService.shared.createDocument(newCartItem)
+    }
+    
+    func getUserCart(userId: String) async throws -> Cart {
+        let carts = try await self.fetchDocuments(filter: { query in
+            query.whereField("userId", isEqualTo: userId)
+        })
+        if carts.count != 1 {
+            fatalError("User have more or less than one shopping cart")
+        }
+        return carts[0]
+    }
 }

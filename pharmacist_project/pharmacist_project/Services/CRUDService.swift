@@ -53,6 +53,31 @@ class CRUDService<T: FirebaseModel> {
     func getAllDocuments() async throws {
 //        collection.document().all
     }
+    
+    func fetchDocuments(filter: (Query) -> Query, limit: Int? = nil, page: Int = 0) async throws -> [T] {
+        var query: Query = collection
+        
+        // Apply filtering, sorting, etc., via the filter closure
+        query = filter(query)
+        
+        // Apply pagination if limit is provided
+        if let limit = limit {
+            let offset = page * limit
+            query = query.limit(to: limit).start(at: [offset])
+        }
+        
+        // Perform the query
+        let documents = try await query.getDocuments().documents
+        let results: [T] = documents.compactMap { document in
+            try? document.data(as: T.self)
+        }
+        
+        return results
+    }
+    
+    func appendAttribute() {
+        
+    }
 }
 
 extension CRUDService {
