@@ -8,26 +8,29 @@
 import Foundation
 import FirebaseFirestore
 
-final class UserService {
+final class UserService: CRUDService<AppUser> {
     
     static let shared = UserService()
-    private init() {}
     
-    var collectionName: String {"users"}
+    override var collectionName: String {"users"}
     
     func createNewUser(user: AppUser) async throws {
-        var data: [String: Any] = [:]
-        let mirrored_object = Mirror(reflecting: user)
-        for (index, attr) in mirrored_object.children.enumerated() {
-            if let property_name = attr.label as String? {
-                data[attr.label!] = attr.value
-            }
-        }
-        try await Firestore.firestore().collection(collectionName).document(user.id).setData(data)
+        try await createDocument(user)
     }
     
     func getUser(userId: String) async throws -> AppUser {
-        let user = try await Firestore.firestore().collection(collectionName).document(userId).getDocument(as: AppUser.self)
-        return user
+        return try await getDocument(userId)
+    }
+    
+    func isUserExist(userId: String) async -> Bool {
+        return await isDocumentExist(userId)
+    }
+    
+    func updateUser(user: AppUser) async throws {
+        try await updateDocument(user)
+    }
+    
+    func updateDocumentFields(userId: String, fields: [String: Any]) async throws {
+        try await updateDocumentFields(userId, fields: fields)
     }
 }

@@ -83,8 +83,26 @@ final class AuthenticationService {
 
 // MARK: Sign in email
 extension AuthenticationService {
+    func createUserWithName(email: String, password: String, name: String) async -> (String?, AppUser?) {
+        do {
+            // create user in auth
+            let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
+            authDataResult.user.displayName = name
+            
+            let appUser = AppUser(authDataResultUser: authDataResult.user)
+            
+            // create user in db
+            try await UserService.shared.createNewUser(user: appUser)
+            
+            return (nil, appUser)
+        } catch let error as NSError  {
+            return (error.localizedDescription, nil)
+        }
+    }
+    
     func createUser(email: String, password: String) async -> (String?, AppUser?) {
         do {
+            // create user in auth
             let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
             
             let appUser = AppUser(authDataResultUser: authDataResult.user)
@@ -161,7 +179,10 @@ extension AuthenticationService {
         do {
             let authDataResult = try await Auth.auth().signIn(with: credential)
             
-            let firebaseUser = FirebaseUser(user: authDataResult.user)
+            if await !UserService.shared.isUserExist(userId: authDataResult.user.uid) {
+                // create new user in db
+                try await UserService.shared.createNewUser(user: AppUser(authDataResultUser: authDataResult.user))
+            }
             
             return (nil, await getUserFromFileStore(userId: authDataResult.user.uid))
         } catch let error as NSError {

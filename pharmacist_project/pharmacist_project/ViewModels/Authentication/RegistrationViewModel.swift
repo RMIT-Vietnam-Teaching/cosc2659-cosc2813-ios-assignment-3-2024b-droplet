@@ -27,7 +27,7 @@ final class RegistrationViewModel: ObservableObject {
         }
         
         Task {
-            let (errorMsg, _) = await AuthenticationService.shared.createUser(email: email, password: password)
+            let (errorMsg, _) = await AuthenticationService.shared.createUserWithName(email: email, password: password, name: name)
             
             if errorMsg != nil {
                 print("register error \(errorMsg!)")

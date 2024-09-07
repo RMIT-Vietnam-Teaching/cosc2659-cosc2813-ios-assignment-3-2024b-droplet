@@ -23,6 +23,8 @@
 		8AEB8BE52C8B90C2002AA1B7 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BE42C8B90C2002AA1B7 /* FirebaseFirestore */; };
 		8AEB8BE72C8B9338002AA1B7 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BE62C8B9338002AA1B7 /* UserService.swift */; };
 		8AEB8BE92C8B963F002AA1B7 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BE82C8B963F002AA1B7 /* RegistrationViewModel.swift */; };
+		8AEB8BED2C8BFA6C002AA1B7 /* CRUDService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BEC2C8BFA6C002AA1B7 /* CRUDService.swift */; };
+		8AEB8BF02C8BFDDD002AA1B7 /* FirebaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BEF2C8BFDDD002AA1B7 /* FirebaseModel.swift */; };
 		C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */; };
 		C40879BD2C897CD500829660 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BC2C897CD500829660 /* CartView.swift */; };
 		C40879BF2C897CE600829660 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BE2C897CE600829660 /* OrderView.swift */; };
@@ -58,6 +60,8 @@
 		8AEB8BE22C8B779D002AA1B7 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		8AEB8BE62C8B9338002AA1B7 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		8AEB8BE82C8B963F002AA1B7 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
+		8AEB8BEC2C8BFA6C002AA1B7 /* CRUDService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CRUDService.swift; sourceTree = "<group>"; };
+		8AEB8BEF2C8BFDDD002AA1B7 /* FirebaseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseModel.swift; sourceTree = "<group>"; };
 		C40879B82C897C6F00829660 /* AuthenticationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationViewModel.swift; sourceTree = "<group>"; };
 		C40879BC2C897CD500829660 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		C40879BE2C897CE600829660 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
@@ -139,6 +143,14 @@
 			path = Authentication;
 			sourceTree = "<group>";
 		};
+		8AEB8BEE2C8BFDCE002AA1B7 /* Prototcols */ = {
+			isa = PBXGroup;
+			children = (
+				8AEB8BEF2C8BFDDD002AA1B7 /* FirebaseModel.swift */,
+			);
+			path = Prototcols;
+			sourceTree = "<group>";
+		};
 		C40879B12C897BED00829660 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +167,7 @@
 			children = (
 				C40879C02C897D1300829660 /* AuthenticationService.swift */,
 				8AEB8BE62C8B9338002AA1B7 /* UserService.swift */,
+				8AEB8BEC2C8BFA6C002AA1B7 /* CRUDService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -203,6 +216,7 @@
 		C48032872C88498200E662AE /* pharmacist_project */ = {
 			isa = PBXGroup;
 			children = (
+				8AEB8BEE2C8BFDCE002AA1B7 /* Prototcols */,
 				8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */,
 				8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */,
 				C40879C62C8981DC00829660 /* Resources */,
@@ -372,6 +386,7 @@
 				8AEB8BE92C8B963F002AA1B7 /* RegistrationViewModel.swift in Sources */,
 				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */,
 				8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */,
+				8AEB8BED2C8BFA6C002AA1B7 /* CRUDService.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
 				C4F06C212C8B17BD00BDB1F8 /* OrderSummaryCardView.swift in Sources */,
 				8AEB8BE32C8B779D002AA1B7 /* LoginViewModel.swift in Sources */,
@@ -379,6 +394,7 @@
 				C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */,
 				C4F06C1D2C8AFC7900BDB1F8 /* CartItemCardView.swift in Sources */,
 				C4F06C1F2C8AFC8000BDB1F8 /* AddToCartButtonView.swift in Sources */,
+				8AEB8BF02C8BFDDD002AA1B7 /* FirebaseModel.swift in Sources */,
 				C480328B2C88498200E662AE /* ContentView.swift in Sources */,
 				C48032892C88498200E662AE /* pharmacist_projectApp.swift in Sources */,
 				C4F06C142C8AC5F700BDB1F8 /* HorizontalProductItemCardView.swift in Sources */,
