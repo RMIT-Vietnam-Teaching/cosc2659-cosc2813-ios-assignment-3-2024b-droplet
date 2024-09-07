@@ -11,4 +11,8 @@ final class MedicineService: CRUDService<Medicine> {
     static let shared = MedicineService()
     
     override var collectionName: String {"medicines"}
+    
+    func getSeller(medicineId: String) async throws -> Pharmacy {
+        return try await PharmacyService.shared.getDocument(try await self.getDocument(medicineId).pharmacyId!)
+    }
 }

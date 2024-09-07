@@ -102,7 +102,7 @@ struct CartItemCardView: View {
 }
 
 #Preview {
-    var exampleCartItem = CartItem(
+    let exampleCartItem = CartItem(
         id: PreviewsUtil.getPreviewCartId(),
         cartId: PreviewsUtil.getPreviewUserId(),
         medicineId: PreviewsUtil.getPreviewMedicineId(),
