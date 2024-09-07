@@ -18,7 +18,11 @@ extension Double {
     }
     
     func calculateDiscountPercentage(priceDiscount: Double) -> Int {
-        let discount = (1 - self / priceDiscount) * 100
+        guard priceDiscount != 0.0 else {
+            return 100
+        }
+        
+        let discount = priceDiscount / self * 100
         return Int(discount)
     }
 }

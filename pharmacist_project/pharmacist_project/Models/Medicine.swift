@@ -7,20 +7,96 @@
 
 import Foundation
 
-struct Medicine {
+struct Medicine: FirebaseModel {
     let id: String
-    let name: String
-    let price: Double
-    let priceDiscount: Double
-    let images: [String]
-    let availableQuantity: Int
-    let description: String
-    let ingredients: String
-    let supplement: String
-    let note: String
-    let sideEffect: String
-    let dosage: String
-    let supplier: String
-    let categoryId: String
-    let pharmacyId: String
+    var name: String?
+    var price: Double?
+    var priceDiscount: Double?
+    var availableQuantity: Int?
+    var description: String?
+    var ingredients: String?
+    var supplement: String?
+    var note: String?
+    var sideEffect: String?
+    var dosage: String?
+    var supplier: String?
+    var images: [String]
+    let categoryId: String?
+    let pharmacyId: String?
+    var createdDate: Date?
+    
+    func getRepresentImageStr() -> String {
+        return images.first ?? GlobalUtils.getNoImageImageString()
+    }
+    
+    init(
+        id: String,
+        name: String? = nil,
+        price: Double? = nil,
+        priceDiscount: Double? = nil,
+        availableQuantity: Int? = nil,
+        description: String? = nil,
+        ingredients: String? = nil,
+        supplement: String? = nil,
+        note: String? = nil,
+        sideEffect: String? = nil,
+        dosage: String? = nil,
+        supplier: String? = nil,
+        images: [String],
+        categoryId: String?,
+        pharmacyId: String?,
+        createdDate: Date? = nil
+    ) {
+        self.id = id
+        self.name = name
+        self.price = price
+        self.priceDiscount = priceDiscount
+        self.availableQuantity = availableQuantity
+        self.description = description
+        self.ingredients = ingredients
+        self.supplement = supplement
+        self.note = note
+        self.sideEffect = sideEffect
+        self.dosage = dosage
+        self.supplier = supplier
+        self.images = images
+        self.categoryId = categoryId
+        self.pharmacyId = pharmacyId
+        self.createdDate = createdDate
+    }
+    
+    init(
+        name: String? = nil,
+        price: Double? = nil,
+        priceDiscount: Double? = nil,
+        availableQuantity: Int? = nil,
+        description: String? = nil,
+        ingredients: String? = nil,
+        supplement: String? = nil,
+        note: String? = nil,
+        sideEffect: String? = nil,
+        dosage: String? = nil,
+        supplier: String? = nil,
+        images: [String],
+        categoryId: String?,
+        pharmacyId: String?,
+        createdDate: Date? = nil
+    ) {
+        self.id = CRUDService<Medicine>.generateUniqueId(collection: MedicineService.shared.collection)
+        self.name = name
+        self.price = price
+        self.priceDiscount = priceDiscount
+        self.availableQuantity = availableQuantity
+        self.description = description
+        self.ingredients = ingredients
+        self.supplement = supplement
+        self.note = note
+        self.sideEffect = sideEffect
+        self.dosage = dosage
+        self.supplier = supplier
+        self.images = images
+        self.categoryId = categoryId
+        self.pharmacyId = pharmacyId
+        self.createdDate = createdDate
+    }
 }
