@@ -19,23 +19,25 @@ final class OrderService: CRUDService<Order> {
                     note: String,
                     paymentMethod: PaymentMethod,
                     shippingMethod: ShippingMethod
-    ) async throws -> Order? {
+    ) async throws -> Order {
         var cartItems = try await CartItemService.shared.getUserCartItems(userId: userId)
         
         // enforce quantity rules
         var atLeastOneNotEnoughtQuantity = false
         var medicines = [Medicine]()
+        var cartItemsToUpdate = [CartItem]()
         for var cartItem in cartItems {
             let medicine = try await MedicineService.shared.getDocument(cartItem.medicineId)
             medicines.append(medicine)
             if cartItem.quantity! > medicine.availableQuantity! {
                 cartItem.quantity = medicine.availableQuantity!
-                try await CartItemService.shared.updateDocument(cartItem)
+                cartItemsToUpdate.append(cartItem)
                 
                 atLeastOneNotEnoughtQuantity = true
             }
         }
         if atLeastOneNotEnoughtQuantity {
+            try await CartItemService.shared.bulkUpdate(documents: cartItemsToUpdate)
             throw BussinessError.notEnoughQuantity("Shortage of some medicine. System adjust cart now..")
         }
         
