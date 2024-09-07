@@ -73,12 +73,6 @@ final class AuthenticationService {
             return nil
         }
     }
-    
-//    private func getAppUserFromFirebaseUser(firebaseUser: FirebaseUser) -> AppUser {
-//        // TODO: implement logic to get user's info from firestore
-//        
-//        return AppUser(firebaseUser: firebaseUser)
-//    }
 }
 
 // MARK: Sign in email
@@ -149,7 +143,7 @@ extension AuthenticationService {
     }
 }
 
-// MARK: Sign in SSO
+// MARK: Sign in Google
 extension AuthenticationService {
     func signInWithGoogle() async -> (String?, AppUser?) {
         guard let topVC = await TopViewControllerUtil.shared.topViewController() else {
@@ -189,6 +183,11 @@ extension AuthenticationService {
             return (error.localizedDescription, nil)
         }
     }
+}
+
+// MARK: Sign in Apple
+extension AuthenticationService {
+    
 }
 
 

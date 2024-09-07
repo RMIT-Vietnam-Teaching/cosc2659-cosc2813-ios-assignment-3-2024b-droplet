@@ -16,7 +16,7 @@ struct AppUser: FirebaseModel {
     var address: String?
     var phoneNumber: String?
     var photoURL: String?
-    let createdData: Date?
+    let createdDate: Date?
     
     // only for new created user
     init(authDataResultUser: User) {
@@ -27,18 +27,18 @@ struct AppUser: FirebaseModel {
         self.address = nil
         self.phoneNumber = nil
         self.photoURL = authDataResultUser.photoURL?.absoluteString
-        self.createdData = Date()
+        self.createdDate = Date()
     }
     
     init(
         id: String,
         email: String?,
-        name: String,
-        dob: Date?,
-        address: String?,
-        phoneNumber: String?,
-        photoURL: String?,
-        createdData: Date?
+        name: String? = nil,
+        dob: Date? = nil,
+        address: String? = nil,
+        phoneNumber: String? = nil,
+        photoURL: String? = nil, 
+        createdDate: Date?
     ) {
         self.id = id
         self.email = email
@@ -47,17 +47,17 @@ struct AppUser: FirebaseModel {
         self.address = address
         self.phoneNumber = phoneNumber
         self.photoURL = photoURL
-        self.createdData = createdData
+        self.createdDate = createdDate
     }
     
     init(
         email: String?,
-        name: String,
-        dob: Date?,
-        address: String?,
-        phoneNumber: String?,
-        photoURL: String?,
-        createdData: Date?
+        name: String? = nil,
+        dob: Date? = nil,
+        address: String? = nil,
+        phoneNumber: String? = nil,
+        photoURL: String? = nil,
+        createdDate: Date?
     ) {
         self.id = CRUDService<AppUser>.generateUniqueId(collection: UserService.shared.collection)
         self.email = email
@@ -66,6 +66,6 @@ struct AppUser: FirebaseModel {
         self.address = address
         self.phoneNumber = phoneNumber
         self.photoURL = photoURL
-        self.createdData = createdData
+        self.createdDate = createdDate
     }
 }

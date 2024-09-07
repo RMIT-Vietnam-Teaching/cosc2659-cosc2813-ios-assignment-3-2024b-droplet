@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import SwiftUI
+import FirebaseFirestore
 
 class GlobalUtils {
     static func isValidEmail(email: String) -> String? {
@@ -14,5 +16,17 @@ class GlobalUtils {
     
     static func isValidName(name: String) -> String? {
         return nil
+    }
+    
+    static func getNoImageImageString() -> String {
+        return "no-image"
+    }
+    
+    static func getLoadingImageString() -> String {
+        return "loading-image"
+    }
+    
+    static func getFallbackImage() -> Image {
+        return Image("no-image")
     }
 }

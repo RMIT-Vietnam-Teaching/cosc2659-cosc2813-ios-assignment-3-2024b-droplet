@@ -7,6 +7,6 @@
 
 import Foundation
 
-protocol FirebaseModel: Codable {
+protocol FirebaseModel: Codable, Identifiable {
     var id: String { get }
 }

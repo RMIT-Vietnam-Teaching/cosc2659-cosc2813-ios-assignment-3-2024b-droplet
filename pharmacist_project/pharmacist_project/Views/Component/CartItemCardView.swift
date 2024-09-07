@@ -14,13 +14,14 @@
 import SwiftUI
 
 struct CartItemCardView: View {
+    @StateObject var cartItemVM = CartItemViewModel()
     @State var cartItem: CartItem // can modify this later to binding
     
     var body: some View {
         ZStack(alignment: .topTrailing) {
             HStack(spacing: 16) {
                 VStack {
-                    AsyncImage(url: URL(string: cartItem.image)) { phase in
+                    AsyncImage(url: URL(string: cartItemVM.representImage)) { phase in
                         if let image = phase.image {
                             image
                                 .resizable()
@@ -36,7 +37,12 @@ struct CartItemCardView: View {
                     }
                     
                     HStack(spacing: 10) {
-                        Button(action: {cartItem.decreaseQuantity()}) {
+                        Button(action: {
+                            Task {
+                                cartItem.decreaseQuantity()
+                                try await CartItemService.shared.updateDocument(cartItem)
+                            }
+                        }) {
                             Image(systemName: "minus.square")
                                 .font(.title2)
                                 .frame(width: 18, height: 18)
@@ -58,7 +64,7 @@ struct CartItemCardView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(cartItem.name)
+                    Text(cartItemVM.medicineName)
                         .font(.system(size: 16))
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,13 +74,19 @@ struct CartItemCardView: View {
 
                     HStack {
                         Spacer()
-                        Text("\((cartItem.price*Double(cartItem.quantity)).formatAsCurrency())")
+                        Text("\((cartItem.pricePerUnit*Double(cartItem.quantity)).formatAsCurrency())")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
                             .padding(.top, 4)
                             .frame(alignment: .trailing)
                     }
                     .padding(.bottom, 4) 
+                }
+            }
+            .onAppear {
+                Task {
+                    cartItemVM.setupWith(cartItem: self.cartItem)
+                    try await cartItemVM.loadMedicine()
                 }
             }
             .padding()
@@ -88,12 +100,12 @@ struct CartItemCardView: View {
 
 #Preview {
     var exampleCartItem = CartItem(
-        id: "1",
-        userId: "123",
-        name: "Blackmores Omega Double High Strength Fish Oil bổ sung dầu cá",
-        image: "https://prod-cdn.pharmacity.io/e-com/images/product/1000x1000/20240717073116-0-P24634_3.png",
+        id: PreviewsUtil.getPreviewCartId(),
+        cartId: PreviewsUtil.getPreviewUserId(),
+        medicineId: PreviewsUtil.getPreviewMedicineId(),
         quantity: 1,
-        price: 551650
+        pricePerUnit: 551650,
+        pricePerUnitDiscount: 421352
     )
     
     return CartItemCardView(cartItem: exampleCartItem)

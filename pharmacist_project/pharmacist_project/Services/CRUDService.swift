@@ -44,11 +44,14 @@ class CRUDService<T: FirebaseModel> {
     
     func isDocumentExist(_ documentId: String) async -> Bool {
         do {
-            var document = try await document(documentId).getDocument()
-            return document.exists
+            return try await document(documentId).getDocument().exists
         } catch {
             return false
         }
+    }
+    
+    func getAllDocuments() async throws {
+//        collection.document().all
     }
 }
 

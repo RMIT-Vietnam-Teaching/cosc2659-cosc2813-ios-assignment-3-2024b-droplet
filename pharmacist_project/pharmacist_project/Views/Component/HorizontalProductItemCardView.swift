@@ -33,31 +33,31 @@ struct HorizontalProductItemCardView: View {
                 
                 VStack(alignment: .leading, spacing: 5) {
                     ScrollView(.vertical, showsIndicators: true) {
-                        Text(medicine.name)
+                        Text(medicine.name ?? "")
                             .font(.headline)
                             .padding(.horizontal, 5)
                     }
                     .frame(maxHeight: 50)
                     
                     HStack {
-                        Text(medicine.price.formatAsCurrency())
+                        Text((medicine.price ?? 0.0).formatAsCurrency())
                             .font(.title3)
                             .fontWeight(.bold)
                         
-                        if medicine.priceDiscount > 0 {
-                            Text(medicine.priceDiscount.formatAsCurrency())
+                        if medicine.priceDiscount != nil && medicine.price != nil && medicine.priceDiscount! > 0 {
+                            Text(medicine.priceDiscount!.formatAsCurrency())
                                 .font(.subheadline)
                                 .strikethrough()
                                 .foregroundColor(.gray)
                             
-                            Text("\(medicine.price.calculateDiscountPercentage(priceDiscount: medicine.priceDiscount))% Off")
+                            Text("\(medicine.price!.calculateDiscountPercentage(priceDiscount: medicine.priceDiscount!))% Off")
                                 .font(.subheadline)
                                 .foregroundColor(.red)
                         }
                     }
                     
                     // Stock Information
-                    Text("In stock: \(medicine.availableQuantity)")
+                    Text("In stock: \(medicine.availableQuantity ?? 0)")
                         .font(.subheadline)
                 }
             }
@@ -78,7 +78,6 @@ struct HorizontalProductItemCardView: View {
         name: "Dung dịch Dentanalgi điều trị đau răng, viêm nướu răng, nha chu (chai 7ml)",
         price: 19000,
         priceDiscount: 15000,
-        images: ["https://prod-cdn.pharmacity.io/e-com/images/ecommerce/1000x1000/P15323_1_l.webp"],
         availableQuantity: 50,
         description: "Thuốc trị đau răng Dentanalgi là một loại thuốc được sử dụng để giảm đau và làm giảm triệu chứng đau răng. Thuốc thường chứa các thành phần hoạt chất giúp giảm viêm và giảm đau, hỗ trợ điều trị các vấn đề về răng miệng như sâu răng hoặc viêm nướu. Sản phẩm có thể được bào chế dưới dạng viên nén, gel hoặc dung dịch tùy thuộc vào loại thuốc và cách sử dụng.",
         ingredients: "Hoạt chất: Camphor 420mg, Menthol 280mg, Procain hydroclorid 35mg, Tinh dầu Đinh hương (Oleum Caryophylli) 439mg, Sao đen (Cortex Hopea) 700mg, Tạo giác (Fructus Gleditsiae australis) 140mg, Thông bạch (Herba Allium fistulosum) 140mg.\nTá dược: (ethanol 96%, nước tinh khiết) vừa đủ 7ml.",
@@ -87,6 +86,7 @@ struct HorizontalProductItemCardView: View {
         sideEffect: "Khi sử dụng thuốc Thuốc Trị Đau Răng Dentanalgi 7Ml Opc, bạn có thể gặp tác dụng không mong muốn (ADR).",
         dosage: "Tẩm thuốc vào bông đặt nơi đau, 3 - 4 lần/ngày. Nhỏ 1 ml thuốc (30 giọt) vào khoảng 60 ml nước chín, khuấy đều, ngậm và súc miệng 3 lần/ngày.",
         supplier: "Dược phẩm OPC",
+        images: ["https://prod-cdn.pharmacity.io/e-com/images/ecommerce/1000x1000/P15323_1_l.webp"],
         categoryId: "1",
         pharmacyId: "123"
     )
