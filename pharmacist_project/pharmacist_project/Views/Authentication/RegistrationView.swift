@@ -112,7 +112,7 @@ struct RegisterScreenView: View {
                         }
                         
                         Button(action: {
-                            // MARK: Facebook register
+                            regisVM.signInFacebook()
                         }) {
                             Image("FacebookIcon")
                                 .resizable()

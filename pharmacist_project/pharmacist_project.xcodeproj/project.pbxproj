@@ -21,6 +21,8 @@
 		8A7B280E2C8CA617005A652C /* ImageUploadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B280D2C8CA617005A652C /* ImageUploadView.swift */; };
 		8A7B28102C8CA6D9005A652C /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7B280F2C8CA6D9005A652C /* FirebaseStorage */; };
 		8A7B28122C8CA850005A652C /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B28112C8CA850005A652C /* ImagePickerView.swift */; };
+		8A7B28152C8CAB9F005A652C /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7B28142C8CAB9F005A652C /* FacebookCore */; };
+		8A7B28172C8CAB9F005A652C /* FacebookLogin in Frameworks */ = {isa = PBXBuildFile; productRef = 8A7B28162C8CAB9F005A652C /* FacebookLogin */; };
 		8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */; };
 		8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */; };
 		8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */; };
@@ -78,6 +80,7 @@
 		8A7B280B2C8CA5F4005A652C /* ImageUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadViewModel.swift; sourceTree = "<group>"; };
 		8A7B280D2C8CA617005A652C /* ImageUploadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadView.swift; sourceTree = "<group>"; };
 		8A7B28112C8CA850005A652C /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		8A7B28182C8CAE0F005A652C /* pharmacist_project.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pharmacist_project.entitlements; sourceTree = "<group>"; };
 		8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pharmacist-project-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -125,8 +128,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8A7B28172C8CAB9F005A652C /* FacebookLogin in Frameworks */,
 				8A4A02392C8A0A55004CF016 /* FirebaseAnalytics in Frameworks */,
 				8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */,
+				8A7B28152C8CAB9F005A652C /* FacebookCore in Frameworks */,
 				8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */,
 				8AEB8BE52C8B90C2002AA1B7 /* FirebaseFirestore in Frameworks */,
 				8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */,
@@ -284,6 +289,7 @@
 		C48032872C88498200E662AE /* pharmacist_project */ = {
 			isa = PBXGroup;
 			children = (
+				8A7B28182C8CAE0F005A652C /* pharmacist_project.entitlements */,
 				8A7B27FD2C8C8B3D005A652C /* Errors */,
 				8AEB8BEE2C8BFDCE002AA1B7 /* Prototcols */,
 				8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */,
@@ -387,6 +393,8 @@
 				8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */,
 				8AEB8BE42C8B90C2002AA1B7 /* FirebaseFirestore */,
 				8A7B280F2C8CA6D9005A652C /* FirebaseStorage */,
+				8A7B28142C8CAB9F005A652C /* FacebookCore */,
+				8A7B28162C8CAB9F005A652C /* FacebookLogin */,
 			);
 			productName = pharmacist_project;
 			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
@@ -419,6 +427,7 @@
 			packageReferences = (
 				8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 			);
 			productRefGroup = C48032862C88498200E662AE /* Products */;
 			projectDirPath = "";
@@ -623,6 +632,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = pharmacist_project/pharmacist_project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pharmacist_project/Preview Content\"";
@@ -654,6 +664,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = pharmacist_project/pharmacist_project.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"pharmacist_project/Preview Content\"";
@@ -712,6 +723,14 @@
 				minimumVersion = 11.1.0;
 			};
 		};
+		8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 14.1.0;
+			};
+		};
 		8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
@@ -737,6 +756,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseStorage;
+		};
+		8A7B28142C8CAB9F005A652C /* FacebookCore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookCore;
+		};
+		8A7B28162C8CAB9F005A652C /* FacebookLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */;
+			productName = FacebookLogin;
 		};
 		8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -55,6 +55,21 @@ final class RegistrationViewModel: ObservableObject {
         }
     }
     
+    func signInFacebook() {
+        Task {
+            let (errorMsg, _) = try await AuthenticationService.shared.signInWithFacebook()
+            
+            if errorMsg != nil {
+                print("sign in with facebook error \(errorMsg!)")
+                errorMessage = errorMsg!
+            } else {
+                print("sign in with facebook succcess")
+                errorMessage = nil
+                isShowHomeView = true
+            }
+        }
+    }
+    
     // TODO: enforce input
     private func validateInput() -> String? {
         let nameErrorMessage = isValidName(name: name)

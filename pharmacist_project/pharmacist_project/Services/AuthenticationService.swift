@@ -9,10 +9,12 @@ import Foundation
 import FirebaseAuth
 import GoogleSignIn
 import GoogleSignInSwift
+import FacebookLogin
 
 enum AuthProvider: String {
     case email = "password"
     case google = "google.com"
+    case facebook = "facebook.com"
 }
 
 final class AuthenticationService {
@@ -196,9 +198,37 @@ extension AuthenticationService {
     }
 }
 
-// MARK: Sign in Apple
+// MARK: Sign in Facebook
 extension AuthenticationService {
-    
+    func signInWithFacebook() async throws -> (String?, AppUser?) {
+        let loginManager = LoginManager()
+        
+        // Use Swift Concurrency's continuation to bridge the gap between asynchronous closure and async function.
+        return try await withCheckedThrowingContinuation { continuation in
+            loginManager.logIn(permissions: ["public_profile", "email"], from: nil) { result, error in
+                if let error = error {
+                    continuation.resume(returning: (error.localizedDescription, nil))
+                } else if let result = result, let token = result.token {
+                    Task {
+                        do {
+                            let (errorMsg, appUser) = try await self.handleFacebookAccessToken(token: token)
+                            continuation.resume(returning: (errorMsg, appUser))
+                        } catch {
+                            continuation.resume(returning: (error.localizedDescription, nil))
+                        }
+                    }
+                } else {
+                    continuation.resume(returning: ("Facebook login failed: can not get token or result", nil))
+                }
+            }
+        }
+    }
+
+    func handleFacebookAccessToken(token: AccessToken) async throws -> (String?, AppUser?) {
+        let credential = FacebookAuthProvider.credential(withAccessToken: token.tokenString)
+        // Assume signInWithCredential is an async function within your Firebase setup
+        return await signInWithCredential(credential: credential)
+    }
 }
 
 
