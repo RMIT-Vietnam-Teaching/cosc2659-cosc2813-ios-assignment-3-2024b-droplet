@@ -75,8 +75,26 @@ class CRUDService<T: FirebaseModel> {
         return results
     }
     
-    func appendAttribute() {
+    func bulkCreate(documents: [T]) async throws {
+        let batch = Firestore.firestore().batch()
         
+        for document in documents {
+            let newDocRef = collection.document(document.id)
+            try batch.setData(from: document, forDocument: newDocRef, merge: false)
+        }
+        
+        try await batch.commit()
+    }
+    
+    func bulkDelete(documentIds: [String]) async throws {
+        let batch = Firestore.firestore().batch()
+        
+        documentIds.forEach { id in
+            let docRef = collection.document(id)
+            batch.deleteDocument(docRef)
+        }
+        
+        try await batch.commit()
     }
 }
 

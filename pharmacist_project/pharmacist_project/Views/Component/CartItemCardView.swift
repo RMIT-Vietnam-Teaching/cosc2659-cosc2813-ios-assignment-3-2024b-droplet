@@ -39,8 +39,7 @@ struct CartItemCardView: View {
                     HStack(spacing: 10) {
                         Button(action: {
                             Task {
-                                cartItem.decreaseQuantity()
-                                try await CartItemService.shared.updateDocument(cartItem)
+                                await cartItemVM.decreaseQuantity()
                             }
                         }) {
                             Image(systemName: "minus.square")
@@ -53,7 +52,11 @@ struct CartItemCardView: View {
                             .font(.headline)
                             .frame(width: 40, height: 20)
                         
-                        Button(action: {cartItem.increaseQuantity()}) {
+                        Button(action: {
+                            Task {
+                                await cartItemVM.increaseQuantity()
+                            }
+                        }) {
                             Image(systemName: "plus.square")
                                 .font(.title2)
                                 .frame(width: 18, height: 18)

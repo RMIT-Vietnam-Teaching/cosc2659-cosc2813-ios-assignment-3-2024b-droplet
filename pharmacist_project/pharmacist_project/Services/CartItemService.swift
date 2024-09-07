@@ -24,8 +24,35 @@ final class CartItemService: CRUDService<CartItem> {
         let cartItems = try await self.fetchDocuments(filter: { query in
             query.whereField("cartId", isEqualTo: cart.id)
         })
-        return cartItems
+        // sort by old to new
+        return cartItems.sorted(by: {
+            $0.createdDate! > $1.createdDate!
+        })
     }
     
+    func increaseQuantity(cartItemId: String) async throws -> CartItem {
+        var cartItem = try await self.getDocument(cartItemId)
+        
+        // get max quant
+        let medicine = try await MedicineService.shared.getDocument(cartItem.medicineId)
+        let maxQuant = medicine.availableQuantity
+        
+        if cartItem.quantity != nil && maxQuant != nil && cartItem.quantity! < maxQuant! {
+            cartItem.quantity! += 1
+        }
+        
+        try await self.updateDocument(cartItem)
+        return cartItem
+    }
     
+    func decreaseQuantity(cartItemId: String) async throws -> CartItem {
+        var cartItem = try await self.getDocument(cartItemId)
+
+        if cartItem.quantity != nil && cartItem.quantity! >= 1 {
+            cartItem.quantity! -= 1
+        }
+        
+        try await self.updateDocument(cartItem)
+        return cartItem
+    }
 }
