@@ -70,7 +70,7 @@ struct OrderItemView: View {
 
 #Preview {
     OrderItemView(
-        imageName: "pill_product",
+        imageName: "Healthkart_FishOil",
                     productName: "Healthkart HK Vitals Super Strength Fish Oil Purity 84%",
                     description: "60 Softgels",
                     unitCount: "1",
