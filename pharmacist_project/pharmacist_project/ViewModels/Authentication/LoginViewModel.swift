@@ -49,4 +49,19 @@ final class LoginViewModel: ObservableObject {
             }
         }
     }
+    
+    func signInFacebook() {
+        Task {
+            let (errorMsg, _) = try await AuthenticationService.shared.signInWithFacebook()
+            
+            if errorMsg != nil {
+                print("sign in with facebook error \(errorMsg!)")
+                errorMessage = errorMsg!
+            } else {
+                print("sign in with facebook succcess")
+                errorMessage = nil
+                isShowHomeView = true
+            }
+        }
+    }
 }

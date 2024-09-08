@@ -14,6 +14,7 @@ struct OrderItem: FirebaseModel {
     var quantity: Int?
     var pricePerUnit: Double?
     var pricePerUnitDiscount: Double?
+    var createdDate: Date?
     
     init(
         id: String,
@@ -21,14 +22,16 @@ struct OrderItem: FirebaseModel {
         medicineId: String,
         quantity: Int? = nil,
         pricePerUnit: Double? = nil,
-        pricePerUnitDiscount: Double? = nil)
-    {
+        pricePerUnitDiscount: Double? = nil,
+        createdDate: Date? = nil
+    ) {
         self.id = id
         self.orderId = orderId
         self.medicineId = medicineId
         self.quantity = quantity
         self.pricePerUnit = pricePerUnit
         self.pricePerUnitDiscount = pricePerUnitDiscount
+        self.createdDate = createdDate
     }
     
     init(
@@ -36,13 +39,15 @@ struct OrderItem: FirebaseModel {
         medicineId: String,
         quantity: Int? = nil,
         pricePerUnit: Double? = nil,
-        pricePerUnitDiscount: Double? = nil)
-    {
+        pricePerUnitDiscount: Double? = nil,
+        createdDate: Date? = nil
+    ) {
         self.id = CRUDService<CartItem>.generateUniqueId(collection: CartService.shared.collection)
         self.orderId = orderId
         self.medicineId = medicineId
         self.quantity = quantity
         self.pricePerUnit = pricePerUnit
         self.pricePerUnitDiscount = pricePerUnitDiscount
+        self.createdDate = createdDate
     }
 }

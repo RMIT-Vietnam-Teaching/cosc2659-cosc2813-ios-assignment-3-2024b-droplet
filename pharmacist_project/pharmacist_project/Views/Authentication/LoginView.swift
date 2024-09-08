@@ -93,7 +93,7 @@ struct LoginScreenView: View {
                     // Login with social account buttons
                     HStack(spacing: 16) {
                         Button(action: {
-                            // Google login
+                            // MARK: Google login
                             loginVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
@@ -106,7 +106,8 @@ struct LoginScreenView: View {
                         }
                         
                         Button(action: {
-                            // Facebook login
+                            // MARK: Facebook login
+                            loginVM.signInFacebook()
                         }) {
                             Image("FacebookIcon")
                                 .resizable()

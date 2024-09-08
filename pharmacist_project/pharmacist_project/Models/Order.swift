@@ -40,6 +40,15 @@ enum ShippingMethod: String, Codable {
             return "Ninja Van"
         }
     }
+    
+    var fee: Double {
+        switch self {
+        case .ShopeeExpress:
+            return 30.0
+        case .NinjaVan:
+            return 50.0
+        }
+    }
 }
 
 struct Order: FirebaseModel {

@@ -24,4 +24,24 @@ final class CartItemViewModel: ObservableObject {
         medicineName = medicine!.name ?? ""
         representImage = medicine!.getRepresentImageStr()
     }
+    
+    func increaseQuantity() async {
+        if self.cartItem != nil {
+            do {
+                self.cartItem = try await CartItemService.shared.increaseQuantity(cartItemId: self.cartItem!.id)
+            } catch {
+                print("increase error \(error)")
+            }
+        }
+    }
+    
+    func decreaseQuantity() async {
+        if self.cartItem != nil {
+            do {
+                self.cartItem = try await CartItemService.shared.decreaseQuantity(cartItemId: self.cartItem!.id)
+            } catch {
+                print("decrease error \(error)")
+            }
+        }
+    }
 }
