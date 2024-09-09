@@ -64,7 +64,7 @@ struct ProfileView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                NavigationLink(destination: UserShippingAddressView()) {
+                NavigationLink(destination: UserAddressView(user: $user)) {
                     ProfileRow(title: "Shipping address",  subtitle: "\(user.address ?? "Address not specified")")
                 }
                 .buttonStyle(PlainButtonStyle())

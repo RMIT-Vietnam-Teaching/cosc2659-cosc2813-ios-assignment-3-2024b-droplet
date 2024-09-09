@@ -54,7 +54,7 @@
 		C40879BF2C897CE600829660 /* OrderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879BE2C897CE600829660 /* OrderView.swift */; };
 		C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40879C02C897D1300829660 /* AuthenticationService.swift */; };
 		C43E9B662C8ED4A70089D056 /* UserSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E9B652C8ED4A70089D056 /* UserSettingsView.swift */; };
-		C43E9B682C8ED9A20089D056 /* UserShippingAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E9B672C8ED9A20089D056 /* UserShippingAddressView.swift */; };
+		C43E9B682C8ED9A20089D056 /* UserAddressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C43E9B672C8ED9A20089D056 /* UserAddressView.swift */; };
 		C447E0572C8D93D6007CC7EC /* UserProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C447E0562C8D93D6007CC7EC /* UserProfileView.swift */; };
 		C48032892C88498200E662AE /* pharmacist_projectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C48032882C88498200E662AE /* pharmacist_projectApp.swift */; };
 		C480328B2C88498200E662AE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C480328A2C88498200E662AE /* ContentView.swift */; };
@@ -115,7 +115,7 @@
 		C40879BE2C897CE600829660 /* OrderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderView.swift; sourceTree = "<group>"; };
 		C40879C02C897D1300829660 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		C43E9B652C8ED4A70089D056 /* UserSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSettingsView.swift; sourceTree = "<group>"; };
-		C43E9B672C8ED9A20089D056 /* UserShippingAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserShippingAddressView.swift; sourceTree = "<group>"; };
+		C43E9B672C8ED9A20089D056 /* UserAddressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAddressView.swift; sourceTree = "<group>"; };
 		C447E0562C8D93D6007CC7EC /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		C48032852C88498200E662AE /* pharmacist_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pharmacist_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C48032882C88498200E662AE /* pharmacist_projectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pharmacist_projectApp.swift; sourceTree = "<group>"; };
@@ -202,7 +202,7 @@
 				8A7B28112C8CA850005A652C /* ImagePickerView.swift */,
 				C447E0562C8D93D6007CC7EC /* UserProfileView.swift */,
 				C43E9B652C8ED4A70089D056 /* UserSettingsView.swift */,
-				C43E9B672C8ED9A20089D056 /* UserShippingAddressView.swift */,
+				C43E9B672C8ED9A20089D056 /* UserAddressView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -472,7 +472,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7127D1822C8D52E000B779CC /* OrderItemCardView.swift in Sources */,
-				C43E9B682C8ED9A20089D056 /* UserShippingAddressView.swift in Sources */,
+				C43E9B682C8ED9A20089D056 /* UserAddressView.swift in Sources */,
 				8AEB8C002C8C1162002AA1B7 /* PharmacyService.swift in Sources */,
 				8AEB8C0B2C8C17EC002AA1B7 /* OrderItemService.swift in Sources */,
 				8A4A02442C8A13B7004CF016 /* AppUser.swift in Sources */,
