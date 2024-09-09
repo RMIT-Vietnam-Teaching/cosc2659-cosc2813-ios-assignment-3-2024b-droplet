@@ -11,16 +11,22 @@ struct Pharmacy: FirebaseModel {
     let id: String
     var name: String?
     var address: String?
+    var description: String?
+    var createdDate: Date?
     
-    init(id: String, name: String? = nil, address: String? = nil) {
+    init(id: String, name: String?, address: String?, description: String?, createdDate: Date?) {
         self.id = id
         self.name = name
         self.address = address
+        self.description = description
+        self.createdDate = createdDate
     }
     
-    init(name: String? = nil, address: String? = nil) {
+    init(name: String?, address: String?, description: String?, createdDate: Date?) {
         self.id = CRUDService<Pharmacy>.generateUniqueId(collection: PharmacyService.shared.collection)
         self.name = name
         self.address = address
+        self.description = description
+        self.createdDate = createdDate
     }
 }

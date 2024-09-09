@@ -7,6 +7,14 @@
 
 import Foundation
 
+enum Category: String, Codable {
+    case vitamin
+    case calcium
+    case mineral
+    case probiotic
+    // ...
+}
+
 struct Medicine: FirebaseModel {
     let id: String
     var name: String?
@@ -21,7 +29,7 @@ struct Medicine: FirebaseModel {
     var dosage: String?
     var supplier: String?
     var images: [String]
-    let categoryId: String?
+    var category: Category?
     let pharmacyId: String?
     var createdDate: Date?
     
@@ -43,7 +51,7 @@ struct Medicine: FirebaseModel {
         dosage: String? = nil,
         supplier: String? = nil,
         images: [String],
-        categoryId: String?,
+        category: Category?,
         pharmacyId: String?,
         createdDate: Date? = nil
     ) {
@@ -60,7 +68,7 @@ struct Medicine: FirebaseModel {
         self.dosage = dosage
         self.supplier = supplier
         self.images = images
-        self.categoryId = categoryId
+        self.category = category
         self.pharmacyId = pharmacyId
         self.createdDate = createdDate
     }
@@ -78,7 +86,7 @@ struct Medicine: FirebaseModel {
         dosage: String? = nil,
         supplier: String? = nil,
         images: [String],
-        categoryId: String?,
+        category: Category?,
         pharmacyId: String?,
         createdDate: Date? = nil
     ) {
@@ -95,7 +103,7 @@ struct Medicine: FirebaseModel {
         self.dosage = dosage
         self.supplier = supplier
         self.images = images
-        self.categoryId = categoryId
+        self.category = category
         self.pharmacyId = pharmacyId
         self.createdDate = createdDate
     }
