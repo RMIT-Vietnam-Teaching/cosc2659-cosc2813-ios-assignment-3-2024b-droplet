@@ -62,6 +62,7 @@ struct OrderSummaryCardView: View {
                                 .stroke(Color.black, lineWidth: 1)
                         )
                 }
+                .buttonStyle(PlainButtonStyle())
                 
                 Spacer()
                 

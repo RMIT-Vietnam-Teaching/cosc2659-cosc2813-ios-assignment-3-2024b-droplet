@@ -64,13 +64,13 @@ struct ProfileView: View {
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                NavigationLink(destination: ShippingAddressesPage()) {
-                    ProfileRow(title: "Shipping addresses", subtitle: "3 addresses")
+                NavigationLink(destination: UserShippingAddressView()) {
+                    ProfileRow(title: "Shipping address",  subtitle: "\(user.address ?? "Address not specified")")
                 }
                 .buttonStyle(PlainButtonStyle())
                 
-                NavigationLink(destination: SettingsPage()) {
-                    ProfileRow(title: "Settings", subtitle: "Notifications, password")
+                NavigationLink(destination: UserSettingsView(user: $user)) {
+                    ProfileRow(title: "Settings", subtitle: "Notifications, Name, Phone Number,...")
                 }
                 .buttonStyle(PlainButtonStyle())
                 
@@ -88,22 +88,6 @@ struct OrderPage: View {
     var body: some View {
         Text("Order Page")
             .navigationTitle("My Orders")
-            .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct ShippingAddressesPage: View {
-    var body: some View {
-        Text("Shipping Addresses Page")
-            .navigationTitle("Shipping Addresses")
-            .navigationBarTitleDisplayMode(.inline)
-    }
-}
-
-struct SettingsPage: View {
-    var body: some View {
-        Text("Settings Page")
-            .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
     }
 }
