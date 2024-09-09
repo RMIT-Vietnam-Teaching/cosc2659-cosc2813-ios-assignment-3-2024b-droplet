@@ -111,6 +111,11 @@ class CRUDService<T: FirebaseModel> {
         
         try await batch.commit()
     }
+    
+    func deleteAllDocuments() async throws  {
+        let allDocuments = try await self.getAllDocuments()
+        try await bulkDelete(documentIds: allDocuments.map{$0.id})
+    }
 }
 
 extension CRUDService {

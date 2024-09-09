@@ -47,25 +47,25 @@ struct CartItem: FirebaseModel {
         cartId: String,
         medicineId: String,
         quantity: Int?,
-        createDate: Date?
+        createdDate: Date?
     ) {
         self.id = id
         self.cartId = cartId
         self.medicineId = medicineId
         self.quantity = quantity
-        self.createdDate = createDate
+        self.createdDate = createdDate
     }
     
     init(
         cartId: String,
         medicineId: String,
         quantity: Int?,
-        createDate: Date?
+        createdDate: Date?
     ) {
         self.id = CRUDService<CartItem>.generateUniqueId(collection: CartService.shared.collection)
         self.cartId = cartId
         self.medicineId = medicineId
         self.quantity = quantity
-        self.createdDate = createDate
+        self.createdDate = createdDate
     }
 }

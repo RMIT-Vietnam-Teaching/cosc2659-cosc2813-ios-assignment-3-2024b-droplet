@@ -57,7 +57,7 @@ final class CartService: CRUDService<Cart> {
         let newCartItem = CartItem(cartId: cartId,
                                    medicineId: medicineId,
                                    quantity: 1,
-                                   createDate: Date())
+                                   createdDate: Date())
         try await CartItemService.shared.createDocument(newCartItem)
         return try await CartItemService.shared.getDocument(newCartItem.id)
     }
