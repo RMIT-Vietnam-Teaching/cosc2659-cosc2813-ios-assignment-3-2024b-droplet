@@ -85,7 +85,6 @@ struct HomeView: View {
                             }
                         }
                     } else {
-                        // Default sections if no category or filter is selected
                         FlashSaleSection(viewModel: viewModel)
                         NewReleasesSection(viewModel: viewModel)
                         
