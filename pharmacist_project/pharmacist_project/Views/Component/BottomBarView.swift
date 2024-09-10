@@ -36,7 +36,12 @@ struct BottomBarView: View {
                 }
                 .tag(2)
         }
-        .accentColor(.blue)
+        .background(Color.white)
+        .accentColor(Color(hex: "2EB5FA"))
+        .onAppear {
+            UITabBar.appearance().backgroundColor = UIColor.white
+            UITabBar.appearance().unselectedItemTintColor = UIColor.gray
+        }
     }
 }
 
