@@ -54,6 +54,9 @@ struct LoginScreenView: View {
                     Button(action: {
                         // Login action
                         loginVM.signIn()
+//                        Task {
+//                            try await MockDataUtil.createMockData()
+//                        }
                     }) {
                         Text("Login")
                             .frame(maxWidth: .infinity)

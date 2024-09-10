@@ -103,11 +103,11 @@ struct CartItemCardView: View {
 
 #Preview {
     let exampleCartItem = CartItem(
-        id: PreviewsUtil.getPreviewCartId(),
-        cartId: PreviewsUtil.getPreviewUserId(),
+        id: PreviewsUtil.getPreviewCartItemId(),
+        cartId: PreviewsUtil.getPreviewCartId(),
         medicineId: PreviewsUtil.getPreviewMedicineId(),
         quantity: 1,
-        createDate: Date()
+        createdDate: Date()
     )
     
     return CartItemCardView(cartItem: exampleCartItem)
