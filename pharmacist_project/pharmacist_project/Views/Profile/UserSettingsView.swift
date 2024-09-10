@@ -15,9 +15,9 @@ struct UserSettingsView: View {
     @State private var tempName: String = ""
     @State private var tempDob: Date = Date()
     @State private var tempPhoneNumber: String = ""
+    @State private var tempAddress: String = ""
     
     @State private var dailyHealthTipsNotification = true
-    @State private var salesNotification = true
     @State private var deliveryStatusNotification = false
     
     var body: some View {
@@ -45,10 +45,15 @@ struct UserSettingsView: View {
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
+                    
+                    TextField("Address", text: $tempAddress)
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
                 } else {
                     HStack {
                         Text("Full name")
-                            .font(.subheadline)
+                            .font(.headline)
                             .foregroundColor(.secondary)
                         Spacer()
                         Text(user.name ?? "Not provided")
@@ -60,7 +65,7 @@ struct UserSettingsView: View {
                     
                     HStack {
                         Text("Date of Birth")
-                            .font(.subheadline)
+                            .font(.headline)
                             .foregroundColor(.secondary)
                         Spacer()
                         Text(user.dob?.formatted(date: .numeric, time: .omitted) ?? "Not provided")
@@ -72,7 +77,7 @@ struct UserSettingsView: View {
                     
                     HStack {
                         Text("Phone number")
-                            .font(.subheadline)
+                            .font(.headline)
                             .foregroundColor(.secondary)
                         Spacer()
                         Text(user.phoneNumber ?? "Not provided")
@@ -81,6 +86,26 @@ struct UserSettingsView: View {
                     .padding()
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
+                    
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text("Address")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                            
+                            Spacer()
+                            
+                            Text(user.address ?? "Not provided")
+                                .foregroundColor(.primary)
+                            
+                            Spacer()
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        
+                        Spacer()
+                    }
                 }
             }
             .padding(.horizontal)
@@ -90,10 +115,12 @@ struct UserSettingsView: View {
                     user.name = tempName.isEmpty ? nil : tempName
                     user.dob = tempDob
                     user.phoneNumber = tempPhoneNumber.isEmpty ? nil : tempPhoneNumber
+                    user.address = tempAddress.isEmpty ? nil : tempAddress
                 } else {
                     tempName = user.name ?? ""
                     tempDob = user.dob ?? Date()
                     tempPhoneNumber = user.phoneNumber ?? ""
+                    tempAddress = user.address ?? ""
                 }
                 isEditing.toggle()
             }) {
@@ -109,24 +136,24 @@ struct UserSettingsView: View {
             
             Spacer()
             
-            Divider()
-            
-            Text("Notifications")
-                .font(.title2)
-                .padding(.leading)
-            
-            VStack {
-                Toggle(isOn: $dailyHealthTipsNotification) {
-                    Text("Daily health tips")
+            if user.type == .customer {
+                Divider()
+                
+                Text("Notifications")
+                    .font(.title2)
+                    .padding(.leading)
+                
+                VStack {
+                    Toggle(isOn: $dailyHealthTipsNotification) {
+                        Text("Daily health tips")
+                    }
+                    
+                    Toggle(isOn: $deliveryStatusNotification) {
+                        Text("Delivery status")
+                    }
                 }
-                Toggle(isOn: $salesNotification) {
-                    Text("Sales")
-                }
-                Toggle(isOn: $deliveryStatusNotification) {
-                    Text("Delivery status")
-                }
+                .padding(.horizontal)
             }
-            .padding(.horizontal)
             
             Spacer()
         }
@@ -146,6 +173,7 @@ struct UserSettingsView: View {
         address: "123 Main Street",
         phoneNumber: "555-1234",
         photoURL: nil,
+        type: .customer,
         createdDate: Date()
     )
     

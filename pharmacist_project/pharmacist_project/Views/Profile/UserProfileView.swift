@@ -9,8 +9,8 @@ import SwiftUI
 
 struct ProfileView: View {
     @State var user: AppUser
+    
     @State private var isOrderPageVisible = false
-    @State private var isShippingAddressesPageVisible = false
     @State private var isSettingsPageVisible = false
     
     var body: some View {
@@ -50,6 +50,10 @@ struct ProfileView: View {
                         Text(user.email ?? "N/A")
                             .font(.subheadline)
                             .foregroundColor(.secondary)
+                        
+                        Text("\(user.address ?? "Address not specified")")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
                     }
                     .padding(.leading)
                     
@@ -61,11 +65,6 @@ struct ProfileView: View {
                 
                 NavigationLink(destination: OrderPage()) {
                     ProfileRow(title: "My orders", subtitle: "12 orders")
-                }
-                .buttonStyle(PlainButtonStyle())
-                
-                NavigationLink(destination: UserAddressView(user: $user)) {
-                    ProfileRow(title: "Shipping address",  subtitle: "\(user.address ?? "Address not specified")")
                 }
                 .buttonStyle(PlainButtonStyle())
                 
@@ -127,6 +126,7 @@ struct ProfileRow: View {
         address: "123 Main Street",
         phoneNumber: "555-1234",
         photoURL: "https://lh3.googleusercontent.com/a/ACg8ocKLdbqETPr7YbRy08EwxGboIX9bbnAj5YVOat6OUToFR8NsvGo=s96-c",
+        type: .customer,
         createdDate: Date()
     )
     
