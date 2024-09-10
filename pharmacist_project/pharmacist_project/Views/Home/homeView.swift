@@ -9,33 +9,31 @@ import SwiftUI
 
 struct HomeView: View {
     @Environment(\.dismiss) private var dismiss
-    @State private var user: AppUser? = nil
     
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                Text("home view")
+                Text("Home View")
+                    .font(.largeTitle)
+                    .fontWeight(.bold)
                 
-                Button {
-                    signOut()
-                } label: {
-                    Text("log out")
-                }
-                
-                if let user = user {
-                    NavigationLink(destination: ProfileView(user: user)) {
+                    
+                    NavigationLink(destination: UserProfileView()) {
                         Text("Go to Profile")
                             .font(.headline)
                             .foregroundColor(.blue)
                     }
+
+                
+                Button {
+                    signOut()
+                } label: {
+                    Text("Log Out")
+                        .font(.headline)
+                        .foregroundColor(.red)
                 }
             }
-            .onAppear {
-                Task {
-                    await userProfile()
-                    print(user!)
-                }
-            }
+            .padding()
         }
         .navigationTitle("Home")
         .navigationBarHidden(true)
@@ -44,19 +42,10 @@ struct HomeView: View {
     func signOut() {
         let errorMsg = AuthenticationService.shared.signOut()
         if errorMsg != nil {
-            print("sign out error \(errorMsg!)")
+            print("Sign out error: \(errorMsg!)")
         } else {
-            print("sign out success")
+            print("Sign out successful")
             dismiss()
-        }
-    }
-    
-    func userProfile() async {
-        self.user = await AuthenticationService.shared.getAuthenticatedUser()
-        if let user = user {
-            print("User profile fetched: \(user.name ?? "Unknown")")
-        } else {
-            print("No user logged in")
         }
     }
 }

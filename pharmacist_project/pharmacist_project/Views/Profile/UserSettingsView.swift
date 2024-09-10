@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct UserSettingsView: View {
-    @Binding var user: AppUser
-    
+    @ObservedObject var viewModel: UserProfileViewModel
+
     // will fix this when integrate with backend
     @State private var isEditing = false
     @State private var tempName: String = ""
@@ -21,163 +21,146 @@ struct UserSettingsView: View {
     @State private var deliveryStatusNotification = false
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            Text("Personal Information")
-                .font(.title2)
-                .padding(.leading)
-            
-            Divider()
-            
-            VStack(spacing: 16) {
-                if isEditing {
-                    TextField("Full name", text: $tempName)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                    
-                    DatePicker("Date of Birth", selection: $tempDob, displayedComponents: .date)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                    
-                    TextField("Phone number", text: $tempPhoneNumber)
-                        .keyboardType(.phonePad)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                    
-                    TextField("Address", text: $tempAddress)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                } else {
-                    HStack {
-                        Text("Full name")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(user.name ?? "Not provided")
-                            .foregroundColor(.primary)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    
-                    HStack {
-                        Text("Date of Birth")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(user.dob?.formatted(date: .numeric, time: .omitted) ?? "Not provided")
-                            .foregroundColor(.primary)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    
-                    HStack {
-                        Text("Phone number")
-                            .font(.headline)
-                            .foregroundColor(.secondary)
-                        Spacer()
-                        Text(user.phoneNumber ?? "Not provided")
-                            .foregroundColor(.primary)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    
-                    HStack {
-                        VStack(alignment: .leading) {
-                            Text("Address")
+        if let user = viewModel.user {
+            VStack(alignment: .leading, spacing: 20) {
+                Text("Personal Information")
+                    .font(.title2)
+                    .padding(.leading)
+                
+                Divider()
+                
+                VStack(spacing: 16) {
+                    if isEditing {
+                        TextField("Full name", text: $tempName)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                        
+                        DatePicker("Date of Birth", selection: $tempDob, displayedComponents: .date)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                        
+                        TextField("Phone number", text: $tempPhoneNumber)
+                            .keyboardType(.phonePad)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                        
+                        TextField("Address", text: $tempAddress)
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                    } else {
+                        HStack {
+                            Text("Full name")
                                 .font(.headline)
                                 .foregroundColor(.secondary)
-                            
                             Spacer()
-                            
-                            Text(user.address ?? "Not provided")
+                            Text(user.name ?? "Not provided")
                                 .foregroundColor(.primary)
-                            
-                            Spacer()
                         }
                         .padding()
                         .background(Color(.systemGray6))
                         .cornerRadius(10)
                         
-                        Spacer()
-                    }
-                }
-            }
-            .padding(.horizontal)
-            
-            Button(action: {
-                if isEditing {
-                    user.name = tempName.isEmpty ? nil : tempName
-                    user.dob = tempDob
-                    user.phoneNumber = tempPhoneNumber.isEmpty ? nil : tempPhoneNumber
-                    user.address = tempAddress.isEmpty ? nil : tempAddress
-                } else {
-                    tempName = user.name ?? ""
-                    tempDob = user.dob ?? Date()
-                    tempPhoneNumber = user.phoneNumber ?? ""
-                    tempAddress = user.address ?? ""
-                }
-                isEditing.toggle()
-            }) {
-                Text(isEditing ? "Save" : "Edit")
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(isEditing ? Color.green : Color.blue)
-                    .foregroundColor(.white)
-                    .cornerRadius(10)
-                    .padding(.horizontal)
-            }
-            
-            Spacer()
-            
-            if user.type == .customer {
-                Divider()
-                
-                Text("Notifications")
-                    .font(.title2)
-                    .padding(.leading)
-                
-                VStack {
-                    Toggle(isOn: $dailyHealthTipsNotification) {
-                        Text("Daily health tips")
-                    }
-                    
-                    Toggle(isOn: $deliveryStatusNotification) {
-                        Text("Delivery status")
+                        HStack {
+                            Text("Date of Birth")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(user.dob?.formatted(date: .numeric, time: .omitted) ?? "Not provided")
+                                .foregroundColor(.primary)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        
+                        HStack {
+                            Text("Phone number")
+                                .font(.headline)
+                                .foregroundColor(.secondary)
+                            Spacer()
+                            Text(user.phoneNumber ?? "Not provided")
+                                .foregroundColor(.primary)
+                        }
+                        .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(10)
+                        
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text("Address")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                
+                                Spacer()
+                                
+                                Text(user.address ?? "Not provided")
+                                    .foregroundColor(.primary)
+                                
+                                Spacer()
+                            }
+                            .padding()
+                            .background(Color(.systemGray6))
+                            .cornerRadius(10)
+                            
+                            Spacer()
+                        }
                     }
                 }
                 .padding(.horizontal)
+                
+                Button(action: {
+                    if isEditing {
+                        viewModel.updateUser(name: tempName, dob: tempDob, phoneNumber: tempPhoneNumber, address: tempAddress)
+                    } else {
+                        tempName = user.name ?? ""
+                        tempDob = user.dob ?? Date()
+                        tempPhoneNumber = user.phoneNumber ?? ""
+                        tempAddress = user.address ?? ""
+                    }
+                    isEditing.toggle()
+                }) {
+                    Text(isEditing ? "Save" : "Edit")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isEditing ? Color.green : Color.blue)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        .padding(.horizontal)
+                }
+                
+                Spacer()
+                
+                if user.type == .customer {
+                    Divider()
+                    
+                    Text("Notifications")
+                        .font(.title2)
+                        .padding(.leading)
+                    
+                    VStack {
+                        Toggle(isOn: $dailyHealthTipsNotification) {
+                            Text("Daily health tips")
+                        }
+                        
+                        Toggle(isOn: $deliveryStatusNotification) {
+                            Text("Delivery status")
+                        }
+                    }
+                    .padding(.horizontal)
+                }
+                
+                Spacer()
             }
-            
-            Spacer()
+            .navigationTitle("Settings")
+            .navigationBarTitleDisplayMode(.inline)
+            .padding(.top)
+            .background(Color(.systemGray6).ignoresSafeArea())
+        } else {
+            ProgressView("Loading...")
         }
-        .navigationTitle("Settings")
-        .navigationBarTitleDisplayMode(.inline)
-        .padding(.top)
-        .background(Color(.systemGray6).ignoresSafeArea())
-    }
-}
-
-#Preview {
-    @State var exampleUser = AppUser(
-        id: "12345",
-        email: "ngongocthinh124@gmail.com",
-        name: "Thịnh Ngô",
-        dob: Date(),
-        address: "123 Main Street",
-        phoneNumber: "555-1234",
-        photoURL: nil,
-        type: .customer,
-        createdDate: Date()
-    )
-    
-    return NavigationStack {
-        UserSettingsView(user: $exampleUser)
     }
 }

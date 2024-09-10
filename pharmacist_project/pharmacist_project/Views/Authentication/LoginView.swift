@@ -17,6 +17,7 @@ import SwiftUI
 
 struct LoginScreenView: View {
     @StateObject var loginVM = LoginViewModel()
+    @StateObject private var viewModel = UserProfileViewModel()
     
     @State private var navigateToRegister = false
     
