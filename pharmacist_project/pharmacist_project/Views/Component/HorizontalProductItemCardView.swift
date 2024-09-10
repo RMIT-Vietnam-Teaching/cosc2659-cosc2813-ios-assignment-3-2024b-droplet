@@ -12,7 +12,6 @@ struct HorizontalProductItemCardView: View {
     
     var body: some View {
         Button(action: {
-            // go to product details
             print("product details")
         }) {
             HStack(spacing: 15) {
@@ -67,10 +66,9 @@ struct HorizontalProductItemCardView: View {
             .shadow(radius: 2)
         }
         .buttonStyle(PlainButtonStyle())
-        .frame(height: 200)
+        .frame(maxWidth: .infinity, minHeight: 160, idealHeight: 160)
     }
 }
-
 
 #Preview {
     let exampleMedicine = Medicine(
