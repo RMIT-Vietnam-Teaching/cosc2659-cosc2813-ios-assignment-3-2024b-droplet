@@ -14,8 +14,6 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State var isShowHomeView = false
-    
     var body: some View {
         NavigationStack {
             LoginScreenView()

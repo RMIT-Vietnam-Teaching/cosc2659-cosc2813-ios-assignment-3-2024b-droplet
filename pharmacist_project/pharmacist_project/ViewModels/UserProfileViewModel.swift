@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor
 class UserProfileViewModel: ObservableObject {
@@ -78,4 +79,25 @@ class UserProfileViewModel: ObservableObject {
             }
         }
     }
+    
+    func signOut() {
+        let errorMsg = AuthenticationService.shared.signOut()
+        if errorMsg != nil {
+            print("Sign out error: \(errorMsg!)")
+        } else {
+            print("Sign out successful")
+            toLoginPage()
+        }
+    }
+    
+
+    func toLoginPage() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        
+        windowScene.windows.first?.rootViewController = UIHostingController(rootView: LoginScreenView())
+        windowScene.windows.first?.makeKeyAndVisible()
+    }
+
 }
