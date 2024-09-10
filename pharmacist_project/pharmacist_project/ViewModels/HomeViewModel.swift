@@ -70,7 +70,6 @@ class HomeViewModel: ObservableObject {
             createdDate: Calendar.current.date(byAdding: .day, value: -15, to: Date())
         )
         
-        // Load test data
         medicines = [exampleMedicine, exampleMedicine2]
         filteredMedicines = medicines
     }
@@ -94,7 +93,6 @@ class HomeViewModel: ObservableObject {
     
     // MARK: - Filter Medicines
     func filterMedicines() {
-        // Base filtered medicines on search text
         var result = medicines.filter { medicine in
             searchText.isEmpty || medicine.name?.localizedCaseInsensitiveContains(searchText) == true
         }
@@ -123,22 +121,16 @@ class HomeViewModel: ObservableObject {
     // MARK: - View All Handler
     func handleViewAll(for category: Category?) {
         selectedCategory = category
+        selectedHomeFilter = nil
         isViewAllActive = true
         filterMedicines()
     }
     
     func handleViewAll(for filter: HomeFilter?) {
         selectedHomeFilter = filter
+        selectedCategory = nil
         isViewAllActive = true
         filterMedicines()
-    }
-    
-    // Reset the view when not in "View All" mode
-    func resetViewAll() {
-        isViewAllActive = false
-        selectedCategory = nil
-        selectedHomeFilter = nil
-        filterMedicines() 
     }
 }
 
