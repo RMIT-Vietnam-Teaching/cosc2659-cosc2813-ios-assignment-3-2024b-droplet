@@ -12,6 +12,7 @@ struct ImageUploadView: View {
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @ObservedObject var uploadManager = ImageUploadViewModel()
+    @ObservedObject var userProfileViewModel: UserProfileViewModel
     
     var body: some View {
         VStack {
@@ -35,6 +36,8 @@ struct ImageUploadView: View {
                         switch result {
                         case .success(let url):
                             print("Uploaded successfully: \(url)")
+                            
+                            userProfileViewModel.updateUser(photoURL: url)
                         case .failure(let error):
                             print("Upload failed: \(error.localizedDescription)")
                         }
@@ -58,5 +61,5 @@ struct ImageUploadView: View {
 }
 
 #Preview {
-    ImageUploadView()
+    ImageUploadView(userProfileViewModel: UserProfileViewModel())
 }

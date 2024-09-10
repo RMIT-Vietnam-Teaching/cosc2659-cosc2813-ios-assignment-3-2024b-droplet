@@ -43,14 +43,17 @@ class UserProfileViewModel: ObservableObject {
             }
         }
     }
-
-    func updateUser(name: String?, dob: Date?, phoneNumber: String?, address: String?) {
+    
+    func updateUser(name: String? = nil, dob: Date? = nil, phoneNumber: String? = nil, address: String? = nil, photoURL: URL? = nil) {
         guard let currentUser = user else { return }
         
         let newName = name ?? currentUser.name
         let newDob = dob ?? currentUser.dob
         let newPhoneNumber = phoneNumber ?? currentUser.phoneNumber
         let newAddress = address ?? currentUser.address
+        let newPhotoURL = photoURL?.absoluteString ?? currentUser.photoURL
+        
+        print(newPhotoURL!)
         
         isLoading = true
         errorMessage = nil
@@ -64,7 +67,7 @@ class UserProfileViewModel: ObservableObject {
                     dob: newDob,
                     address: newAddress,
                     phoneNumber: newPhoneNumber,
-                    photoURL: currentUser.photoURL,
+                    photoURL: newPhotoURL,
                     type: currentUser.type,
                     createdDate: currentUser.createdDate
                 )
@@ -73,8 +76,9 @@ class UserProfileViewModel: ObservableObject {
                 
                 self.user = updatedUser
                 self.isLoading = false
+                print("updated user")
             } catch {
-                self.errorMessage = "error updating user"
+                self.errorMessage = "Error updating user"
                 self.isLoading = false
             }
         }
@@ -90,7 +94,7 @@ class UserProfileViewModel: ObservableObject {
         }
     }
     
-
+    
     func toLoginPage() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return
@@ -99,5 +103,5 @@ class UserProfileViewModel: ObservableObject {
         windowScene.windows.first?.rootViewController = UIHostingController(rootView: LoginScreenView())
         windowScene.windows.first?.makeKeyAndVisible()
     }
-
+    
 }

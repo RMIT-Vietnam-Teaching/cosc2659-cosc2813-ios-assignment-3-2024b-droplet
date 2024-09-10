@@ -19,29 +19,28 @@ struct UserProfileView: View {
                     ProgressView("Loading...")
                 } else if let user = viewModel.user {
                     VStack(alignment: .leading, spacing: 16) {
-                        Text("My profile")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                            .padding(.leading)
+                        Divider()
                         
                         HStack {
-                            AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
-                                if let image = phase.image {
-                                    image
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 70, height: 70)
-                                        .clipShape(Circle())
-                                } else if phase.error != nil {
-                                    Image("defaultUserProfile")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 70, height: 70)
-                                        .clipShape(Circle())
-                                } else {
-                                    ProgressView()
-                                        .frame(width: 70, height: 70)
-                                        .clipShape(Circle())
+                            NavigationLink(destination: ImageUploadView(userProfileViewModel: viewModel)) {
+                                AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
+                                    if let image = phase.image {
+                                        image
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 100, height: 100)
+                                            .clipShape(Circle())
+                                    } else if phase.error != nil {
+                                        Image("defaultUserProfile")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fill)
+                                            .frame(width: 100, height: 100)
+                                            .clipShape(Circle())
+                                    } else {
+                                        ProgressView()
+                                            .frame(width: 100, height: 100)
+                                            .clipShape(Circle())
+                                    }
                                 }
                             }
                             
@@ -168,4 +167,8 @@ struct UserProfileRow: View {
         .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
         .padding(.horizontal)
     }
+}
+
+#Preview {
+    ContentView()
 }

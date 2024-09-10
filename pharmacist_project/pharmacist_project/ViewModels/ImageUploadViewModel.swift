@@ -18,7 +18,7 @@ class ImageUploadViewModel: ObservableObject {
         guard let imageData = image?.jpegData(compressionQuality: 0.4) else {
             return
         }
-        
+        print("uploading2")
         let storageRef = storage.child("images/\(UUID().uuidString).jpg")
         storageRef.putData(imageData, metadata: nil) { metadata, error in
             if let error = error {
