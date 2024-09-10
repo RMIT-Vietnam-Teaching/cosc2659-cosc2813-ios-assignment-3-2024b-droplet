@@ -34,6 +34,7 @@ struct HorizontalProductItemCardView: View {
                     ScrollView(.vertical, showsIndicators: true) {
                         Text(medicine.name ?? "")
                             .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 5)
                     }
                     .frame(maxHeight: 50)
@@ -60,13 +61,12 @@ struct HorizontalProductItemCardView: View {
                         .font(.subheadline)
                 }
             }
-            .padding()
+            .padding(10)
             .background(Color.white)
             .cornerRadius(10)
             .shadow(radius: 2)
         }
         .buttonStyle(PlainButtonStyle())
-        .frame(maxWidth: .infinity, minHeight: 160, idealHeight: 160)
     }
 }
 

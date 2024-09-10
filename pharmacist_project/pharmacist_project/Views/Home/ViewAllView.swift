@@ -15,42 +15,22 @@ struct ViewAllView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 15) {
-                let filteredMedicines: [Medicine] = {
-                    if let category = selectedCategory {
-                        return viewModel.medicines.filter { $0.category == category }
-                    } else if let filter = filterType {
-                        switch filter {
-                        case .flashSale:
-                            return viewModel.medicines.filter { $0.priceDiscount != nil && $0.priceDiscount! < $0.price! }
-                        case .newReleases:
-                            return viewModel.medicines.filter {
-                                if let createdDate = $0.createdDate {
-                                    return Calendar.current.isDateInLast30Days(createdDate)
-                                }
-                                return false
-                            }
-                        }
-                    }
-                    return []
-                }()
-                
-                if filteredMedicines.isEmpty {
-                    Text("No items available.")
-                        .font(.headline)
-                        .padding()
-                } else {
-                    ForEach(filteredMedicines) { medicine in
-                        HorizontalProductItemCardView(medicine: medicine)
-                            .frame(maxWidth: .infinity)
-                            .padding(.horizontal)
-                    }
+            VStack(spacing: 5) {
+                ForEach(viewModel.filteredMedicines) { medicine in
+                    HorizontalProductItemCardView(medicine: medicine)
+                        .frame(maxWidth: .infinity)
+                        .padding() 
                 }
             }
         }
         .navigationTitle(title)
         .onAppear {
-            viewModel.filterMedicines()
+            if let category = selectedCategory {
+                viewModel.handleViewAll(for: category)
+            } else if let filter = filterType {
+                viewModel.handleViewAll(for: filter)
+            }
         }
     }
 }
+

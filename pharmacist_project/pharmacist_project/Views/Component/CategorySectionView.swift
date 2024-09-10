@@ -31,7 +31,7 @@ struct CategorySectionView: View {
                         .foregroundColor(.blue)
                 }
                 
-                // Clear
+                // Clear button
                 if selectedCategory != nil || selectedHomeFilter != nil {
                     Button("Reset") {
                         onCategorySelected(nil, nil)
@@ -45,7 +45,6 @@ struct CategorySectionView: View {
                 LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 15) {
                     ForEach(availableCategories, id: \.self) { category in
                         CategoryButtonView(title: category, isActive: isCategoryActive(category: category)) {
-                            // Custom logic for categories or filters
                             if category == "Flash Sales" {
                                 onCategorySelected(nil, .flashSale)
                             } else if category == "New Releases" {
@@ -89,6 +88,7 @@ struct CategorySectionView: View {
         return false
     }
 }
+
 
 struct CategoryButtonView: View {
     var title: String

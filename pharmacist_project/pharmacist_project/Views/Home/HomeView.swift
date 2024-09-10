@@ -1,5 +1,5 @@
 //
-//  homeView.swift
+//  HomeView.swift
 //  pharmacist_project
 //
 //  Created by Leon Do on 5/9/24.
@@ -14,7 +14,6 @@ struct HomeView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
-                    // MARK: - Search Bar, Cart Section
                     VStack(spacing: 10) {
                         ZStack {
                             Color(hex: "2EB5FA")
@@ -44,53 +43,56 @@ struct HomeView: View {
                         }
                     }
                     
-                    CategorySectionView(
-                        selectedCategory: $viewModel.selectedCategory,
-                        selectedHomeFilter: $viewModel.selectedHomeFilter,
-                        onCategorySelected: { category, filter in
-                            viewModel.selectedCategory = category
-                            viewModel.selectedHomeFilter = filter
-                            viewModel.filterMedicines()
-                        },
-                        availableCategories: viewModel.availableCategories
-                    )
-                    
-                    // Handle what to display when search, category filters are active
-                    if viewModel.isViewAllActive {
-                        VStack {
+                    if viewModel.isSearching {
+                        VStack(spacing: 15) {
                             ForEach(viewModel.filteredMedicines) { medicine in
                                 HorizontalProductItemCardView(medicine: medicine)
-                                    .frame(maxWidth: .infinity)
                                     .padding(.horizontal)
                             }
                         }
-                    } else if !viewModel.searchText.isEmpty {
-                        VStack {
-                            ForEach(viewModel.filteredMedicines) { medicine in
-                                HorizontalProductItemCardView(medicine: medicine)
-                                    .frame(maxWidth: .infinity)
-                            }
-                        }
-                        .padding(.horizontal)
-                    } else if viewModel.selectedCategory != nil || viewModel.selectedHomeFilter != nil {
-                        // Show only the selected category or filter
-                        if let selectedCategory = viewModel.selectedCategory {
-                            CategorySection(viewModel: viewModel, category: selectedCategory)
-                        } else if let selectedHomeFilter = viewModel.selectedHomeFilter {
-                            switch selectedHomeFilter {
-                            case .flashSale:
-                                FlashSaleSection(viewModel: viewModel)
-                            case .newReleases:
-                                NewReleasesSection(viewModel: viewModel)
-                            }
-                        }
                     } else {
-                        FlashSaleSection(viewModel: viewModel)
-                        NewReleasesSection(viewModel: viewModel)
-                        
-                        ForEach(viewModel.availableCategories, id: \.self) { category in
-                            if let categoryEnum = Category(rawValue: category.lowercased()) {
-                                CategorySection(viewModel: viewModel, category: categoryEnum)
+                        CategorySectionView(
+                            selectedCategory: $viewModel.selectedCategory,
+                            selectedHomeFilter: $viewModel.selectedHomeFilter,
+                            onCategorySelected: { category, filter in
+                                if let category = category {
+                                    viewModel.handleViewAll(for: category)
+                                } else if let filter = filter {
+                                    viewModel.handleViewAll(for: filter)
+                                } else {
+                                    viewModel.clearFilters()
+                                }
+                            },
+                            availableCategories: viewModel.availableCategories
+                        )
+
+                        if viewModel.isViewAllActive {
+                            FlashSaleSection(viewModel: viewModel)
+                            NewReleasesSection(viewModel: viewModel)
+
+                            ForEach(viewModel.availableCategories, id: \.self) { category in
+                                if let categoryEnum = Category(rawValue: category.lowercased()) {
+                                    CategorySection(viewModel: viewModel, category: categoryEnum)
+                                }
+                            }
+                        } else {
+                            VStack(alignment: .leading, spacing: 20) {
+                                if let selectedFilter = viewModel.selectedHomeFilter {
+                                    headerWithViewAll(title: selectedFilter == .flashSale ? "Flash Sales ⚡" : "New Releases", viewModel: viewModel)
+                                }
+
+                                if let selectedCategory = viewModel.selectedCategory {
+                                    headerWithViewAll(title: selectedCategory.rawValue.capitalized, viewModel: viewModel)
+                                }
+
+                                ScrollView(.horizontal, showsIndicators: false) {
+                                    HStack(spacing: 15) {
+                                        ForEach(viewModel.filteredMedicines) { medicine in
+                                            VerticalProductItemCardView(medicine: medicine)
+                                        }
+                                    }
+                                    .padding()
+                                }
                             }
                         }
                     }
@@ -100,6 +102,22 @@ struct HomeView: View {
     }
 }
 
+// MARK: - Helper for Header with "View All" Button
+func headerWithViewAll(title: String, viewModel: HomeViewModel) -> some View {
+    HStack {
+        Text(title)
+            .font(.title2)
+            .fontWeight(.bold)
+        
+        Spacer()
+        
+        NavigationLink(destination: ViewAllView(viewModel: viewModel, title: title)) {
+            Text("View All")
+                .foregroundColor(.blue)
+        }
+    }
+    .padding(.horizontal)
+}
 
 // MARK: - New Releases Section
 struct NewReleasesSection: View {
@@ -170,7 +188,6 @@ struct FlashSaleSection: View {
         }
     }
 }
-
 
 // MARK: - Category Section
 struct CategorySection: View {
