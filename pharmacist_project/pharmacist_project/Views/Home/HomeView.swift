@@ -44,6 +44,18 @@ struct HomeView: View {
                         }
                     }
                     
+                    CategorySectionView(
+                        selectedCategory: $viewModel.selectedCategory,
+                        selectedHomeFilter: $viewModel.selectedHomeFilter,
+                        onCategorySelected: { category, filter in
+                            viewModel.selectedCategory = category
+                            viewModel.selectedHomeFilter = filter
+                            viewModel.filterMedicines()
+                        },
+                        availableCategories: viewModel.availableCategories
+                    )
+                    
+                    // Handle what to display when search, category filters are active
                     if viewModel.isViewAllActive {
                         VStack {
                             ForEach(viewModel.filteredMedicines) { medicine in
@@ -60,19 +72,20 @@ struct HomeView: View {
                             }
                         }
                         .padding(.horizontal)
+                    } else if viewModel.selectedCategory != nil || viewModel.selectedHomeFilter != nil {
+                        // Show only the selected category or filter
+                        if let selectedCategory = viewModel.selectedCategory {
+                            CategorySection(viewModel: viewModel, category: selectedCategory)
+                        } else if let selectedHomeFilter = viewModel.selectedHomeFilter {
+                            switch selectedHomeFilter {
+                            case .flashSale:
+                                FlashSaleSection(viewModel: viewModel)
+                            case .newReleases:
+                                NewReleasesSection(viewModel: viewModel)
+                            }
+                        }
                     } else {
-                        // MARK: - Category Section
-                        CategorySectionView(
-                            selectedCategory: $viewModel.selectedCategory,
-                            selectedHomeFilter: $viewModel.selectedHomeFilter,
-                            onCategorySelected: { category, filter in
-                                viewModel.selectedCategory = category
-                                viewModel.selectedHomeFilter = filter
-                                viewModel.filterMedicines()
-                            },
-                            availableCategories: viewModel.availableCategories
-                        )
-                        
+                        // Default sections if no category or filter is selected
                         FlashSaleSection(viewModel: viewModel)
                         NewReleasesSection(viewModel: viewModel)
                         
@@ -87,6 +100,7 @@ struct HomeView: View {
         }
     }
 }
+
 
 // MARK: - New Releases Section
 struct NewReleasesSection: View {
