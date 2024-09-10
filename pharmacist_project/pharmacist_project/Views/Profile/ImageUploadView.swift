@@ -9,6 +9,7 @@ import Foundation
 import SwiftUI
 
 struct ImageUploadView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
     @ObservedObject var uploadManager = ImageUploadViewModel()
@@ -38,6 +39,8 @@ struct ImageUploadView: View {
                             print("Uploaded successfully: \(url)")
                             
                             userProfileViewModel.updateUser(photoURL: url)
+                            
+                            dismiss()
                         case .failure(let error):
                             print("Upload failed: \(error.localizedDescription)")
                         }
