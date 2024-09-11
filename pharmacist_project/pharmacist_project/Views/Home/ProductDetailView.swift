@@ -5,4 +5,257 @@
 //  Created by Leon Do on 10/9/24.
 //
 
-import Foundation
+import SwiftUI
+
+struct ProductDetailView: View {
+    @ObservedObject var viewModel: ProductDetailViewModel
+    @State private var selectedImageIndex = 0
+    @State private var showDescription = false
+    @State private var showIngredients = false
+    @State private var showSupplements = false
+    @State private var showNote = false
+    @State private var showSideEffects = false
+    @State private var showDosage = false
+    @State private var showSupplier = false
+    
+    var body: some View {
+        ZStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    // Product Image Carousel
+                    if !viewModel.medicine.images.isEmpty {
+                        TabView(selection: $selectedImageIndex) {
+                            ForEach(0..<viewModel.medicine.images.count, id: \.self) { index in
+                                AsyncImage(url: URL(string: viewModel.medicine.images[index])) { image in
+                                    image
+                                        .resizable()
+                                        .scaledToFit()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .tag(index)
+                            }
+                        }
+                        .tabViewStyle(PageTabViewStyle())
+                        .frame(height: 300)
+                        .indexViewStyle(.page(backgroundDisplayMode: .always))
+                    } else {
+                        Rectangle()
+                            .fill(Color.gray.opacity(0.3))
+                            .frame(height: 300)
+                            .padding()
+                    }
+                    
+                    Divider()
+                    
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text(viewModel.medicine.name ?? "Product Name Unavailable")
+                            .font(.title2)
+                            .fontWeight(.bold)
+                    }
+                    .padding(.horizontal)
+                    
+                    // Price and discount
+                    HStack {
+                        Text(viewModel.medicine.price?.formatAsCurrency() ?? "Price Unavailable")
+                            .font(.title)
+                            .fontWeight(.bold)
+                        
+                        if let priceDiscount = viewModel.medicine.priceDiscount {
+                            Text(priceDiscount.formatAsCurrency())
+                                .strikethrough()
+                                .foregroundColor(.gray)
+                                .font(.subheadline)
+                            
+                            Text("\(String(describing: viewModel.medicine.price?.calculateDiscountPercentage(priceDiscount: priceDiscount)))% OFF")
+                                .font(.subheadline)
+                                .foregroundColor(.red)
+                        }
+                    }
+                    .padding(.horizontal)
+                    
+                    // Quantity
+                    VStack(alignment: .leading, spacing: 12) {
+                        Text("Quantity: \(String(describing: viewModel.medicine.availableQuantity))")
+                            .font(.headline)
+                            .padding(.horizontal)
+                    }
+                    
+                    Divider()
+                    
+                    // Seller Information
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Seller Information")
+                            .font(.headline)
+                        if let pharmacy = viewModel.pharmacy {
+                            Text("Sold & Marked by: \(pharmacy.name ?? "Unknown Pharmacy")")
+                            Text(pharmacy.address ?? "No address available")
+                        } else {
+                            Text("No seller information available")
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
+                    
+                    Divider()
+                    
+                    // Details Section
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Details")
+                            .font(.headline)
+                        
+                        DisclosureBox(title: "Description", isExpanded: $showDescription) {
+                            Text(viewModel.medicine.description ?? "No description available")
+                        }
+                        
+                        DisclosureBox(title: "Ingredients", isExpanded: $showIngredients) {
+                            Text(viewModel.medicine.ingredients ?? "No ingredients available")
+                        }
+                        
+                        DisclosureBox(title: "Supplements", isExpanded: $showSupplements) {
+                            Text(viewModel.medicine.supplement ?? "No supplement information available")
+                        }
+                        
+                        DisclosureBox(title: "Note", isExpanded: $showNote) {
+                            Text(viewModel.medicine.note ?? "No note available")
+                        }
+                        
+                        DisclosureBox(title: "Side Effects", isExpanded: $showSideEffects) {
+                            Text(viewModel.medicine.sideEffect ?? "No side effects available")
+                        }
+                        
+                        DisclosureBox(title: "Dosage", isExpanded: $showDosage) {
+                            Text(viewModel.medicine.dosage ?? "No dosage information available")
+                        }
+                        
+                        DisclosureBox(title: "Supplier", isExpanded: $showSupplier) {
+                            Text(viewModel.medicine.supplier ?? "No supplier information available")
+                        }
+                    }
+                    .padding(.horizontal)
+                    .padding(.vertical, 5)
+                }
+                
+                Divider()
+                
+                if !viewModel.similarProducts.isEmpty {
+                    VStack(alignment: .leading) {
+                        Text("Similar Products")
+                            .font(.title)
+                            .fontWeight(.bold)
+                            .padding(.horizontal)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 10) {
+                                ForEach(viewModel.similarProducts) { similarMedicine in
+                                    VerticalProductItemCardView(medicine: similarMedicine)
+                                }
+                            }
+                            .padding()
+                        }
+                    }
+                    .padding(.bottom, 60)
+                }
+            }
+            
+            VStack {
+                Spacer()
+                
+                HStack(spacing: 0) {
+                    // Add to Cart Button
+                    AddToCartButtonView()
+                        .frame(maxWidth: .infinity)
+                    
+                    // Buy Now Button
+                    BuyNowButtonView()
+                        .frame(maxWidth: .infinity)
+                }
+                .frame(height: 50)
+                .background(Color.white)
+            }
+            .edgesIgnoringSafeArea(.bottom)
+        }
+        .onAppear {
+            viewModel.fetchPharmacyDetails()
+        }
+    }
+}
+struct DisclosureBox<Content: View>: View {
+    let title: String
+    @Binding var isExpanded: Bool
+    let content: () -> Content
+    
+    var body: some View {
+        VStack {
+            Button(action: {
+                withAnimation {
+                    isExpanded.toggle()
+                }
+            }) {
+                HStack {
+                    Text(title)
+                        .font(.headline)
+                        .foregroundColor(.black)
+                    Spacer()
+                    Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
+                        .foregroundColor(.gray)
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: .gray.opacity(0.3), radius: 4, x: 0, y: 2)
+            }
+            
+            if isExpanded {
+                VStack(alignment: .leading) {
+                    content()
+                        .padding(.top, 5)
+                }
+                .padding()
+                .background(Color.white)
+                .cornerRadius(10)
+                .shadow(color: .gray.opacity(0.3), radius: 4, x: 0, y: 2)
+                .transition(.slide)
+            }
+        }
+        .padding(.vertical, 5)
+    }
+}
+
+#Preview {
+    let mockMedicine = Medicine(
+        id: "1",
+        name: "Life Omega-3 Fish Oil 1000mg, 30 Capsules",
+        price: 180000,
+        priceDiscount: 160000,
+        availableQuantity: 999,
+        description: "The Apollo Omega 3 Fish Oil...",
+        ingredients: "Fish oil, Food-grade gelatin shell.",
+        supplement: "Omega-3 Fatty Acids: EPA and DHA",
+        note: "Supports multiple vital organs",
+        sideEffect: "Fishy aftertaste, upset stomach",
+        dosage: "1-2 capsules daily with lukewarm water",
+        supplier: "Apollo Healthco Limited",
+        images: [
+            "https://images.apollo247.in/pub/media/catalog/product/i/m/img_20210108_174942__front__omega-3_fish_oil_4__1.jpg",
+            "https://images.apollo247.in/pub/media/catalog/product/i/m/img_20210108_175003__back__omega-3_fish_oil_4_.jpg"
+        ],
+        category: .vitamin,
+        pharmacyId: "1",
+        createdDate: Date()
+    )
+    
+    let mockPharmacy = Pharmacy(
+        id: "1",
+        name: "Pharmacity Pharmacy JSC",
+        address: "248A No Trang Long, Ward 12, Binh Thanh District, HCMC",
+        description: "At Pharmacity, customers can find pharmaceuticals...",
+        createdDate: Date()
+    )
+    
+    let viewModel = ProductDetailViewModel(medicine: mockMedicine)
+    viewModel.medicine = mockMedicine
+    viewModel.pharmacy = mockPharmacy
+    
+    return ProductDetailView(viewModel: viewModel)
+}

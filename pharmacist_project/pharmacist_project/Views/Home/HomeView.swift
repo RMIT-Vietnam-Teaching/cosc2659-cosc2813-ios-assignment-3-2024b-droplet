@@ -224,7 +224,6 @@ struct CategorySection: View {
     }
 }
 
-
 #Preview {
     HomeView()
 }

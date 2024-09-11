@@ -5,26 +5,26 @@
  Assessment: Assignment 3
  Author: Do Phan Nhat Anh
  ID: s3915034
- Created date: 06/09/2024
- Last modified: 06/09/2024
+ Created date: 1/09/2024
+ Last modified: 11/09/2024
  Acknowledgement:
  */
 
 
 import SwiftUI
 
-struct AddToCartButtonView: View {
+struct BuyNowButtonView: View {
     var body: some View {
         Button(action: {
-            // add to cart
-            print("add to cart")
+            // buy now
+            print("Buy Now")
         }) {
-            Text("Add to Cart")
+            Text("Buy Now")
                 .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color(red: 1.0, green: 0.4, blue: 0.4))
+                .foregroundColor(.white)
                 .padding()
                 .frame(maxWidth: .infinity, maxHeight: 40)
-                .background(Color(UIColor.white))
+                .background(Color(UIColor.orange))
                 .cornerRadius(5)
         }
         .frame(maxWidth: .infinity)
@@ -36,5 +36,5 @@ struct AddToCartButtonView: View {
 }
 
 #Preview {
-    AddToCartButtonView()
+    BuyNowButtonView()
 }
