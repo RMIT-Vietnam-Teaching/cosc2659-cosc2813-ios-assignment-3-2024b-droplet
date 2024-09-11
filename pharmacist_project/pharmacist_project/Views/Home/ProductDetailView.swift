@@ -67,21 +67,27 @@ struct ProductDetailView: View {
                                 .foregroundColor(.gray)
                                 .font(.subheadline)
                             
-                            Text("\(String(describing: viewModel.medicine.price?.calculateDiscountPercentage(priceDiscount: priceDiscount)))% OFF")
-                                .font(.subheadline)
-                                .foregroundColor(.red)
+                            if let discountPercentage = viewModel.medicine.price?.calculateDiscountPercentage(priceDiscount: priceDiscount) {
+                                Text("\(discountPercentage)% OFF")
+                                    .font(.subheadline)
+                                    .foregroundColor(.red)
+                            } else {
+                                Text("No discount available")
+                                    .font(.subheadline)
+                                    .foregroundColor(.gray)
+                            }
                         }
                     }
                     .padding(.horizontal)
                     
                     // Quantity
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Quantity: \(String(describing: viewModel.medicine.availableQuantity))")
+                        Text("Quantity: \(viewModel.medicine.availableQuantity != nil ? "\(viewModel.medicine.availableQuantity!)" : "Unavailable")")
                             .font(.headline)
                             .padding(.horizontal)
                     }
                     
-                    Divider()
+                    AddToCartButtonView()
                     
                     // Seller Information
                     VStack(alignment: .leading, spacing: 5) {
@@ -157,29 +163,13 @@ struct ProductDetailView: View {
                     .padding(.bottom, 60)
                 }
             }
-            
-            VStack {
-                Spacer()
-                
-                HStack(spacing: 0) {
-                    // Add to Cart Button
-                    AddToCartButtonView()
-                        .frame(maxWidth: .infinity)
-                    
-                    // Buy Now Button
-                    BuyNowButtonView()
-                        .frame(maxWidth: .infinity)
-                }
-                .frame(height: 50)
-                .background(Color.white)
-            }
-            .edgesIgnoringSafeArea(.bottom)
         }
         .onAppear {
             viewModel.fetchPharmacyDetails()
         }
     }
 }
+
 struct DisclosureBox<Content: View>: View {
     let title: String
     @Binding var isExpanded: Bool
