@@ -17,14 +17,12 @@ struct HomeView: View {
                     .font(.largeTitle)
                     .fontWeight(.bold)
                 
-                    
                     NavigationLink(destination: UserProfileView()) {
                         Text("Go to Profile")
                             .font(.headline)
                             .foregroundColor(.blue)
                     }
 
-                
                 Button {
                     signOut()
                 } label: {

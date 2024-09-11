@@ -10,7 +10,6 @@ import SwiftUI
 struct UserSettingsView: View {
     @ObservedObject var viewModel: UserProfileViewModel
 
-    // will fix this when integrate with backend
     @State private var isEditing = false
     @State private var tempName: String = ""
     @State private var tempDob: Date = Date()

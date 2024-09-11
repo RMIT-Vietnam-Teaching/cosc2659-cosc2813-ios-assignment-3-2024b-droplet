@@ -14,13 +14,10 @@ class UserProfileViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    private var authService: AuthenticationService
-    private var userService: UserService
+    private var authService: AuthenticationService = AuthenticationService.shared
+    private var userService: UserService = UserService.shared
     
-    init(authService: AuthenticationService = AuthenticationService.shared, userService: UserService = UserService.shared) {
-        self.authService = authService
-        self.userService = userService
-    }
+    init() {}
     
     func loadAuthenticatedUser() {
         isLoading = true
