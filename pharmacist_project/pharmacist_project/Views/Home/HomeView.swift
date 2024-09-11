@@ -119,6 +119,40 @@ func headerWithViewAll(title: String, viewModel: HomeViewModel) -> some View {
     .padding(.horizontal)
 }
 
+// MARK: - Flash Sales Section
+struct FlashSaleSection: View {
+    @ObservedObject var viewModel: HomeViewModel
+    
+    var body: some View {
+        if !viewModel.filteredMedicines.isEmpty && viewModel.filteredMedicines.contains(where: { $0.priceDiscount != nil }) {
+            VStack(alignment: .leading) {
+                HStack {
+                    Text("Flash Sales ⚡")
+                        .font(.title2)
+                        .fontWeight(.bold)
+                    
+                    Spacer()
+                    
+                    NavigationLink(destination: ViewAllView(viewModel: viewModel, filterType: .flashSale, title: "Flash Sales")) {
+                        Text("View All")
+                    }
+                    .foregroundColor(.blue)
+                }
+                .padding(.horizontal)
+                
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 15) {
+                        ForEach(viewModel.filteredMedicines.filter { $0.priceDiscount != nil }) { medicine in
+                            VerticalProductItemCardView(medicine: medicine)
+                        }
+                    }
+                    .padding()
+                }
+            }
+        }
+    }
+}
+
 // MARK: - New Releases Section
 struct NewReleasesSection: View {
     @ObservedObject var viewModel: HomeViewModel
@@ -145,40 +179,6 @@ struct NewReleasesSection: View {
                         ForEach(viewModel.filteredMedicines.filter {
                             Calendar.current.isDateInLast30Days($0.createdDate ?? Date())
                         }) { medicine in
-                            VerticalProductItemCardView(medicine: medicine)
-                        }
-                    }
-                    .padding()
-                }
-            }
-        }
-    }
-}
-
-// MARK: - Flash Sales Section
-struct FlashSaleSection: View {
-    @ObservedObject var viewModel: HomeViewModel
-    
-    var body: some View {
-        if !viewModel.filteredMedicines.isEmpty && viewModel.filteredMedicines.contains(where: { $0.priceDiscount != nil }) {
-            VStack(alignment: .leading) {
-                HStack {
-                    Text("Flash Sales ⚡")
-                        .font(.title2)
-                        .fontWeight(.bold)
-                    
-                    Spacer()
-                    
-                    NavigationLink(destination: ViewAllView(viewModel: viewModel, filterType: .flashSale, title: "Flash Sales")) {
-                        Text("View All")
-                    }
-                    .foregroundColor(.blue)
-                }
-                .padding(.horizontal)
-                
-                ScrollView(.horizontal, showsIndicators: false) {
-                    HStack(spacing: 15) {
-                        ForEach(viewModel.filteredMedicines.filter { $0.priceDiscount != nil }) { medicine in
                             VerticalProductItemCardView(medicine: medicine)
                         }
                     }
@@ -223,6 +223,7 @@ struct CategorySection: View {
         }
     }
 }
+
 
 #Preview {
     HomeView()

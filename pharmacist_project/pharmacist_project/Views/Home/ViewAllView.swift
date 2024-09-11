@@ -13,24 +13,35 @@ struct ViewAllView: View {
     var selectedCategory: Category? = nil
     var title: String
     
+    var filteredMedicines: [Medicine] {
+        if let category = selectedCategory {
+            return viewModel.medicines.filter { $0.category == category }
+        } else if let filter = filterType {
+            switch filter {
+            case .flashSale:
+                return viewModel.medicines.filter { $0.priceDiscount != nil }
+            case .newReleases:
+                return viewModel.medicines.filter {
+                    if let createdDate = $0.createdDate {
+                        return Calendar.current.isDateInLast30Days(createdDate)
+                    }
+                    return false
+                }
+            }
+        }
+        return viewModel.medicines
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 5) {
-                ForEach(viewModel.filteredMedicines) { medicine in
+                ForEach(filteredMedicines) { medicine in
                     HorizontalProductItemCardView(medicine: medicine)
-                        .frame(maxWidth: .infinity)
-                        .padding() 
+                        .padding(.vertical, 5)
+                        .padding(.horizontal)
                 }
             }
         }
         .navigationTitle(title)
-        .onAppear {
-            if let category = selectedCategory {
-                viewModel.handleViewAll(for: category)
-            } else if let filter = filterType {
-                viewModel.handleViewAll(for: filter)
-            }
-        }
     }
 }
-
