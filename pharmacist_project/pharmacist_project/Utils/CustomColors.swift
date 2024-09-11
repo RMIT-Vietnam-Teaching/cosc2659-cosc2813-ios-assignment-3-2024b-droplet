@@ -34,3 +34,17 @@ extension Color {
     }
 }
 
+extension Color {
+    static func statusColor(for status: OrderStatus) -> Color {
+        switch status {
+        case .pending:
+            return Color.gray
+        case .accepted:
+            return Color.green
+        case .delivering:
+            return Color.yellow
+        case .completed:
+            return Color.green
+        }
+    }
+}

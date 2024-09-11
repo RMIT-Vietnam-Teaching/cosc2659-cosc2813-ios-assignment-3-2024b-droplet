@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct OrderSummaryCardView: View {
+    @ObservedObject var orderViewModel: OrderViewModel
     var order: Order
     var orderItem: [OrderItem]
+    
     
     var body: some View {
         VStack(spacing: 16) {
@@ -46,11 +48,8 @@ struct OrderSummaryCardView: View {
                 }
             }
             
-            // Button and Status
             HStack {
-                Button(action: {
-                    // Handle button action
-                }) {
+                NavigationLink(destination: OrderDetailView(orderViewModel: orderViewModel, order: order, orderItems: orderItem)) {
                     Text("Details")
                         .font(.system(size: 14, weight: .bold))
                         .frame(width: 100, height: 40)
@@ -65,7 +64,7 @@ struct OrderSummaryCardView: View {
                 
                 Text(order.status!.rawValue.capitalized)
                     .font(.system(size: 16, weight: .semibold))
-                    .foregroundColor(.green)
+                    .foregroundColor(Color.statusColor(for: order.status!))
             }
         }
         .padding()
@@ -87,7 +86,7 @@ struct OrderSummaryCardView: View {
         status: .completed,
         payable: 120000,
         totalDiscount: 10.00,
-        paymentMethod: .COD,
+        paymentMethod: .visa,
         shippingMethod: .ShopeeExpress,
         createdDate: Date()
     )
@@ -96,7 +95,7 @@ struct OrderSummaryCardView: View {
         OrderItem(
             id: "item123",
             orderId: "123456",
-            medicineId: "med123",
+            medicineId: "1",
             quantity: 2,
             pricePerUnit: 50000.0,
             pricePerUnitDiscount: 40.0,
@@ -105,7 +104,7 @@ struct OrderSummaryCardView: View {
         OrderItem(
             id: "item124",
             orderId: "123456",
-            medicineId: "med124",
+            medicineId: "1",
             quantity: 1,
             pricePerUnit: 70000.0,
             pricePerUnitDiscount: 30.0,
@@ -113,5 +112,7 @@ struct OrderSummaryCardView: View {
         )
     ]
     
-    return OrderSummaryCardView(order: mockOrder, orderItem: mockOrderItems)
+    return NavigationView {
+        OrderSummaryCardView(orderViewModel: OrderViewModel(), order: mockOrder, orderItem: mockOrderItems)
+    }
 }

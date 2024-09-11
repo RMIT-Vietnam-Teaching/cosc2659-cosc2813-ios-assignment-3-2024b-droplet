@@ -13,11 +13,18 @@ class OrderViewModel: ObservableObject {
     @Published var orders: [(Order, [OrderItem])] = []
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var selectedStatus: OrderStatus = .pending
 
-    private var orderService: OrderService = OrderService.shared
+    var orderService: OrderService = OrderService.shared
     
     init() {
         loadAuthenticatedUser()
+    }
+    
+    // for mock data
+    init(orders: [(Order, [OrderItem])] = []) {
+        loadAuthenticatedUser()
+        self.orders = orders
     }
     
     func loadAuthenticatedUser() {
@@ -34,8 +41,6 @@ class OrderViewModel: ObservableObject {
                 self.user = onlineUser
                 print("Loaded online user: \(onlineUser)")
                 self.isLoading = false
-
-                await loadOrderHistory()
             } else {
                 self.errorMessage = "Please login"
                 print("Please login")
@@ -99,6 +104,12 @@ class OrderViewModel: ObservableObject {
         } catch {
             print(error.localizedDescription)
             return nil
+        }
+    }
+    
+    var filteredOrders: [(Order, [OrderItem])] {
+        orders.filter { order, _ in
+            order.status == selectedStatus
         }
     }
 }
