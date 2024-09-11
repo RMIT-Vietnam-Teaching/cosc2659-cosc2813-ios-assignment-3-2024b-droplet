@@ -60,6 +60,30 @@ class MockDataUtil {
     
     @discardableResult
     static func createMockMedicines() async throws -> [Medicine] {
+        let res = getMockMedicines()
+        
+        try await MedicineService.shared.bulkCreate(documents: res)
+        
+        return res
+    }
+    
+    @discardableResult
+    static func createMockCartItems() async throws -> [CartItem] {
+        let res = [
+            CartItem(
+                id: "1",
+                cartId: PreviewsUtil.getPreviewCartId(),
+                medicineId: "1",
+                quantity: 3,
+                createdDate: Date()
+            ),
+        ]
+        
+        try await CartItemService.shared.bulkCreate(documents: res)
+        return res
+    }
+    
+    static func getMockMedicines() -> [Medicine] {
         let res = [
             Medicine(
                 id: "1",
@@ -132,24 +156,6 @@ class MockDataUtil {
                 createdDate: Date()),
         ]
         
-        try await MedicineService.shared.bulkCreate(documents: res)
-        
-        return res
-    }
-    
-    @discardableResult
-    static func createMockCartItems() async throws -> [CartItem] {
-        let res = [
-            CartItem(
-                id: "1",
-                cartId: PreviewsUtil.getPreviewCartId(),
-                medicineId: "1",
-                quantity: 3,
-                createdDate: Date()
-            ),
-        ]
-        
-        try await CartItemService.shared.bulkCreate(documents: res)
         return res
     }
 }
