@@ -7,14 +7,13 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct HorizontalProductItemCardView: View {
     let medicine: Medicine
     
     var body: some View {
-        Button(action: {
-            // go to product details
-            print("product details")
-        }) {
+        NavigationLink(destination: ProductDetailView(viewModel: ProductDetailViewModel(medicine: medicine))) {
             HStack(spacing: 15) {
                 AsyncImage(url: URL(string: medicine.images.first ?? "")) { phase in
                     if let image = phase.image {
@@ -35,6 +34,7 @@ struct HorizontalProductItemCardView: View {
                     ScrollView(.vertical, showsIndicators: true) {
                         Text(medicine.name ?? "")
                             .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 5)
                     }
                     .frame(maxHeight: 50)
@@ -61,16 +61,14 @@ struct HorizontalProductItemCardView: View {
                         .font(.subheadline)
                 }
             }
-            .padding()
+            .padding(10)
             .background(Color.white)
             .cornerRadius(10)
             .shadow(radius: 2)
         }
         .buttonStyle(PlainButtonStyle())
-        .frame(height: 200)
     }
 }
-
 
 #Preview {
     let exampleMedicine = Medicine(
