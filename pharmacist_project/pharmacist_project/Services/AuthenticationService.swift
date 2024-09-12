@@ -232,29 +232,6 @@ extension AuthenticationService {
 }
 
 
-
-// DO NOT DELETE
-//            print(error.localizedDescription)
-//            if let errCode = AuthErrorCode(rawValue: error._code) {
-//                switch errCode {
-//                case .emailAlreadyInUse:
-//                    return ("Email already in use", nil)
-//                case .invalidEmail:
-//                    return ("Invalid email", nil)
-//                case .weakPassword:
-//                    return ("Weak password", nil)
-//                case .operationNotAllowed:
-//                    return ("Account is disabled", nil)
-//                default:
-//                    return ("Internal server error", nil)
-//                }
-//            }
-//
-//            return ("Internal server error", nil)
-
-
-
-
 // DO NOT DELETE
 //struct AuthenView: View {
 //    @StateObject private var authVM = AuthenticationViewModel()

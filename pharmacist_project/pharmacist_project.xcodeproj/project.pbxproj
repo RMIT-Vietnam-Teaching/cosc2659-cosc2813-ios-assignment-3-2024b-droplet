@@ -23,6 +23,9 @@
 		8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A4A023B2C8A0C30004CF016 /* FirebaseAuth */; };
 		8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02412C8A1093004CF016 /* GlobalUtils.swift */; };
 		8A4A02442C8A13B7004CF016 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02432C8A13B7004CF016 /* AppUser.swift */; };
+		8A67F5442C91DB9C002027F1 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67F5432C91DB9C002027F1 /* OpenAIService.swift */; };
+		8A67F5472C91DBF6002027F1 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8A67F5462C91DBF6002027F1 /* ChatGPTSwift */; };
+		8A67F54B2C91E66E002027F1 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67F54A2C91E66E002027F1 /* ChatView.swift */; };
 		8A7B27FF2C8C8B47005A652C /* BusinessError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B27FE2C8C8B47005A652C /* BusinessError.swift */; };
 		8A7B28012C8C935B005A652C /* OrderPriceInformation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B28002C8C935B005A652C /* OrderPriceInformation.swift */; };
 		8A7B280C2C8CA5F4005A652C /* ImageUploadViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7B280B2C8CA5F4005A652C /* ImageUploadViewModel.swift */; };
@@ -90,6 +93,8 @@
 		7127D1812C8D52E000B779CC /* OrderItemCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderItemCardView.swift; sourceTree = "<group>"; };
 		8A4A02412C8A1093004CF016 /* GlobalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUtils.swift; sourceTree = "<group>"; };
 		8A4A02432C8A13B7004CF016 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
+		8A67F5432C91DB9C002027F1 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
+		8A67F54A2C91E66E002027F1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		8A7B27FE2C8C8B47005A652C /* BusinessError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessError.swift; sourceTree = "<group>"; };
 		8A7B28002C8C935B005A652C /* OrderPriceInformation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderPriceInformation.swift; sourceTree = "<group>"; };
 		8A7B280B2C8CA5F4005A652C /* ImageUploadViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadViewModel.swift; sourceTree = "<group>"; };
@@ -143,6 +148,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8A7B28172C8CAB9F005A652C /* FacebookLogin in Frameworks */,
+				8A67F5472C91DBF6002027F1 /* ChatGPTSwift in Frameworks */,
 				8A4A02392C8A0A55004CF016 /* FirebaseAnalytics in Frameworks */,
 				8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */,
 				8A7B28152C8CAB9F005A652C /* FacebookCore in Frameworks */,
@@ -192,6 +198,14 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8A67F5492C91E661002027F1 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				8A67F54A2C91E66E002027F1 /* ChatView.swift */,
+			);
+			path = Chat;
 			sourceTree = "<group>";
 		};
 		8A7B27FD2C8C8B3D005A652C /* Errors */ = {
@@ -256,6 +270,7 @@
 				8AEB8C042C8C1579002AA1B7 /* CartService.swift */,
 				8AEB8C062C8C1730002AA1B7 /* CartItemService.swift */,
 				8AEB8C0A2C8C17EC002AA1B7 /* OrderItemService.swift */,
+				8A67F5432C91DB9C002027F1 /* OpenAIService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -334,6 +349,7 @@
 		C48032972C884DF300E662AE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				8A67F5492C91E661002027F1 /* Chat */,
 				8A7B280A2C8CA56A005A652C /* Profile */,
 				C4F06C122C8AC56400BDB1F8 /* Component */,
 				19A159DB2C897F5E0025681C /* Splashscreen */,
@@ -416,6 +432,7 @@
 				8A7B280F2C8CA6D9005A652C /* FirebaseStorage */,
 				8A7B28142C8CAB9F005A652C /* FacebookCore */,
 				8A7B28162C8CAB9F005A652C /* FacebookLogin */,
+				8A67F5462C91DBF6002027F1 /* ChatGPTSwift */,
 			);
 			productName = pharmacist_project;
 			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
@@ -449,6 +466,7 @@
 				8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
+				8A67F5452C91DBF6002027F1 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
 			);
 			productRefGroup = C48032862C88498200E662AE /* Products */;
 			projectDirPath = "";
@@ -489,6 +507,7 @@
 				C40879BF2C897CE600829660 /* OrderView.swift in Sources */,
 				8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */,
 				8AEB8BF22C8C07E9002AA1B7 /* Order.swift in Sources */,
+				8A67F54B2C91E66E002027F1 /* ChatView.swift in Sources */,
 				8A7B27FF2C8C8B47005A652C /* BusinessError.swift in Sources */,
 				8AEB8BE72C8B9338002AA1B7 /* UserService.swift in Sources */,
 				C40879BD2C897CD500829660 /* CartView.swift in Sources */,
@@ -509,6 +528,7 @@
 				8AEB8BED2C8BFA6C002AA1B7 /* CRUDService.swift in Sources */,
 				C40879B92C897C6F00829660 /* AuthenticationViewModel.swift in Sources */,
 				8AEB8C072C8C1730002AA1B7 /* CartItemService.swift in Sources */,
+				8A67F5442C91DB9C002027F1 /* OpenAIService.swift in Sources */,
 				8A7B28122C8CA850005A652C /* ImagePickerView.swift in Sources */,
 				8AEB8C0F2C8C1ADB002AA1B7 /* PreviewsUtil.swift in Sources */,
 				C4F06C212C8B17BD00BDB1F8 /* OrderSummaryCardView.swift in Sources */,
@@ -751,6 +771,14 @@
 				minimumVersion = 11.1.0;
 			};
 		};
+		8A67F5452C91DBF6002027F1 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/ChatGPTSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.3;
+			};
+		};
 		8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/facebook/facebook-ios-sdk";
@@ -779,6 +807,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseAuth;
+		};
+		8A67F5462C91DBF6002027F1 /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 8A67F5452C91DBF6002027F1 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
 		};
 		8A7B280F2C8CA6D9005A652C /* FirebaseStorage */ = {
 			isa = XCSwiftPackageProductDependency;
