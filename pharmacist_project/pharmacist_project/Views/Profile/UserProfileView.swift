@@ -65,8 +65,8 @@ struct UserProfileView: View {
                         
                         Divider()
                         
-                        NavigationLink(destination: OrderPage()) {
-                            UserProfileRow(title: "My orders", subtitle: "12 orders")
+                        NavigationLink(destination: OrderView(orderViewModel: OrderViewModel())) {
+                            UserProfileRow(title: "My orders", subtitle: "Check your orders")
                         }
                         .buttonStyle(PlainButtonStyle())
                         
@@ -133,14 +133,6 @@ struct UserProfileView: View {
             viewModel.signOut()
             isLoggingOut = false
         }
-    }
-}
-
-struct OrderPage: View {
-    var body: some View {
-        Text("Order Page")
-            .navigationTitle("My Orders")
-            .navigationBarTitleDisplayMode(.inline)
     }
 }
 

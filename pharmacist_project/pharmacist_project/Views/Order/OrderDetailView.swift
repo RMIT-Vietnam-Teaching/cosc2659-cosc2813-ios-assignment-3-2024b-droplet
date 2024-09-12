@@ -12,6 +12,7 @@ struct OrderDetailView: View {
     let order: Order
     let orderItems: [OrderItem]
     
+    @State private var isShowingUpdateStatusAlert: Bool = false
     @State private var medicines: [String: Medicine] = [:]
 
     var body: some View {
@@ -35,6 +36,27 @@ struct OrderDetailView: View {
                 }
                 
                 OrderInfoView(order: order)
+                
+                Button(action: {
+                    isShowingUpdateStatusAlert = true
+                }) {
+                    Text("Update status")
+                        .font(.headline)
+                        .foregroundColor(.green)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
+                }
+                .padding(.horizontal)
+                .padding(.bottom)
+                .alert("Confirm action", isPresented: $isShowingUpdateStatusAlert) {
+                    Button("Cancel", role: .cancel) {}
+                    Button("Update", role: .none) {
+                        // update status
+                    }
+                }
             }
             .padding()
         }

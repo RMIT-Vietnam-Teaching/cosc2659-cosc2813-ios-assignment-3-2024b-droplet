@@ -30,8 +30,7 @@ struct OrderView: View {
             .navigationTitle("My Orders")
             .onAppear {
                 Task {
-                    // delete when have real data
-                    //await orderViewModel.loadOrderHistory()
+                    await orderViewModel.loadOrderHistory()
                 }
             }
         }
