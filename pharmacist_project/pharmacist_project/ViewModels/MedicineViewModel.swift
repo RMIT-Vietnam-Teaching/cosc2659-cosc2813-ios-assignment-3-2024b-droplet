@@ -13,7 +13,7 @@ enum HomeFilter: String {
     case newReleases = "New Releases"
 }
 
-class HomeViewModel: ObservableObject {
+class MedicineViewModel: ObservableObject {
     @Published var medicines: [Medicine] = []
     @Published var filteredMedicines: [Medicine] = []
     @Published var selectedCategory: Category? = nil

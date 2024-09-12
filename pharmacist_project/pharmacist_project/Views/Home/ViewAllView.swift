@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct ViewAllView: View {
-    @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: MedicineViewModel
     var filterType: HomeFilter? = nil
     var selectedCategory: Category? = nil
     var title: String

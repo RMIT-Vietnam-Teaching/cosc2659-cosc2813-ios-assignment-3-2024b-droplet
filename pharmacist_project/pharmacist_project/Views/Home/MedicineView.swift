@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct HomeView: View {
-    @ObservedObject var viewModel = HomeViewModel()
+struct MedicineView: View {
+    @ObservedObject var viewModel = MedicineViewModel()
     
     var body: some View {
         NavigationStack {
@@ -103,7 +103,7 @@ struct HomeView: View {
 }
 
 // MARK: - Helper for Header with "View All" Button
-func headerWithViewAll(title: String, viewModel: HomeViewModel) -> some View {
+func headerWithViewAll(title: String, viewModel: MedicineViewModel) -> some View {
     HStack {
         Text(title)
             .font(.title2)
@@ -121,7 +121,7 @@ func headerWithViewAll(title: String, viewModel: HomeViewModel) -> some View {
 
 // MARK: - Flash Sales Section
 struct FlashSaleSection: View {
-    @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: MedicineViewModel
     
     var body: some View {
         if !viewModel.filteredMedicines.isEmpty && viewModel.filteredMedicines.contains(where: { $0.priceDiscount != nil }) {
@@ -155,7 +155,7 @@ struct FlashSaleSection: View {
 
 // MARK: - New Releases Section
 struct NewReleasesSection: View {
-    @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: MedicineViewModel
     
     var body: some View {
         if !viewModel.filteredMedicines.isEmpty && viewModel.filteredMedicines.contains(where: { Calendar.current.isDateInLast30Days($0.createdDate ?? Date()) }) {
@@ -191,7 +191,7 @@ struct NewReleasesSection: View {
 
 // MARK: - Category Section
 struct CategorySection: View {
-    @ObservedObject var viewModel: HomeViewModel
+    @ObservedObject var viewModel: MedicineViewModel
     var category: Category
     
     var body: some View {
@@ -225,5 +225,5 @@ struct CategorySection: View {
 }
 
 #Preview {
-    HomeView()
+    MedicineView()
 }

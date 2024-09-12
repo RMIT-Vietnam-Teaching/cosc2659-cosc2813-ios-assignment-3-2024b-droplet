@@ -13,7 +13,7 @@ struct HorizontalProductItemCardView: View {
     let medicine: Medicine
     
     var body: some View {
-        NavigationLink(destination: ProductDetailView(viewModel: ProductDetailViewModel(medicine: medicine))) {
+        NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
             HStack(spacing: 15) {
                 AsyncImage(url: URL(string: medicine.images.first ?? "")) { phase in
                     if let image = phase.image {

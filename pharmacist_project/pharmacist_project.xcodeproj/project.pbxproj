@@ -8,11 +8,11 @@
 
 /* Begin PBXBuildFile section */
 		196DFA622C90078D006890A0 /* CategorySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA612C90078D006890A0 /* CategorySectionView.swift */; };
-		196DFA642C900A03006890A0 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA632C900A03006890A0 /* HomeViewModel.swift */; };
+		196DFA642C900A03006890A0 /* MedicineViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA632C900A03006890A0 /* MedicineViewModel.swift */; };
 		196DFA662C903251006890A0 /* ViewAllView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA652C903251006890A0 /* ViewAllView.swift */; };
-		196DFA682C903887006890A0 /* BottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA672C903887006890A0 /* BottomBarView.swift */; };
-		196DFA6A2C903FC1006890A0 /* ProductDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA692C903FC1006890A0 /* ProductDetailView.swift */; };
-		1994C0F82C89809B004EF663 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C0F72C89809B004EF663 /* HomeView.swift */; };
+		196DFA682C903887006890A0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA672C903887006890A0 /* HomeView.swift */; };
+		196DFA6A2C903FC1006890A0 /* MedicineDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 196DFA692C903FC1006890A0 /* MedicineDetailView.swift */; };
+		1994C0F82C89809B004EF663 /* MedicineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C0F72C89809B004EF663 /* MedicineView.swift */; };
 		1994C1012C898732004EF663 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C1002C898732004EF663 /* CustomColors.swift */; };
 		19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A159DA2C897F5E0025681C /* SplashscreenView.swift */; };
 		19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BE73A42C8AC92200C4E82D /* CartItem.swift */; };
@@ -80,11 +80,11 @@
 
 /* Begin PBXFileReference section */
 		196DFA612C90078D006890A0 /* CategorySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySectionView.swift; sourceTree = "<group>"; };
-		196DFA632C900A03006890A0 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		196DFA632C900A03006890A0 /* MedicineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineViewModel.swift; sourceTree = "<group>"; };
 		196DFA652C903251006890A0 /* ViewAllView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewAllView.swift; sourceTree = "<group>"; };
-		196DFA672C903887006890A0 /* BottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomBarView.swift; sourceTree = "<group>"; };
-		196DFA692C903FC1006890A0 /* ProductDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailView.swift; sourceTree = "<group>"; };
-		1994C0F72C89809B004EF663 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		196DFA672C903887006890A0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		196DFA692C903FC1006890A0 /* MedicineDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineDetailView.swift; sourceTree = "<group>"; };
+		1994C0F72C89809B004EF663 /* MedicineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MedicineView.swift; sourceTree = "<group>"; };
 		1994C1002C898732004EF663 /* CustomColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColors.swift; sourceTree = "<group>"; };
 		19A159DA2C897F5E0025681C /* SplashscreenView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SplashscreenView.swift; sourceTree = "<group>"; };
 		19BE73A22C8AC5DE00C4E82D /* AddToCartButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddToCartButtonView.swift; sourceTree = "<group>"; };
@@ -169,9 +169,10 @@
 		1994C0F62C898079004EF663 /* Home */ = {
 			isa = PBXGroup;
 			children = (
-				1994C0F72C89809B004EF663 /* HomeView.swift */,
+				196DFA672C903887006890A0 /* HomeView.swift */,
+				1994C0F72C89809B004EF663 /* MedicineView.swift */,
 				196DFA652C903251006890A0 /* ViewAllView.swift */,
-				196DFA692C903FC1006890A0 /* ProductDetailView.swift */,
+				196DFA692C903FC1006890A0 /* MedicineDetailView.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -366,7 +367,7 @@
 				8A7B280B2C8CA5F4005A652C /* ImageUploadViewModel.swift */,
 				C42C22C12C901481003B93E6 /* UserProfileViewModel.swift */,
 				C49124C02C9163A000924973 /* OrderViewModel.swift */,
-				196DFA632C900A03006890A0 /* HomeViewModel.swift */,
+				196DFA632C900A03006890A0 /* MedicineViewModel.swift */,
 				19FEEF192C91655E008D3269 /* ProductDetailViewModel.swift */,
 			);
 			path = ViewModels;
@@ -392,7 +393,6 @@
 				7127D17F2C8D52BB00B779CC /* OrderInfoView.swift */,
 				7127D1812C8D52E000B779CC /* OrderItemCardView.swift */,
 				196DFA612C90078D006890A0 /* CategorySectionView.swift */,
-				196DFA672C903887006890A0 /* BottomBarView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -511,13 +511,13 @@
 				8AEB8BFE2C8C1103002AA1B7 /* Pharmacy.swift in Sources */,
 				C40879C12C897D1300829660 /* AuthenticationService.swift in Sources */,
 				8AEB8BE92C8B963F002AA1B7 /* RegistrationViewModel.swift in Sources */,
-				196DFA682C903887006890A0 /* BottomBarView.swift in Sources */,
+				196DFA682C903887006890A0 /* HomeView.swift in Sources */,
 				8A7B28012C8C935B005A652C /* OrderPriceInformation.swift in Sources */,
 				8AEB8C092C8C17AA002AA1B7 /* OrderItem.swift in Sources */,
 				8AEB8BF62C8C0B4B002AA1B7 /* OrderService.swift in Sources */,
 				C4F06C162C8AC66800BDB1F8 /* VerticalProductItemCardView.swift in Sources */,
 				8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */,
-				196DFA642C900A03006890A0 /* HomeViewModel.swift in Sources */,
+				196DFA642C900A03006890A0 /* MedicineViewModel.swift in Sources */,
 				8A852F752C8F411300071F3F /* MockDataUtil.swift in Sources */,
 				19FEEF1A2C91655E008D3269 /* ProductDetailViewModel.swift in Sources */,
 				8AEB8C032C8C11F6002AA1B7 /* Cart.swift in Sources */,
@@ -545,9 +545,9 @@
 				8AEB8C112C8C1D1A002AA1B7 /* CartItemViewModel.swift in Sources */,
 				C49124C32C9193CA00924973 /* OrderDetailView.swift in Sources */,
 				8A7B280E2C8CA617005A652C /* ImageUploadView.swift in Sources */,
-				1994C0F82C89809B004EF663 /* HomeView.swift in Sources */,
+				1994C0F82C89809B004EF663 /* MedicineView.swift in Sources */,
 				19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */,
-				196DFA6A2C903FC1006890A0 /* ProductDetailView.swift in Sources */,
+				196DFA6A2C903FC1006890A0 /* MedicineDetailView.swift in Sources */,
 				C48032A02C8850F300E662AE /* RegistrationView.swift in Sources */,
 				8AEB8BFC2C8C0DAB002AA1B7 /* MedicineService.swift in Sources */,
 			);

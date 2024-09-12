@@ -137,9 +137,11 @@ struct LoginScreenView: View {
                 // MARK: navigation
                 .navigationDestination(isPresented: $navigateToRegister) {
                     RegisterScreenView()
+                        .navigationBarHidden(true)
                 }
                 .navigationDestination(isPresented: $loginVM.isShowHomeView) {
                     HomeView()
+                        .navigationBarHidden(true)
                 }
             }
         }

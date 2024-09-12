@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class ProductDetailViewModel: ObservableObject {
+class MedicineDetailViewModel: ObservableObject {
     @Published var medicine: Medicine
     @Published var pharmacy: Pharmacy?
     @Published var similarProducts: [Medicine] = []

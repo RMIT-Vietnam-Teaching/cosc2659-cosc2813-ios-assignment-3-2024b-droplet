@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-struct ProductDetailView: View {
-    @ObservedObject var viewModel: ProductDetailViewModel
+struct MedicineDetailView: View {
+    @ObservedObject var viewModel: MedicineDetailViewModel
     @State private var selectedImageIndex = 0
     @State private var showDescription = false
     @State private var showIngredients = false
@@ -243,9 +243,9 @@ struct DisclosureBox<Content: View>: View {
         createdDate: Date()
     )
     
-    let viewModel = ProductDetailViewModel(medicine: mockMedicine)
+    let viewModel = MedicineDetailViewModel(medicine: mockMedicine)
     viewModel.medicine = mockMedicine
     viewModel.pharmacy = mockPharmacy
     
-    return ProductDetailView(viewModel: viewModel)
+    return MedicineDetailView(viewModel: viewModel)
 }
