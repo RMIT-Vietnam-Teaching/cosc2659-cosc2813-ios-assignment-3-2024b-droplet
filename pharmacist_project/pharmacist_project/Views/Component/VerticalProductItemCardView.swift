@@ -11,7 +11,7 @@ struct VerticalProductItemCardView: View {
     let medicine: Medicine
     
     var body: some View {
-        NavigationLink(destination: ProductDetailView(viewModel: ProductDetailViewModel(medicine: medicine))) {
+        NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Spacer()

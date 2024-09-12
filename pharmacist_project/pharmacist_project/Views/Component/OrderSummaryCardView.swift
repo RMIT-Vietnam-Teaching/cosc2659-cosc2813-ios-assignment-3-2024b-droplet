@@ -8,19 +8,18 @@
 import SwiftUI
 
 struct OrderSummaryCardView: View {
-    var orderNumber: String
-    var date: String
-    var quantity: Int
-    var totalAmount: Double
-    var status: String
+    @ObservedObject var orderViewModel: OrderViewModel
+    var order: Order
+    var orderItem: [OrderItem]
+    
     
     var body: some View {
         VStack(spacing: 16) {
             HStack {
-                Text("Order №\(orderNumber)")
+                Text("Order №\(order.id)")
                     .font(.system(size: 18, weight: .bold))
                 Spacer()
-                Text(date)
+                Text(order.createdDate!.formatted(date: .abbreviated, time: .shortened))
                     .font(.system(size: 14))
                     .foregroundColor(.gray)
             }
@@ -31,7 +30,7 @@ struct OrderSummaryCardView: View {
                         Text("Quantity:")
                             .foregroundColor(.gray)
                             .font(.system(size: 14))
-                        Text("\(quantity)")
+                        Text("\(orderItem.count)")
                             .font(.system(size: 14, weight: .semibold))
                     }
                 }
@@ -43,17 +42,14 @@ struct OrderSummaryCardView: View {
                         Text("Total Amount:")
                             .foregroundColor(.gray)
                             .font(.system(size: 14))
-                        Text("\(totalAmount.formatAsCurrency())")
+                        Text("\(order.payable!.formatAsCurrency())")
                             .font(.system(size: 14, weight: .semibold))
                     }
                 }
             }
             
-            // Button and Status
             HStack {
-                Button(action: {
-                    // Handle button action
-                }) {
+                NavigationLink(destination: OrderDetailView(orderViewModel: orderViewModel, order: order, orderItems: orderItem)) {
                     Text("Details")
                         .font(.system(size: 14, weight: .bold))
                         .frame(width: 100, height: 40)
@@ -62,12 +58,13 @@ struct OrderSummaryCardView: View {
                                 .stroke(Color.black, lineWidth: 1)
                         )
                 }
+                .buttonStyle(PlainButtonStyle())
                 
                 Spacer()
                 
-                Text(status)
-                    .font(.system(size: 14, weight: .semibold))
-                    .foregroundColor(.green)
+                Text(order.status!.rawValue.capitalized)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(Color.statusColor(for: order.status!))
             }
         }
         .padding()
@@ -78,13 +75,44 @@ struct OrderSummaryCardView: View {
     }
 }
 
-// Preview
 #Preview {
-    OrderSummaryCardView(
-        orderNumber: "12345",
-        date: "01-01-2024",
-        quantity: 3,
-        totalAmount: 112,
-        status: "Delivered"
+    let mockOrder = Order(
+        id: "123456",
+        userId: "user123",
+        fullName: "John Doe",
+        phoneNumber: "123-456-7890",
+        address: "123 Main St",
+        note: "Deliver before 5 PM",
+        status: .completed,
+        payable: 120000,
+        totalDiscount: 10.00,
+        paymentMethod: .visa,
+        shippingMethod: .ShopeeExpress,
+        createdDate: Date()
     )
+    
+    let mockOrderItems = [
+        OrderItem(
+            id: "item123",
+            orderId: "123456",
+            medicineId: "1",
+            quantity: 2,
+            pricePerUnit: 50000.0,
+            pricePerUnitDiscount: 40.0,
+            createdDate: Date()
+        ),
+        OrderItem(
+            id: "item124",
+            orderId: "123456",
+            medicineId: "1",
+            quantity: 1,
+            pricePerUnit: 70000.0,
+            pricePerUnitDiscount: 30.0,
+            createdDate: Date()
+        )
+    ]
+    
+    return NavigationView {
+        OrderSummaryCardView(orderViewModel: OrderViewModel(), order: mockOrder, orderItem: mockOrderItems)
+    }
 }

@@ -1,36 +1,48 @@
 import SwiftUI
 
 struct OrderInfoView: View {
-    let shippingAddress: String
-    let paymentMethod: String
-    let deliveryMethod: String
-    let discount: String
-    let totalAmount: String
+    let order: Order
     
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
-            Text("Order information")
+            Text("Order Information")
                 .font(.headline)
                 .fontWeight(.regular)
             
-            InfoRow(title: "Shipping Address:") { Text(shippingAddress) }
-            
-            InfoRow(title: "Payment method:", isImage: true) {
-                Image(paymentMethod)
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 120, height: 65)
-                    .padding(.leading, -27)
+            InfoRow(title: "Shipping Address:") {
+                Text(order.address ?? "No address provided")
             }
             
-            InfoRow(title: "Delivery method:") { Text(deliveryMethod) }
+            InfoRow(title: "Payment Method:", isImage: order.paymentMethod == .visa) {
+                if order.paymentMethod == .COD {
+                    Text("Cash on Delivery")
+                        .font(.subheadline)
+                        .foregroundColor(.primary)
+                } else {
+                    Image("Visa")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 120, height: 65)
+                        .padding(.leading, -27)
+                }
+            }
             
-            InfoRow(title: "Discount:") { Text(discount) }
+            InfoRow(title: "Delivery Method:") {
+                Text(order.shippingMethod?.toString ?? "Unknown delivery method")
+            }
             
-            InfoRow(title: "Total Amount:") { Text(totalAmount) }
+            InfoRow(title: "Discount:") {
+                Text(order.totalDiscount?.formatAsCurrency() ?? "No discount")
+            }
+            
+            InfoRow(title: "Total Amount:") {
+                Text(order.payable?.formatAsCurrency() ?? "Unknown")
+            }
         }
         .padding()
         .background(Color.white)
+        .cornerRadius(10)
+        .shadow(radius: 2)
     }
 }
 
@@ -60,13 +72,20 @@ struct InfoRow<Content: View>: View {
 }
 
 #Preview {
-    OrderInfoView(
-        shippingAddress: "3 Newbridge Court, Chino Hills, CA 91709, United States",
-        paymentMethod: "Mastercard",
-        deliveryMethod: "FedEx, 3 days, 15$",
-        discount: "10%, Personal promo code",
-        totalAmount: "133$"
+    let mockOrder = Order(
+        id: "123456",
+        userId: "user123",
+        fullName: "John Doe",
+        phoneNumber: "123-456-7890",
+        address: "3 Newbridge Court, Chino Hills, CA 91709, United States",
+        note: "Deliver before 5 PM",
+        status: .completed,
+        payable: 133.0,
+        totalDiscount: 10.0,
+        paymentMethod: .visa,
+        shippingMethod: .ShopeeExpress,
+        createdDate: Date()
     )
-    .previewLayout(.sizeThatFits)
-    .padding()
+    
+    return OrderInfoView(order: mockOrder)
 }

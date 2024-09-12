@@ -17,6 +17,7 @@ import SwiftUI
 
 struct LoginScreenView: View {
     @StateObject var loginVM = LoginViewModel()
+    @StateObject private var viewModel = UserProfileViewModel()
     
     @State private var navigateToRegister = false
     
@@ -136,9 +137,11 @@ struct LoginScreenView: View {
                 // MARK: navigation
                 .navigationDestination(isPresented: $navigateToRegister) {
                     RegisterScreenView()
+                        .navigationBarHidden(true)
                 }
                 .navigationDestination(isPresented: $loginVM.isShowHomeView) {
                     HomeView()
+                        .navigationBarHidden(true)
                 }
             }
         }

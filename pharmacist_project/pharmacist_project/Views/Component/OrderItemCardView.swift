@@ -8,12 +8,8 @@
 import SwiftUI
 
 struct OrderItemCardView: View {
-    let images: [String]
-    let productName: String
-    let description: String
-    let unitCount: String
-    let currentPrice: Double
-    let originalPrice: Double
+    var orderItem: OrderItem
+    var medicine: Medicine
     
     var body: some View {
         Button(action: {
@@ -21,7 +17,7 @@ struct OrderItemCardView: View {
             print("product details")
         }) {
             HStack(alignment: .top, spacing: 12) {
-                AsyncImage(url: URL(string: images[0])) { phase in
+                AsyncImage(url: URL(string: medicine.images[0])) { phase in
                     if let image = phase.image {
                         image
                             .resizable()
@@ -38,11 +34,11 @@ struct OrderItemCardView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(productName)
+                    Text(medicine.name!)
                         .font(.subheadline)
                         .lineLimit(2)
                     
-                    Text(description)
+                    Text(medicine.description!)
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .lineLimit(2)
@@ -53,7 +49,7 @@ struct OrderItemCardView: View {
                             Text("Unit:")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
-                            Text(unitCount)
+                            Text("\(orderItem.quantity!)")
                                 .font(.subheadline)
                                 .foregroundColor(.secondary)
                         }
@@ -61,11 +57,11 @@ struct OrderItemCardView: View {
                         Spacer()
                         
                         HStack {
-                            Text("\(currentPrice.formatAsCurrency())")
+                            Text("\(orderItem.pricePerUnitDiscount!.formatAsCurrency())")
                                 .font(.headline)
                                 .fontWeight(.bold)
                             
-                            Text("\(originalPrice.formatAsCurrency())")
+                            Text("\(orderItem.pricePerUnit!.formatAsCurrency())")
                                 .font(.subheadline)
                                 .strikethrough()
                                 .foregroundColor(.secondary)
@@ -86,12 +82,40 @@ struct OrderItemCardView: View {
 }
 
 #Preview {
-    OrderItemCardView(
-        images: ["https://prod-cdn.pharmacity.io/e-com/images/ecommerce/1000x1000/P15323_1_l.webp"],
-        productName: "Healthkart HK Vitals Super Strength Fish Oil Purity 84%",
-        description: "Thuốc trị đau răng Dentanalgi là một loại thuốc được sử dụng để giảm đau và làm giảm triệu chứng đau răng. Thuốc thường chứa các thành phần hoạt chất giúp giảm viêm và giảm đau, hỗ trợ điều trị các vấn đề về răng miệng như sâu răng hoặc viêm nướu.",
-        unitCount: "1",
-        currentPrice: 599000,
-        originalPrice: 999000
+    let mockOrderItem = OrderItem(
+        id: "item123",
+        orderId: "order123",
+        medicineId: "med123",
+        quantity: 2,
+        pricePerUnit: 599000,
+        pricePerUnitDiscount: 499000,
+        createdDate: Date()
     )
+    
+    let mockMedicine = Medicine(
+        id: "med123",
+        name: "Life Omega-3 Fish Oil 1000mg, 30 Capsules",
+        price: 180,
+        priceDiscount: 160,
+        availableQuantity: 999,
+        description: "The Apollo Omega 3 Fish Oil, formally known as Apollo Life Omega-3 Fish Oil 1000 mg, comes in a pack of 30 capsules and provides several health benefits. This product is designed to support the function of various organs including the kidneys, liver, heart, and brain. Apollo Omega 3 contains Omega-3 fatty acids, specifically EPA and DHA. EPA aids in nervous function, blood pressure reduction, and triglyceride lowering. DHA supports memory, focus, vision improvement, brain function, and inflammation reduction. This Apollo Fish Oil is purified to be free from heavy metals. Each softgel delivers 9.02 Kcal of energy and 1.003 g of total fat without any protein, carbohydrates, trans fats, or cholesterol. For usage, adults are advised to take one softgel 1-2 times daily with lukewarm water or as per the instructions of a healthcare practitioner.",
+        ingredients: "Fish oil, Food-grade gelatin shell.",
+        supplement: "Omega-3 Fatty Acids: Each capsule contains significant amounts of EPA and DHA, which are crucial for:\nEPA: Enhances nervous system function, helps lower blood pressure, and reduces triglyceride levels in the bloodstream.\nDHA: Supports brain function including memory and focus, aids in vision improvement, and helps reduce inflammation.",
+        note: "The Apollo Omega 3 Fish Oil targets multiple vital organs - kidneys, liver, heart, and brain. This wide-ranging organ support is due to the high concentration of Omega-3 fatty acids in each capsule.\nThe presence of Eicosapentaenoic Acid (EPA) in the Apollo Fish Oil means it has multiple health benefits. EPA improves nervous function, helps lower high blood pressure and can reduce elevated triglyceride levels in the bloodstream.",
+        sideEffect: "No specific side effects were mentioned in the product description. However, common side effects associated with Omega-3 supplements, generally not specific to this product unless experienced, can include:\nFishy aftertaste or breath.\nUpset stomach or loose stools, particularly at high doses.\nPossible interaction with blood-thinning medications, if applicable.",
+        dosage: "For adults, take one Apollo Omega 3 Fish Oil softgel 1-2 times a day with lukewarm water.\nThis dosage can be adjusted or modified as directed by a healthcare practitioner.\nEnsure that the softgel is swallowed whole, without chewing or breaking it.",
+        supplier: "Apollo Healthco Limited - 19, Bishop Gardens, Raja Annamalaipuram, Chennai - 600028 (Tamil Nadu)",
+        images: [
+            "https://images.apollo247.in/pub/media/catalog/product/i/m/img_20210108_174942__front__omega-3_fish_oil_4__1.jpg",
+            "https://images.apollo247.in/pub/media/catalog/product/i/m/img_20210108_175003__back__omega-3_fish_oil_4_.jpg",
+            "https://images.apollo247.in/pub/media/catalog/product/i/m/img_20210108_175032__side__omega-3_fish_oil_4__1.jpg",
+            "https://images.apollo247.in/pub/media/catalog/product/A/P/APO0077_4-JULY23_1.jpg",
+            "https://images.apollo247.in/pub/media/catalog/product/A/P/APO0077_5-JULY23_1.jpg",
+        ],
+        category: .vitamin,
+        pharmacyId: "1",
+        createdDate: Date()
+        )
+    
+    return OrderItemCardView(orderItem: mockOrderItem, medicine: mockMedicine)
 }
