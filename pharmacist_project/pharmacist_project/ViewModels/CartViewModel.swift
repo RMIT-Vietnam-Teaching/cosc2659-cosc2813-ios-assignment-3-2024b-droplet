@@ -104,4 +104,29 @@ class CartDeliveryViewModel: ObservableObject {
             self.error = error
         }
     }
+    
+    func updateDeliveryInfo(fullName: String, phoneNumber: String, address: String, addressType: String) async throws {
+        guard let userId = AuthenticationService.shared.getAuthenticatedUserOffline()?.id else {
+            throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
+        }
+        
+        do {
+            try await UserService.shared.updateDocumentFields(userId: userId, fields: [
+                "name": fullName,
+                "phoneNumber": phoneNumber,
+                "address": address,
+                "addressType": addressType
+            ])
+            
+            // You might want to update the local user object as well
+            if var user = await AuthenticationService.shared.getAuthenticatedUser() {
+                user.name = fullName
+                user.phoneNumber = phoneNumber
+                user.address = address
+                // Note: We're not updating the user type here as it's not typically changed during address update
+            }
+        } catch {
+            throw error
+        }
+    }
 }
