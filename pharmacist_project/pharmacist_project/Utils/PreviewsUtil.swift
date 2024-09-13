@@ -10,14 +10,18 @@ import Foundation
 // Data should be prepared first
 class PreviewsUtil {
     static func getPreviewUserId() -> String {
-        return "7WROupDV65dIfHVwTpPrUpn8ay23"
+        return "WxdRWVgNIzg1MHhKTvxJpvgs5Kr1"
     }
     
     static func getPreviewCartId() -> String {
-        return "7WROupDV65dIfHVwTpPrUpn8ay23"
+        return "XT4DU0pAPWv1OdYQrRgm"
+    }
+    
+    static func getPreviewCartItemId() -> String {
+        return ""
     }
     
     static func getPreviewMedicineId() -> String {
-        return "7WROupDV65dIfHVwTpPrUpn8ay23"
+        return "1"
     }
 }

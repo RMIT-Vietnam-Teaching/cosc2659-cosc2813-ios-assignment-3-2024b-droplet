@@ -17,6 +17,7 @@ import SwiftUI
 
 struct LoginScreenView: View {
     @StateObject var loginVM = LoginViewModel()
+    @StateObject private var viewModel = UserProfileViewModel()
     
     @State private var navigateToRegister = false
     
@@ -54,6 +55,9 @@ struct LoginScreenView: View {
                     Button(action: {
                         // Login action
                         loginVM.signIn()
+//                        Task {
+//                            try await MockDataUtil.createMockData()
+//                        }
                     }) {
                         Text("Login")
                             .frame(maxWidth: .infinity)
@@ -93,7 +97,7 @@ struct LoginScreenView: View {
                     // Login with social account buttons
                     HStack(spacing: 16) {
                         Button(action: {
-                            // Google login
+                            // MARK: Google login
                             loginVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
@@ -106,7 +110,8 @@ struct LoginScreenView: View {
                         }
                         
                         Button(action: {
-                            // Facebook login
+                            // MARK: Facebook login
+                            loginVM.signInFacebook()
                         }) {
                             Image("FacebookIcon")
                                 .resizable()
@@ -132,9 +137,11 @@ struct LoginScreenView: View {
                 // MARK: navigation
                 .navigationDestination(isPresented: $navigateToRegister) {
                     RegisterScreenView()
+                        .navigationBarHidden(true)
                 }
                 .navigationDestination(isPresented: $loginVM.isShowHomeView) {
                     HomeView()
+                        .navigationBarHidden(true)
                 }
             }
         }

@@ -16,15 +16,15 @@ import SwiftUI
 struct AddToCartButtonView: View {
     var body: some View {
         Button(action: {
-            // Logic for button
+            // add to cart
+            print("add to cart")
         }) {
             Text("Add to Cart")
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(Color(red: 1.0, green: 0.4, blue: 0.4))
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity)
                 .padding()
-                .frame(maxWidth: .infinity, maxHeight: 40)
-                .background(Color(UIColor.white))
-                .cornerRadius(5)
+                .background(Color.orange)
+                .foregroundColor(.white)
         }
         .frame(maxWidth: .infinity)
         .overlay(

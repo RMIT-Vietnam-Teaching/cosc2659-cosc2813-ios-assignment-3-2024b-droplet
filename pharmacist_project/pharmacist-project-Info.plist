@@ -12,10 +12,30 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.809105277940-e0t6gkq2fp6s00geqg75487kej0iqqvd</string>
+                <string>3461962347436439</string>
+                <string>fb3461962347436439</string>
 			</array>
 		</dict>
 	</array>
 	<key>GIDClientID</key>
 	<string>809105277940-e0t6gkq2fp6s00geqg75487kej0iqqvd.apps.googleusercontent.com</string>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+    
+    <key>FacebookAppID</key>
+    <string>3461962347436439</string>
+    <key>FacebookClientToken</key>
+    <string>9fbf43c9c89bb9ae73e64b29602ed4af</string>
+    <key>FacebookDisplayName</key>
+    <string>smart pharmacist</string>
+    
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fb-messenger-share-api</string>
+    </array>
 </dict>
 </plist>

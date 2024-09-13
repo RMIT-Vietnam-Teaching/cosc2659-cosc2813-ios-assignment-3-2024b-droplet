@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum OrderStatus: String, Codable {
+enum OrderStatus: String, Codable, CaseIterable {
     case pending
     case accepted
     case delivering
@@ -38,6 +38,15 @@ enum ShippingMethod: String, Codable {
             return "Shopee Express"
         case .NinjaVan:
             return "Ninja Van"
+        }
+    }
+    
+    var fee: Double {
+        switch self {
+        case .ShopeeExpress:
+            return 30.0
+        case .NinjaVan:
+            return 50.0
         }
     }
 }

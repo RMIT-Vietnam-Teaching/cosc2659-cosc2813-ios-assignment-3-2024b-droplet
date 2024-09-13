@@ -50,8 +50,71 @@ class CRUDService<T: FirebaseModel> {
         }
     }
     
-    func getAllDocuments() async throws {
-//        collection.document().all
+    func getAllDocuments() async throws -> [T] {
+        var documents = try await collection.getDocuments().documents
+        let results: [T] = documents.compactMap { document in
+            try? document.data(as: T.self)
+        }
+        return results
+    }
+    
+    func fetchDocuments(filter: (Query) -> Query, limit: Int? = nil, page: Int = 0) async throws -> [T] {
+        var query: Query = collection
+        
+        // Apply filtering, sorting, etc., via the filter closure
+        query = filter(query)
+        
+        // Apply pagination if limit is provided
+        if let limit = limit {
+            let offset = page * limit
+            query = query.limit(to: limit).start(at: [offset])
+        }
+        
+        // Perform the query
+        let documents = try await query.getDocuments().documents
+        let results: [T] = documents.compactMap { document in
+            try? document.data(as: T.self)
+        }
+        
+        return results
+    }
+    
+    func bulkCreate(documents: [T]) async throws {
+        let batch = Firestore.firestore().batch()
+        
+        for document in documents {
+            let newDocRef = collection.document(document.id)
+            try batch.setData(from: document, forDocument: newDocRef, merge: false)
+        }
+        
+        try await batch.commit()
+    }
+    
+    func bulkDelete(documentIds: [String]) async throws {
+        let batch = Firestore.firestore().batch()
+        
+        documentIds.forEach { id in
+            let docRef = collection.document(id)
+            batch.deleteDocument(docRef)
+        }
+        
+        try await batch.commit()
+    }
+    
+    func bulkUpdate(documents: [T]) async throws {
+        let batch = Firestore.firestore().batch()
+        
+        for document in documents {
+            let newDocRef = collection.document(document.id)
+            try batch.setData(from: document, forDocument: newDocRef, merge: true)
+        }
+        
+        try await batch.commit()
+    }
+    
+    func deleteAllDocuments() async throws  {
+        let allDocuments = try await self.getAllDocuments()
+        try await bulkDelete(documentIds: allDocuments.map{$0.id})
     }
 }
 

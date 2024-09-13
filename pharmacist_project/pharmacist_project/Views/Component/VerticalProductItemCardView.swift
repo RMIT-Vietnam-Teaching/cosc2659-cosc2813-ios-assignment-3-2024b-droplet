@@ -11,10 +11,7 @@ struct VerticalProductItemCardView: View {
     let medicine: Medicine
     
     var body: some View {
-        Button(action: {
-            // go to product details
-            print("product details")
-        }) {
+        NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
                     Spacer()
@@ -104,10 +101,9 @@ struct VerticalProductItemCardView: View {
         dosage: "Tẩm thuốc vào bông đặt nơi đau, 3 - 4 lần/ngày. Nhỏ 1 ml thuốc (30 giọt) vào khoảng 60 ml nước chín, khuấy đều, ngậm và súc miệng 3 lần/ngày.",
         supplier: "Dược phẩm OPC",
         images: ["https://prod-cdn.pharmacity.io/e-com/images/ecommerce/1000x1000/P15323_1_l.webp"],
-        categoryId: "1",
+        category: .vitamin,
         pharmacyId: "123"
     )
     
     return VerticalProductItemCardView(medicine: exampleMedicine)
 }
-

@@ -7,14 +7,13 @@
 
 import SwiftUI
 
+import SwiftUI
+
 struct HorizontalProductItemCardView: View {
     let medicine: Medicine
     
     var body: some View {
-        Button(action: {
-            // go to product details
-            print("product details")
-        }) {
+        NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
             HStack(spacing: 15) {
                 AsyncImage(url: URL(string: medicine.images.first ?? "")) { phase in
                     if let image = phase.image {
@@ -35,6 +34,7 @@ struct HorizontalProductItemCardView: View {
                     ScrollView(.vertical, showsIndicators: true) {
                         Text(medicine.name ?? "")
                             .font(.headline)
+                            .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal, 5)
                     }
                     .frame(maxHeight: 50)
@@ -61,16 +61,14 @@ struct HorizontalProductItemCardView: View {
                         .font(.subheadline)
                 }
             }
-            .padding()
+            .padding(10)
             .background(Color.white)
             .cornerRadius(10)
             .shadow(radius: 2)
         }
         .buttonStyle(PlainButtonStyle())
-        .frame(height: 200)
     }
 }
-
 
 #Preview {
     let exampleMedicine = Medicine(
@@ -87,7 +85,7 @@ struct HorizontalProductItemCardView: View {
         dosage: "Tẩm thuốc vào bông đặt nơi đau, 3 - 4 lần/ngày. Nhỏ 1 ml thuốc (30 giọt) vào khoảng 60 ml nước chín, khuấy đều, ngậm và súc miệng 3 lần/ngày.",
         supplier: "Dược phẩm OPC",
         images: ["https://prod-cdn.pharmacity.io/e-com/images/ecommerce/1000x1000/P15323_1_l.webp"],
-        categoryId: "1",
+        category: .vitamin,
         pharmacyId: "123"
     )
     

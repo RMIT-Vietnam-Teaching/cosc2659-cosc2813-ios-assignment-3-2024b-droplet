@@ -8,6 +8,13 @@
 import Foundation
 import FirebaseAuth
 
+enum UserType: String, Codable {
+    case customer
+    case pharmacist
+    case admin
+    case shipper
+}
+
 struct AppUser: FirebaseModel {
     let id: String
     let email: String?
@@ -16,6 +23,7 @@ struct AppUser: FirebaseModel {
     var address: String?
     var phoneNumber: String?
     var photoURL: String?
+    var type: UserType?
     let createdDate: Date?
     
     // only for new created user
@@ -27,6 +35,7 @@ struct AppUser: FirebaseModel {
         self.address = nil
         self.phoneNumber = nil
         self.photoURL = authDataResultUser.photoURL?.absoluteString
+        self.type = .customer
         self.createdDate = Date()
     }
     
@@ -38,6 +47,7 @@ struct AppUser: FirebaseModel {
         address: String? = nil,
         phoneNumber: String? = nil,
         photoURL: String? = nil, 
+        type: UserType?,
         createdDate: Date?
     ) {
         self.id = id
@@ -47,6 +57,7 @@ struct AppUser: FirebaseModel {
         self.address = address
         self.phoneNumber = phoneNumber
         self.photoURL = photoURL
+        self.type = type
         self.createdDate = createdDate
     }
     
@@ -57,6 +68,7 @@ struct AppUser: FirebaseModel {
         address: String? = nil,
         phoneNumber: String? = nil,
         photoURL: String? = nil,
+        type: UserType?,
         createdDate: Date?
     ) {
         self.id = CRUDService<AppUser>.generateUniqueId(collection: UserService.shared.collection)
@@ -66,6 +78,7 @@ struct AppUser: FirebaseModel {
         self.address = address
         self.phoneNumber = phoneNumber
         self.photoURL = photoURL
+        self.type = type
         self.createdDate = createdDate
     }
 }
