@@ -70,7 +70,6 @@ struct CartDeliveryView: View {
                 .padding()
             }
             .background(Color.white)
-            .navigationTitle("Cart (\(viewModel.cartItems.count) items)")
             .navigationBarTitleDisplayMode(.inline)
         }
         .overlay(

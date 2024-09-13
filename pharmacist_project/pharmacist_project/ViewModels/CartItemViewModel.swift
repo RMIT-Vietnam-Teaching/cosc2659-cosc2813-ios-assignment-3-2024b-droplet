@@ -34,20 +34,20 @@ final class CartItemViewModel: ObservableObject {
         isLoading = false
     }
     
-    func addToCart() async {
-        isLoading = true
-        do {
-            guard let medicine = medicine else {
-                throw NSError(domain: "CartItemViewModel", code: 0, userInfo: [NSLocalizedDescriptionKey: "Medicine not loaded"])
-            }
-            let newCartItem = CartItem(cartId: UUID().uuidString, medicineId: medicineId, quantity: 1, createdDate: Date())
-            try await CartItemService.shared.createDocument(newCartItem)
-            self.cartItem = newCartItem
-        } catch {
-            errorMessage = "Failed to add to cart: \(error.localizedDescription)"
-        }
-        isLoading = false
-    }
+//    func addToCart() async {
+//        isLoading = true
+//        do {
+//            guard let medicine = medicine else {
+//                throw NSError(domain: "CartItemViewModel", code: 0, userInfo: [NSLocalizedDescriptionKey: "Medicine not loaded"])
+//            }
+//            let newCartItem = CartItem(cartId: UUID().uuidString, medicineId: medicineId, quantity: 1, createdDate: Date())
+//            try await CartItemService.shared.createDocument(newCartItem)
+//            self.cartItem = newCartItem
+//        } catch {
+//            errorMessage = "Failed to add to cart: \(error.localizedDescription)"
+//        }
+//        isLoading = false
+//    }
     
     func increaseQuantity() async {
         guard let cartItem = cartItem else { return }

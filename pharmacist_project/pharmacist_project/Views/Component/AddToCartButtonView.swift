@@ -15,9 +15,11 @@ import SwiftUI
 
 struct AddToCartButtonView: View {
     @StateObject private var viewModel: CartDeliveryViewModel
-    let medicine: Medicine
     @State private var isAdding: Bool = false
     @State private var showError: Bool = false
+    let medicine: Medicine
+    @State private var errorMessage: String = ""
+
     
     init(medicine: Medicine) {
         self.medicine = medicine
@@ -51,20 +53,39 @@ struct AddToCartButtonView: View {
     }
     
     private func addToCart() {
-        isAdding = true
-        Task {
-            await viewModel.addToCart(CartItem(
-                cartId: "1",  // This should be replaced with the actual cart ID
-                medicineId: medicine.id,
-                quantity: 1,
-                createdDate: Date()
-            ))
-            isAdding = false
-            if viewModel.error != nil {
-                showError = true
+            isAdding = true
+            errorMessage = ""
+            
+            Task {
+                do {
+                    guard let user = await AuthenticationService.shared.getAuthenticatedUser() else {
+                        throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
+                    }
+                    
+                    let cart = try await CartService.shared.getUserCart(userId: user.id)
+                    
+                    let cartItem = CartItem(
+                        cartId: cart.id,
+                        medicineId: medicine.id,
+                        quantity: 1,
+                        createdDate: Date()
+                    )
+                    
+                    await viewModel.addToCart(cartItem)
+                    
+                    if let error = viewModel.error {
+                        throw error
+                    }
+                    
+                    print("Item added to cart successfully")
+                } catch {
+                    errorMessage = error.localizedDescription
+                    showError = true
+                }
+                
+                isAdding = false
             }
         }
-    }
 }
 
 #Preview {
