@@ -5,8 +5,6 @@
 //  Created by Dinh Le Hong Tin on 10/9/24.
 //
 
-
-
 import SwiftUI
 
 struct ProgressCircle: View {
@@ -157,8 +155,6 @@ struct CartDeliveryView: View {
     }
     
     private func loadCartItems() {
-        // TODO: Implement logic to load cart items from your data source
-        // For now, we'll use a sample item
         let sampleItem = CartItem(
             id: "1",
             cartId: "cart1",
