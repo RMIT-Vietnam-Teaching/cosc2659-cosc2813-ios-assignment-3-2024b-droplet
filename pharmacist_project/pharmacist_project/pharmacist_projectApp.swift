@@ -7,10 +7,12 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseFunctions
 import GoogleSignIn
 import GoogleSignInSwift
 import UIKit
 import FBSDKCoreKit
+import Stripe
 
 @main
 struct pharmacist_projectApp: App {
@@ -29,6 +31,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
         print("Firebase is configured!")
+        
+        STPAPIClient.shared.publishableKey = "pk_test_51OOwHOADvj1zBNJ9a3T5i1b63iBtAIFT6bl01kSwklXlADIxTKHfruK8PRFia3iVdtfMW7yNUhyfGQs24hsqyIft00ksYsRucF"
+        print("Stripe is configured")
         
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         print("FacebookSDK is configured!")
