@@ -16,7 +16,13 @@ class CartDeliveryViewModel: ObservableObject {
     @Published var isLoading: Bool = false
     @Published var error: Error?
     @Published var selectedPaymentMethod: PaymentMethod = .COD
-    @Published var selectedShippingMethod: ShippingMethod = .ShopeeExpress
+    @Published var selectedShippingMethod: ShippingMethod = .ShopeeExpress {
+        didSet {
+            Task {
+                await calculateTotals()
+            }
+        }
+    }
 
     private let cartService = CartService.shared
     private let cartItemService = CartItemService.shared
@@ -26,6 +32,7 @@ class CartDeliveryViewModel: ObservableObject {
         isLoading = true
         do {
             if let newCartItem = try await cartService.addNewOrIncreaseCartItem(medicineId: item.medicineId, userId: AuthenticationService.shared.getAuthenticatedUser()?.id ?? "") {
+                // Handle new cart item if needed
             } else {
                 throw NSError(domain: "CartError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to add item to cart"])
             }
@@ -51,41 +58,38 @@ class CartDeliveryViewModel: ObservableObject {
     }
     
     func updatePaymentMethod(_ method: PaymentMethod) {
-            selectedPaymentMethod = method
-        }
+        selectedPaymentMethod = method
+    }
 
-    func updateShippingMethod(_ method: ShippingMethod) async {
+    func updateShippingMethod(_ method: ShippingMethod) {
         selectedShippingMethod = method
-        await calculateTotals()
+        // No need to call calculateTotals() here, it will be called by the didSet observer
     }
     
-    private func calculateTotals() async {
-        totalMRP = 0
-        totalDiscount = 0
-        payableAmount = 0
+    @MainActor
+    public func calculateTotals() async {
+        var newTotalMRP: Double = 0
+        var newTotalDiscount: Double = 0
+        var newPayableAmount: Double = 0
         
         for item in cartItems {
             do {
                 let medicine = try await medicineService.getDocument(item.medicineId)
                 if let quantity = item.quantity {
-                    totalMRP += (medicine.price ?? 0) * Double(quantity)
-                    totalDiscount += ((medicine.price ?? 0) - (medicine.priceDiscount ?? 0)) * Double(quantity)
-                    payableAmount += (medicine.priceDiscount ?? medicine.price ?? 0) * Double(quantity)
+                    newTotalMRP += (medicine.price ?? 0) * Double(quantity)
+                    newTotalDiscount += ((medicine.price ?? 0) - (medicine.priceDiscount ?? 0)) * Double(quantity)
+                    newPayableAmount += (medicine.priceDiscount ?? medicine.price ?? 0) * Double(quantity)
                 }
             } catch {
                 self.error = error
             }
         }
-        payableAmount += selectedShippingMethod.fee
-    }
-    
-    func removeCartItem(_ item: CartItem) async {
-        do {
-            try await cartItemService.deleteDocument(item)
-            await loadCartItems()
-        } catch {
-            self.error = error
-        }
+        newPayableAmount += selectedShippingMethod.fee
+        
+        // Update the published properties
+        self.totalMRP = newTotalMRP
+        self.totalDiscount = newTotalDiscount
+        self.payableAmount = newPayableAmount
     }
     
     func updateCartItemQuantity(_ item: CartItem, increase: Bool) async {

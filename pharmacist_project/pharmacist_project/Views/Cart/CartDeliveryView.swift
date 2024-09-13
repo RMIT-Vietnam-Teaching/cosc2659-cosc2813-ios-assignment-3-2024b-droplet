@@ -33,7 +33,6 @@ struct CartDeliveryView: View {
                     }
                     
                     // Payment and Shipping methods
-                    // Payment and Shipping methods
                     VStack(spacing: 10) {
                         PaymentMethodPicker(selectedMethod: $viewModel.selectedPaymentMethod)
                         ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
@@ -43,40 +42,6 @@ struct CartDeliveryView: View {
                     .cornerRadius(10)
                     
                     // Order Summary
-//                    VStack(alignment: .leading, spacing: 10) {
-//                        Text("Order Summary (\(viewModel.cartItems.count) items)")
-//                            .font(.headline)
-//                        
-//                        HStack {
-//                            Text("Total MRP")
-//                            Spacer()
-//                            Text(viewModel.totalMRP.formatAsCurrency())
-//                        }
-//                        
-//                        HStack {
-//                            Text("Shipping Charges")
-//                            Spacer()
-//                            Text("Free")
-//                        }
-//                        
-//                        HStack {
-//                            Text("Total Discount")
-//                            Spacer()
-//                            Text("-\(viewModel.totalDiscount.formatAsCurrency())")
-//                        }
-//                        
-//                        HStack {
-//                            Text("Payable Amount")
-//                                .fontWeight(.bold)
-//                            Spacer()
-//                            Text(viewModel.payableAmount.formatAsCurrency())
-//                                .fontWeight(.bold)
-//                        }
-//                    }
-//                    .padding()
-//                    .background(Color.white)
-//                    .cornerRadius(6)
-                    
                     OrderSummaryView(viewModel: viewModel)
 
                 }
