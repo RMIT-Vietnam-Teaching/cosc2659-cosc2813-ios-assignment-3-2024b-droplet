@@ -9,15 +9,17 @@ import SwiftUI
 
 struct StripePaymentView: View {
     @ObservedObject var paymentViewModel = StripePaymentViewModel()
-
+    
+    @State var amount: Int
+    
     var body: some View {
         VStack {
             Text("Complete Your Payment")
 
             Button(action: {
-                paymentViewModel.initiatePayment(amount: 100000)
+                paymentViewModel.initiatePayment(amount: amount)
             }) {
-                Text("Pay 100.000 VND")
+                Text("Proceed to payment")
                     .padding()
                     .background(Color.blue)
                     .foregroundColor(.white)
@@ -36,5 +38,5 @@ struct StripePaymentView: View {
 }
 
 #Preview{
-    StripePaymentView()
+    StripePaymentView(amount: 19500)
 }
