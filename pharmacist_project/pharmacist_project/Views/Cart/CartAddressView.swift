@@ -56,30 +56,31 @@ struct CartAddressView: View {
                     }
                     
                     // Address Type
-                    VStack(alignment: .leading) {
-                        Text("Select an address type")
-                            .font(.headline)
-                        HStack {
-                            ForEach(AddressType.allCases, id: \.self) { type in
-                                Button(action: {
-                                    selectedAddressType = type
-                                }) {
-                                    Text(type.rawValue)
-                                        .padding(.horizontal, 20)
-                                        .padding(.vertical, 10)
-                                        .background(selectedAddressType == type ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
-                                        .foregroundColor(selectedAddressType == type ? .white : .black)
-                                        .cornerRadius(6)
-                                }
-                            }
-                        }
-                    }
                     
-                    // Other Address Type
-                    if selectedAddressType == .others {
-                        TextField("Eg: school, college, temple,ground, etc...", text: $otherAddressType)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                    }
+//                    VStack(alignment: .leading) {
+//                        Text("Select an address type")
+//                            .font(.headline)
+//                        HStack {
+//                            ForEach(AddressType.allCases, id: \.self) { type in
+//                                Button(action: {
+//                                    selectedAddressType = type
+//                                }) {
+//                                    Text(type.rawValue)
+//                                        .padding(.horizontal, 20)
+//                                        .padding(.vertical, 10)
+//                                        .background(selectedAddressType == type ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
+//                                        .foregroundColor(selectedAddressType == type ? .white : .black)
+//                                        .cornerRadius(6)
+//                                }
+//                            }
+//                        }
+//                    }
+//                    
+//                    // Other Address Type
+//                    if selectedAddressType == .others {
+//                        TextField("Eg: school, college, temple,ground, etc...", text: $otherAddressType)
+//                            .textFieldStyle(RoundedBorderTextFieldStyle())
+//                    }
                 }
                 .padding()
             }

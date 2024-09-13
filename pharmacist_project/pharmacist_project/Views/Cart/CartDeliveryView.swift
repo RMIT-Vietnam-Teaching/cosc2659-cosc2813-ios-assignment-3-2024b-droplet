@@ -32,6 +32,23 @@ struct CartDeliveryView: View {
                         CartItemCardView(cartItem: $item).environmentObject(viewModel)
                     }
                     
+                    // Payment and Shipping methods
+                    VStack(spacing: 10) {
+                        HStack {
+                            Text("Payment Method")
+                            Spacer()
+                            Image(systemName: "info.circle")
+                        }
+                        HStack {
+                            Text("Shipping Method")
+                            Spacer()
+                            Image(systemName: "info.circle")
+                        }
+                    }
+                    .padding()
+                    .background(Color.white)
+                    .cornerRadius(10)
+                    
                     // Order Summary
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Order Summary (\(viewModel.cartItems.count) items)")
@@ -72,6 +89,7 @@ struct CartDeliveryView: View {
             .background(Color.white)
             .navigationBarTitleDisplayMode(.inline)
         }
+        .padding()
         .overlay(
             VStack {
                 Spacer()
