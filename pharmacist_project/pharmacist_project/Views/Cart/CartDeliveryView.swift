@@ -33,56 +33,52 @@ struct CartDeliveryView: View {
                     }
                     
                     // Payment and Shipping methods
+                    // Payment and Shipping methods
                     VStack(spacing: 10) {
-                        HStack {
-                            Text("Payment Method")
-                            Spacer()
-                            Image(systemName: "info.circle")
-                        }
-                        HStack {
-                            Text("Shipping Method")
-                            Spacer()
-                            Image(systemName: "info.circle")
-                        }
+                        PaymentMethodPicker(selectedMethod: $viewModel.selectedPaymentMethod)
+                        ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
                     }
                     .padding()
                     .background(Color.white)
                     .cornerRadius(10)
                     
                     // Order Summary
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Order Summary (\(viewModel.cartItems.count) items)")
-                            .font(.headline)
-                        
-                        HStack {
-                            Text("Total MRP")
-                            Spacer()
-                            Text(viewModel.totalMRP.formatAsCurrency())
-                        }
-                        
-                        HStack {
-                            Text("Shipping Charges")
-                            Spacer()
-                            Text("Free")
-                        }
-                        
-                        HStack {
-                            Text("Total Discount")
-                            Spacer()
-                            Text("-\(viewModel.totalDiscount.formatAsCurrency())")
-                        }
-                        
-                        HStack {
-                            Text("Payable Amount")
-                                .fontWeight(.bold)
-                            Spacer()
-                            Text(viewModel.payableAmount.formatAsCurrency())
-                                .fontWeight(.bold)
-                        }
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(6)
+//                    VStack(alignment: .leading, spacing: 10) {
+//                        Text("Order Summary (\(viewModel.cartItems.count) items)")
+//                            .font(.headline)
+//                        
+//                        HStack {
+//                            Text("Total MRP")
+//                            Spacer()
+//                            Text(viewModel.totalMRP.formatAsCurrency())
+//                        }
+//                        
+//                        HStack {
+//                            Text("Shipping Charges")
+//                            Spacer()
+//                            Text("Free")
+//                        }
+//                        
+//                        HStack {
+//                            Text("Total Discount")
+//                            Spacer()
+//                            Text("-\(viewModel.totalDiscount.formatAsCurrency())")
+//                        }
+//                        
+//                        HStack {
+//                            Text("Payable Amount")
+//                                .fontWeight(.bold)
+//                            Spacer()
+//                            Text(viewModel.payableAmount.formatAsCurrency())
+//                                .fontWeight(.bold)
+//                        }
+//                    }
+//                    .padding()
+//                    .background(Color.white)
+//                    .cornerRadius(6)
+                    
+                    OrderSummaryView(viewModel: viewModel)
+
                 }
                 .padding()
             }
@@ -107,6 +103,102 @@ struct CartDeliveryView: View {
         .task {
             await viewModel.loadCartItems()
         }
+    }
+}
+
+struct PaymentMethodPicker: View {
+    @Binding var selectedMethod: PaymentMethod
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Payment Method")
+                .font(.headline)
+            
+            HStack(spacing: 10) {
+                ForEach(PaymentMethod.allCases, id: \.self) { method in
+                    Button(action: {
+                        selectedMethod = method
+                    }) {
+                        Text(method.toString)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 12)
+                            .background(selectedMethod == method ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
+                            .foregroundColor(selectedMethod == method ? .white : .black)
+                            .cornerRadius(8)
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct ShippingMethodPicker: View {
+    @Binding var selectedMethod: ShippingMethod
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Shipping Method")
+                .font(.headline)
+            
+            HStack(spacing: 10) {
+                ForEach(ShippingMethod.allCases, id: \.self) { method in
+                    Button(action: {
+                        selectedMethod = method
+                    }) {
+                        VStack {
+                            Text(method.toString)
+                            Text("₫\(Int(method.fee))")
+                                .font(.caption)
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 12)
+                        .background(selectedMethod == method ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
+                        .foregroundColor(selectedMethod == method ? .white : .black)
+                        .cornerRadius(8)
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct OrderSummaryView: View {
+    @ObservedObject var viewModel: CartDeliveryViewModel
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text("Order Summary (\(viewModel.cartItems.count) items)")
+                .font(.headline)
+            
+            HStack {
+                Text("Total MRP")
+                Spacer()
+                Text(viewModel.totalMRP.formatAsCurrency())
+            }
+            
+            HStack {
+                Text("Shipping Charges")
+                Spacer()
+                Text(viewModel.selectedShippingMethod.fee.formatAsCurrency())
+            }
+            
+            HStack {
+                Text("Total Discount")
+                Spacer()
+                Text("-\(viewModel.totalDiscount.formatAsCurrency())")
+            }
+            
+            HStack {
+                Text("Payable Amount")
+                    .fontWeight(.bold)
+                Spacer()
+                Text(viewModel.payableAmount.formatAsCurrency())
+                    .fontWeight(.bold)
+            }
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(6)
     }
 }
 

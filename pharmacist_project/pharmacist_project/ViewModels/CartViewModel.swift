@@ -15,6 +15,8 @@ class CartDeliveryViewModel: ObservableObject {
     @Published var payableAmount: Double = 0
     @Published var isLoading: Bool = false
     @Published var error: Error?
+    @Published var selectedPaymentMethod: PaymentMethod = .COD
+    @Published var selectedShippingMethod: ShippingMethod = .ShopeeExpress
 
     private let cartService = CartService.shared
     private let cartItemService = CartItemService.shared
@@ -48,6 +50,15 @@ class CartDeliveryViewModel: ObservableObject {
         isLoading = false
     }
     
+    func updatePaymentMethod(_ method: PaymentMethod) {
+            selectedPaymentMethod = method
+        }
+
+    func updateShippingMethod(_ method: ShippingMethod) async {
+        selectedShippingMethod = method
+        await calculateTotals()
+    }
+    
     private func calculateTotals() async {
         totalMRP = 0
         totalDiscount = 0
@@ -65,6 +76,7 @@ class CartDeliveryViewModel: ObservableObject {
                 self.error = error
             }
         }
+        payableAmount += selectedShippingMethod.fee
     }
     
     func removeCartItem(_ item: CartItem) async {
