@@ -26,12 +26,8 @@ struct CartAddressView: View {
                 VStack(alignment: .leading, spacing: 20) {
                     // Progress indicators
                     HStack(spacing: 0) {
-                        ProgressCircle(text: "Delivery", isActive: true)
-                        ProgressCircle(text: "Address", isActive: true)
-                        ProgressCircle(text: "Payment", isActive: false)
-                        ProgressCircle(text: "Place Order", isActive: false)
+                        ProgressBar(steps: ["Delivery", "Address", "Payment", "Place Order"], currentStep: 1)
                     }
-                    .padding()
                     
                     // Full Name
                     VStack(alignment: .leading) {
@@ -54,12 +50,9 @@ struct CartAddressView: View {
                     VStack(alignment: .leading) {
                         Text("Address*")
                             .font(.headline)
-                        TextEditor(text: $address)
-                            .frame(height: 100)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-                            )
+                        TextField("Please add your full address", text: $address)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .keyboardType(.phonePad)
                     }
                     
                     // Address Type
@@ -74,9 +67,9 @@ struct CartAddressView: View {
                                     Text(type.rawValue)
                                         .padding(.horizontal, 20)
                                         .padding(.vertical, 10)
-                                        .background(selectedAddressType == type ? Color.blue : Color.gray.opacity(0.2))
+                                        .background(selectedAddressType == type ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
                                         .foregroundColor(selectedAddressType == type ? .white : .black)
-                                        .cornerRadius(20)
+                                        .cornerRadius(6)
                                 }
                             }
                         }
@@ -97,7 +90,7 @@ struct CartAddressView: View {
             }) {
                 Image(systemName: "chevron.left")
             })
-            .background(Color.gray.opacity(0.1))
+            .background(Color.white)
         }
         .overlay(
             VStack {
@@ -108,9 +101,9 @@ struct CartAddressView: View {
                     Text("Save Address & Proceed")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red)
+                        .background(Color(hex: "#FF6F5C"))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(6)
                 }
                 .padding()
             }

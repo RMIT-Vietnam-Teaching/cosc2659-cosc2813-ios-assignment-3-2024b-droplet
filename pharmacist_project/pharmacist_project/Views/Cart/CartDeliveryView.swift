@@ -7,27 +7,6 @@
 
 import SwiftUI
 
-struct ProgressCircle: View {
-    let text: String
-    let isActive: Bool
-    
-    var body: some View {
-        VStack {
-            Circle()
-                .stroke(isActive ? Color.blue : Color.gray, lineWidth: 2)
-                .frame(width: 30, height: 30)
-                .overlay(
-                    Circle()
-                        .fill(isActive ? Color.blue : Color.white)
-                        .frame(width: 20, height: 20)
-                )
-            Text(text)
-                .font(.caption)
-                .foregroundColor(isActive ? .blue : .gray)
-        }
-    }
-}
-
 struct CartDeliveryView: View {
     @State private var cartItems: [CartItem] = []
     @State private var totalMRP: Double = 0
@@ -40,16 +19,13 @@ struct CartDeliveryView: View {
                 VStack(spacing: 20) {
                     // Progress indicators
                     HStack(spacing: 0) {
-                        ProgressCircle(text: "Delivery", isActive: true)
-                        ProgressCircle(text: "Address", isActive: false)
-                        ProgressCircle(text: "Payment", isActive: false)
-                        ProgressCircle(text: "Place Order", isActive: false)
+                        ProgressBar(steps: ["Delivery", "Address", "Payment", "Place Order"], currentStep: 0)
                     }
-                    .padding()
                     
                     // Delivery date
                     HStack {
                         Image(systemName: "truck")
+                        // add 7 days
                         Text("Delivery by Fri, 24 Feb")
                     }
                     .font(.subheadline)
@@ -121,7 +97,7 @@ struct CartDeliveryView: View {
                     }
                     .padding()
                     .background(Color.white)
-                    .cornerRadius(10)
+                    .cornerRadius(6)
                 }
                 .padding()
             }
@@ -132,7 +108,7 @@ struct CartDeliveryView: View {
             }) {
                 Image(systemName: "chevron.left")
             })
-            .background(Color.gray.opacity(0.1))
+            .background(Color.white)
         }
         .overlay(
             VStack {
@@ -141,9 +117,9 @@ struct CartDeliveryView: View {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color.red)
+                        .background(Color(hex: "#FF6F5C"))
                         .foregroundColor(.white)
-                        .cornerRadius(10)
+                        .cornerRadius(6)
                 }
                 .padding()
             }
