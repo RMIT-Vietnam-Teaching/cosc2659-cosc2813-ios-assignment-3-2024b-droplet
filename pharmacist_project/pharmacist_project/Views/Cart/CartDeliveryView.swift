@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct CartDeliveryView: View {
-    @State private var cartItems: [CartItem] = []
-    @State private var totalMRP: Double = 0
-    @State private var totalDiscount: Double = 0
-    @State private var payableAmount: Double = 0
+    @StateObject private var viewModel = CartDeliveryViewModel()
     
     var body: some View {
         NavigationView {
@@ -24,44 +21,26 @@ struct CartDeliveryView: View {
                     
                     // Delivery date
                     HStack {
-                        Image(systemName: "truck")
-                        // add 7 days
-                        Text("Delivery by Fri, 24 Feb")
+                        Image(systemName: "truck.box")
+                        Text("Delivery by \(Date().addingTimeInterval(7*24*60*60).formatted(date: .abbreviated, time: .omitted))")
                     }
                     .font(.subheadline)
                     .padding(.horizontal)
                     
                     // Cart items
-                    ForEach(cartItems, id: \.id) { item in
-                        CartItemCardView(cartItem: item)
+                    ForEach($viewModel.cartItems, id: \.id) { $item in
+                        CartItemCardView(cartItem: $item).environmentObject(viewModel)
                     }
-                    
-                    // Payment and Shipping methods
-                    VStack(spacing: 10) {
-                        HStack {
-                            Text("Payment Method")
-                            Spacer()
-                            Image(systemName: "info.circle")
-                        }
-                        HStack {
-                            Text("Shipping Method")
-                            Spacer()
-                            Image(systemName: "info.circle")
-                        }
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
                     
                     // Order Summary
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("Order Summary (1 item)")
+                        Text("Order Summary (\(viewModel.cartItems.count) items)")
                             .font(.headline)
                         
                         HStack {
                             Text("Total MRP")
                             Spacer()
-                            Text("₹\(String(format: "%.2f", totalMRP))")
+                            Text(viewModel.totalMRP.formatAsCurrency())
                         }
                         
                         HStack {
@@ -73,27 +52,16 @@ struct CartDeliveryView: View {
                         HStack {
                             Text("Total Discount")
                             Spacer()
-                            Text("-₹\(String(format: "%.2f", totalDiscount))")
+                            Text("-\(viewModel.totalDiscount.formatAsCurrency())")
                         }
                         
                         HStack {
                             Text("Payable Amount")
                                 .fontWeight(.bold)
                             Spacer()
-                            Text("₹\(String(format: "%.2f", payableAmount))")
+                            Text(viewModel.payableAmount.formatAsCurrency())
                                 .fontWeight(.bold)
                         }
-                        
-//                        HStack {
-//                            Text("You Earn")
-//                            Image(systemName: "dollarsign.circle.fill")
-//                                .foregroundColor(.yellow)
-//                            Text("34 Hk Cash On This Order.")
-//                            Spacer()
-//                            Image(systemName: "info.circle")
-//                        }
-//                        .font(.footnote)
-//                        .foregroundColor(.secondary)
                     }
                     .padding()
                     .background(Color.white)
@@ -101,14 +69,9 @@ struct CartDeliveryView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Cart (1 items)")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Button(action: {
-                // Handle back action
-            }) {
-                Image(systemName: "chevron.left")
-            })
             .background(Color.white)
+            .navigationTitle("Cart (\(viewModel.cartItems.count) items)")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .overlay(
             VStack {
@@ -124,27 +87,9 @@ struct CartDeliveryView: View {
                 .padding()
             }
         )
-        .onAppear {
-            // Load cart items and calculate totals
-            loadCartItems()
+        .task {
+            await viewModel.loadCartItems()
         }
-    }
-    
-    private func loadCartItems() {
-        let sampleItem = CartItem(
-            id: "1",
-            cartId: "cart1",
-            medicineId: "med1",
-            quantity: 2,
-            pricePerUnit: 599,
-            pricePerUnitDiscount: nil
-        )
-        cartItems = [sampleItem]
-        
-        // Calculate totals
-        totalMRP = 1998
-        totalDiscount = 800
-        payableAmount = 1198
     }
 }
 

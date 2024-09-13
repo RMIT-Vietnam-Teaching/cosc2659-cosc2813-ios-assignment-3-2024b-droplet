@@ -83,13 +83,6 @@ struct CartAddressView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Cart (1 items)")
-            .navigationBarTitleDisplayMode(.inline)
-            .navigationBarItems(leading: Button(action: {
-                // Handle back action
-            }) {
-                Image(systemName: "chevron.left")
-            })
             .background(Color.white)
         }
         .overlay(
