@@ -29,13 +29,14 @@ struct MedicineView: View {
                                         .onChange(of: viewModel.searchText) {
                                             viewModel.filterMedicines()
                                         }
-                                    Button(action: {
-                                        // Navigate to cartView
-                                    }) {
-                                        Image(systemName: "cart")
-                                            .foregroundColor(.white)
-                                            .font(.system(size: 22))
+                                    NavigationLink(destination: CartDeliveryView()) {
+                                        HStack {
+                                            Image(systemName: "cart")
+                                                .foregroundColor(.white)
+                                                .font(.system(size: 22))
+                                        }
                                     }
+                                    .navigationBarTitleDisplayMode(.inline)
                                     .padding()
                                 }
                                 .padding(.horizontal)

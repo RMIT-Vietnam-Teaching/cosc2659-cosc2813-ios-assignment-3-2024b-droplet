@@ -9,6 +9,7 @@ import SwiftUI
 
 struct MedicineDetailView: View {
     @ObservedObject var viewModel: MedicineDetailViewModel
+    @StateObject private var cartViewModel = CartDeliveryViewModel()
     @State private var selectedImageIndex = 0
     @State private var showDescription = false
     @State private var showIngredients = false
@@ -87,7 +88,8 @@ struct MedicineDetailView: View {
                             .padding(.horizontal)
                     }
                     
-                    AddToCartButtonView()
+                    AddToCartButtonView(medicine: viewModel.medicine)
+                    .padding(.horizontal)
                     
                     // Seller Information
                     VStack(alignment: .leading, spacing: 5) {

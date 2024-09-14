@@ -1,3 +1,10 @@
+//
+//  OrderInfoView.swift
+//  pharmacy
+//
+//  Created by Dinh Le Hong Tin on 7/9/24.
+//
+
 import SwiftUI
 
 struct OrderInfoView: View {

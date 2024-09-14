@@ -14,7 +14,7 @@ enum OrderStatus: String, Codable, CaseIterable {
     case completed
 }
 
-enum PaymentMethod: String, Codable {
+enum PaymentMethod: String, Codable, CaseIterable {
     case COD
     case visa
     
@@ -28,7 +28,7 @@ enum PaymentMethod: String, Codable {
     }
 }
 
-enum ShippingMethod: String, Codable {
+enum ShippingMethod: String, Codable, CaseIterable {
     case ShopeeExpress
     case NinjaVan
     
