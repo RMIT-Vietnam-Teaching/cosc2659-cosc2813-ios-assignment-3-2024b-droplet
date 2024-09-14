@@ -19,6 +19,9 @@ struct UserSettingsView: View {
     @State private var dailyHealthTipsNotification = true
     @State private var deliveryStatusNotification = false
     
+    @AppStorage("appearanceMode") private var appearanceMode: ColorSchemeMode = .automatic
+    
+    
     var body: some View {
         if let user = viewModel.user {
             VStack(alignment: .leading, spacing: 20) {
@@ -150,6 +153,25 @@ struct UserSettingsView: View {
                         }
                     }
                     .padding(.horizontal)
+                }
+                
+                Spacer()
+                
+                Divider()
+                
+                Text("Appearance Mode")
+                    .font(.title2)
+                    .padding(.leading)
+                
+                Picker("Appearance", selection: $appearanceMode) {
+                    Text("Automatic").tag(ColorSchemeMode.automatic)
+                    Text("Light Mode").tag(ColorSchemeMode.light)
+                    Text("Dark Mode").tag(ColorSchemeMode.dark)
+                }
+                .pickerStyle(SegmentedPickerStyle())
+                .padding(.horizontal)
+                .onChange(of: appearanceMode) { newMode in
+                    viewModel.updateAppearanceMode(newMode)
                 }
                 
                 Spacer()
