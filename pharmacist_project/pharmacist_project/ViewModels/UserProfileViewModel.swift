@@ -17,10 +17,11 @@ enum ColorSchemeMode: String, Codable {
 @MainActor
 class UserProfileViewModel: ObservableObject {
     @Published var user: AppUser?
+    @Published var userPreference: UserPreference?
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    @AppStorage("appearanceMode") var appearanceMode: ColorSchemeMode = .automatic
+    @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     private var authService: AuthenticationService = AuthenticationService.shared
     private var userService: UserService = UserService.shared
@@ -45,6 +46,10 @@ class UserProfileViewModel: ObservableObject {
                 self.errorMessage = "please login"
                 print("please login")
                 self.isLoading = false
+            }
+            
+            if self.user != nil {
+                self.userPreference = try await UserPreferenceService.shared.getUserPreference(userId: user!.id)
             }
         }
     }
@@ -74,6 +79,7 @@ class UserProfileViewModel: ObservableObject {
                     phoneNumber: newPhoneNumber,
                     photoURL: newPhotoURL,
                     type: currentUser.type,
+                    bio: "",
                     createdDate: currentUser.createdDate
                 )
                 
@@ -122,13 +128,49 @@ class UserProfileViewModel: ObservableObject {
         switch mode {
         case .automatic:
             window.overrideUserInterfaceStyle = .unspecified
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .system)
         case .light:
             window.overrideUserInterfaceStyle = .light
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .light)
         case .dark:
             window.overrideUserInterfaceStyle = .dark
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .dark)
         }
     }
-
+    
+    func toggleReceiveHealthTip(_ newValue: Bool) {
+        Task {
+            if var userPreference = self.userPreference {
+                do {
+                    userPreference.receiveDailyHealthTip = newValue
+                    try await UserPreferenceService.shared.updateDocument(userPreference)
+                    DispatchQueue.main.async {
+                        self.userPreference = userPreference
+                        print(userPreference)
+                    }
+                } catch {
+                    print("Failed to update user preference: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func toggleReceiveDeliveryStatus(_ newValue: Bool) {
+        Task {
+            if var userPreference = self.userPreference {
+                do {
+                    userPreference.receiveDeliveryStatus = newValue
+                    try await UserPreferenceService.shared.updateDocument(userPreference)
+                    DispatchQueue.main.async {
+                        self.userPreference = userPreference
+                        print(userPreference)
+                    }
+                } catch {
+                    print("Failed to update user preference: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 

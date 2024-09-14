@@ -18,18 +18,20 @@ final class CartService: CRUDService<Cart> {
     }
     
     func addNewOrIncreaseCartItem(medicineId: String, userId: String) async throws -> CartItem? {
-        let existedCartItem = try await self.getCartItemWith(medicineId: medicineId)
+        let userCart = try await CartService.shared.getUserCart(userId: userId)
+        
+        let existedCartItem = try await self.getCartItemWith(medicineId: medicineId, cartId: userCart.id)
         if existedCartItem != nil {
             return try await CartItemService.shared.increaseQuantity(cartItemId: existedCartItem!.id)
         } else {
-            let userCart = try await CartService.shared.getUserCart(userId: userId)
             return try await self.addNewCartItem(cartId: userCart.id, medicineId: medicineId)
         }
     }
     
-    func getCartItemWith(medicineId: String) async throws -> CartItem? {
+    func getCartItemWith(medicineId: String, cartId: String) async throws -> CartItem? {
         let cartItems = try await CartItemService.shared.fetchDocuments(filter: { query in
             query.whereField("medicineId", isEqualTo: medicineId)
+                .whereField("cartId", isEqualTo: cartId)
         })
         
         if cartItems.isEmpty {
