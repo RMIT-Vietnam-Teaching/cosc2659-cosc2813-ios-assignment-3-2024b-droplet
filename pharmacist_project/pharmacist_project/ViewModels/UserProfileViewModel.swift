@@ -111,15 +111,25 @@ class UserProfileViewModel: ObservableObject {
     
     func updateAppearanceMode(_ mode: ColorSchemeMode) {
         appearanceMode = mode
+        
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+            return
+        }
+        
+        guard let window = windowScene.windows.first else {
+            return
+        }
+        
         switch mode {
         case .automatic:
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
+            window.overrideUserInterfaceStyle = .unspecified
         case .light:
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .light
+            window.overrideUserInterfaceStyle = .light
         case .dark:
-            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
+            window.overrideUserInterfaceStyle = .dark
         }
     }
+
 }
 
 
