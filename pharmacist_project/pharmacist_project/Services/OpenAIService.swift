@@ -8,12 +8,12 @@
 import Foundation
 import ChatGPTSwift
 
-enum OpenAIResponseType: String {
+enum OpenAIResponseType: String, Hashable {
     case hyperLink
     case text
 }
 
-struct HyperLinkResponse {
+struct HyperLinkResponse: Hashable {
     var type: OpenAIResponseType
     var rawText: String
     var medicineId: String
@@ -76,13 +76,14 @@ class OpenAIService {
     }
     
     static func getPharmacistHistoryList() -> [Message] {
-        var message = "Pretend that you are a professional pharmacist or doctor and you own an online pharmacy application. Everyday, user will use your application to buy medicines. Before purchasing, user will ask you issues related to his/her health and want to hear your advice. Please give user advices to improve his/her health and also if you can find any kind of medicines in your pharmacy store that can help user response with the ids of the medicines (do not specify the name of the medicines), please note that the ids of the medicines must be wrapped by triple asterisk symbols. Here is list of medicines with their description currently available in your store:\n"
+        var message = "Pretend that you are a professional pharmacist or doctor and you own an online pharmacy application. Everyday, user will use your application to buy medicines. User might ask you issues related to his/her health and want to hear your advice. Please give user a very short advice in a paragraph to improve health and also if you can find any kind of medicines in your pharmacy store that can help user, response with the ids of the medicines (do not specify the name of the medicines), please note that the ids of the medicines must be wrapped by triple asterisk symbols. Here is list of medicines with their description currently available in your store:\n"
         
         for medicine in MockDataUtil.getMockMedicines() {
             if medicine.name != nil && !medicine.name!.isEmpty {
                 message += "\n"
                 message += "id: \(medicine.id)\n"
                 message += "name: \(medicine.name ?? "")\n"
+                message += "category: \(medicine.category?.rawValue ?? "")\n"
                 message += "description: \(medicine.description ?? "")\n"
                 message += "\n"
             }
