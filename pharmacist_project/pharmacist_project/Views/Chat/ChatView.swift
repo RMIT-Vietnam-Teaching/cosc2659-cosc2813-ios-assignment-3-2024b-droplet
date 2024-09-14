@@ -18,26 +18,27 @@ struct ChatView: View {
             
             Text(response)
             
-            Button("submit and get response by chunk") {
-                if (!prompt.isEmpty) {
-                    Task {
-                        do {
-                            try await OpenAIService.shared.sendMessageStream(text: prompt) { responseLine in
-                                response += responseLine
-                            }
-                        } catch {
-                            print(error.localizedDescription)
-                            response = "can not get response.."
-                        }
-                    }
-                }
-            }
+//            Button("submit and get response by chunk") {
+//                if (!prompt.isEmpty) {
+//                    Task {
+//                        do {
+//                            try await OpenAIService.shared.sendMessageStream(text: prompt) { responseLine in
+//                                response += responseLine
+//                            }
+//                        } catch {
+//                            print(error.localizedDescription)
+//                            response = "can not get response.."
+//                        }
+//                    }
+//                }
+//            }
             
             Button("submit and get full response") {
                 if (!prompt.isEmpty) {
                     Task {
                         do {
-                            response = try await OpenAIService.shared.sendMessage(text: prompt)
+                            try await OpenAIService.shared.sendAndGetHyperLinkResponse(text: prompt)
+//                            response = try await OpenAIService.shared.sendMessage(text: prompt)
                         } catch {
                             print(error.localizedDescription)
                             response = "can not get response.."
