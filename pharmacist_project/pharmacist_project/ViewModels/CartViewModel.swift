@@ -136,4 +136,17 @@ class CartDeliveryViewModel: ObservableObject {
             throw error
         }
     }
+    
+    func removeCartItem(_ item: CartItem) async {
+                isLoading = true
+                do {
+                    try await cartItemService.deleteDocument(item)
+                    cartItems.removeAll { $0.id == item.id }
+                    
+                    try await calculateTotals()
+                } catch {
+                    self.error = error
+                }
+                isLoading = false
+            }
 }
