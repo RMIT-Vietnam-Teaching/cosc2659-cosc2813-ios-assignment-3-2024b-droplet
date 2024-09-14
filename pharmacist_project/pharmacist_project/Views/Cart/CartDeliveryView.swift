@@ -9,6 +9,14 @@ import SwiftUI
 
 struct CartDeliveryView: View {
     @StateObject private var viewModel = CartDeliveryViewModel()
+//    @State private var fullName: String
+//    @State private var payableAmount: Double
+//    @State private var phoneNumber: String
+//    @State private var address: String
+//    @State private var showAlert = false
+//    @State private var alertMessage = ""
+//    @State private var paymentMethod: PaymentMethod
+//    @State private var shippingMethod: ShippingMethod
     
     var body: some View {
         NavigationView {
@@ -16,7 +24,7 @@ struct CartDeliveryView: View {
                 VStack(spacing: 20) {
                     // Progress indicators
                     HStack(spacing: 0) {
-                        ProgressBar(steps: ["Delivery", "Address", "Payment", "Place Order"], currentStep: 0)
+                        ProgressBar(steps: ["Delivery", "Address"], currentStep: 0)
                     }
                     
                     // Delivery date
@@ -54,7 +62,12 @@ struct CartDeliveryView: View {
         .overlay(
             VStack {
                 Spacer()
-                NavigationLink(destination: CartAddressView()) {
+                NavigationLink(destination: CartAddressView(
+                    payableAmount: viewModel.payableAmount,
+                    paymentMethod: viewModel.selectedPaymentMethod,
+                    shippingMethod: viewModel.selectedShippingMethod)
+                )
+                {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -160,6 +173,7 @@ struct OrderSummaryView: View {
                 Text(viewModel.payableAmount.formatAsCurrency())
                     .fontWeight(.bold)
             }
+            Spacer()
         }
         .padding()
         .background(Color.white)

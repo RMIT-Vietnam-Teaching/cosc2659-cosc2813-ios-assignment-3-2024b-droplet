@@ -83,6 +83,16 @@ final class OrderService: CRUDService<Order> {
         return res
     }
     
+    func getCurrentShoppingCartPriceInformation(cartItems: [CartItem], shippingMethod: ShippingMethod) async throws -> OrderPriceInformation {
+            var medicines = [Medicine]()
+            for cartItem in cartItems {
+                let medicine = try await MedicineService.shared.getDocument(cartItem.medicineId)
+                medicines.append(medicine)
+            }
+            return try await getNotPaymentPriceInformation(cartItems: cartItems, shippingMethod: shippingMethod, medicines: medicines)
+        }
+     
+    
     func getNotPaymentPriceInformation(cartItems: [CartItem], shippingMethod: ShippingMethod, medicines: [Medicine]? = nil) async throws -> OrderPriceInformation {
         var totalProductFee: Double = 0
         var totalDiscount: Double = 0

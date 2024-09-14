@@ -19,7 +19,7 @@ class CartDeliveryViewModel: ObservableObject {
     @Published var selectedShippingMethod: ShippingMethod = .ShopeeExpress {
         didSet {
             Task {
-                await calculateTotals()
+                try await calculateTotals()
             }
         }
     }
@@ -49,8 +49,8 @@ class CartDeliveryViewModel: ObservableObject {
                 throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
             }
             let cart = try await cartService.getUserCart(userId: userId)
-            cartItems = try await cartItemService.getUserCartItemsFromCartId(cartId: cart.id)
-            await calculateTotals()
+            self.cartItems = try await cartItemService.getUserCartItemsFromCartId(cartId: cart.id)
+            try await calculateTotals()
         } catch {
             self.error = error
         }
@@ -63,33 +63,41 @@ class CartDeliveryViewModel: ObservableObject {
 
     func updateShippingMethod(_ method: ShippingMethod) {
         selectedShippingMethod = method
-        // No need to call calculateTotals() here, it will be called by the didSet observer
     }
     
     @MainActor
-    public func calculateTotals() async {
-        var newTotalMRP: Double = 0
-        var newTotalDiscount: Double = 0
-        var newPayableAmount: Double = 0
+    public func calculateTotals() async throws {
+        var priceInfo = try await OrderService.shared.getCurrentShoppingCartPriceInformation(
+            cartItems: self.cartItems, shippingMethod: self.selectedShippingMethod
+        )
         
-        for item in cartItems {
-            do {
-                let medicine = try await medicineService.getDocument(item.medicineId)
-                if let quantity = item.quantity {
-                    newTotalMRP += (medicine.price ?? 0) * Double(quantity)
-                    newTotalDiscount += ((medicine.price ?? 0) - (medicine.priceDiscount ?? 0)) * Double(quantity)
-                    newPayableAmount += (medicine.priceDiscount ?? medicine.price ?? 0) * Double(quantity)
-                }
-            } catch {
-                self.error = error
-            }
-        }
-        newPayableAmount += selectedShippingMethod.fee
         
-        // Update the published properties
-        self.totalMRP = newTotalMRP
-        self.totalDiscount = newTotalDiscount
-        self.payableAmount = newPayableAmount
+//        var newTotalMRP: Double = 0
+//        var newTotalDiscount: Double = 0
+//        var newPayableAmount: Double = 0
+//        
+//        for item in cartItems {
+//            do {
+//                let medicine = try await medicineService.getDocument(item.medicineId)
+//                if let quantity = item.quantity {
+//                    newTotalMRP += (medicine.price ?? 0) * Double(quantity)
+//                    newTotalDiscount += ((medicine.price ?? 0) - (medicine.priceDiscount ?? 0)) * Double(quantity)
+//                    newPayableAmount += (medicine.priceDiscount ?? medicine.price ?? 0) * Double(quantity)
+//                }
+//            } catch {
+//                self.error = error
+//            }
+//        }
+//        newPayableAmount += selectedShippingMethod.fee
+//        
+//        // Update the published properties
+//        self.totalMRP = newTotalMRP
+//        self.totalDiscount = newTotalDiscount
+//        self.payableAmount = newPayableAmount
+        
+        self.totalMRP = priceInfo.totalProductFee
+        self.totalDiscount = priceInfo.totalDiscount
+        self.payableAmount = priceInfo.totalPayable
     }
     
     func updateCartItemQuantity(_ item: CartItem, increase: Bool) async {
@@ -102,31 +110,6 @@ class CartDeliveryViewModel: ObservableObject {
             await loadCartItems()
         } catch {
             self.error = error
-        }
-    }
-    
-    func updateDeliveryInfo(fullName: String, phoneNumber: String, address: String, addressType: String) async throws {
-        guard let userId = AuthenticationService.shared.getAuthenticatedUserOffline()?.id else {
-            throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
-        }
-        
-        do {
-            try await UserService.shared.updateDocumentFields(userId: userId, fields: [
-                "name": fullName,
-                "phoneNumber": phoneNumber,
-                "address": address,
-                "addressType": addressType
-            ])
-            
-            // You might want to update the local user object as well
-            if var user = await AuthenticationService.shared.getAuthenticatedUser() {
-                user.name = fullName
-                user.phoneNumber = phoneNumber
-                user.address = address
-                // Note: We're not updating the user type here as it's not typically changed during address update
-            }
-        } catch {
-            throw error
         }
     }
 }
