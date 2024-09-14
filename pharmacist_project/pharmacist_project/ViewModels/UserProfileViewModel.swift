@@ -20,6 +20,7 @@ class UserProfileViewModel: ObservableObject {
     @Published var userPreference: UserPreference?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var isShowNotificationPermissionAlert = false
     
     @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
@@ -142,15 +143,27 @@ class UserProfileViewModel: ObservableObject {
         Task {
             if var userPreference = self.userPreference {
                 do {
-                    userPreference.receiveDailyHealthTip = newValue
-                    try await UserPreferenceService.shared.updateDocument(userPreference)
-                    DispatchQueue.main.async {
-                        self.userPreference = userPreference
-                        print(userPreference)
+                    if newValue == true {
+                        let isNotificationPermissionDenied = await NotificationService.shared.isNotificationPermissionDenied()
+                        if isNotificationPermissionDenied {
+                            isShowNotificationPermissionAlert = true
+                        }
                     }
+                    try await updateNotificationSetting(newValue)
                 } catch {
                     print("Failed to update user preference: \(error.localizedDescription)")
                 }
+            }
+        }
+    }
+    
+    func updateNotificationSetting(_ newValue: Bool) async throws {
+        if var userPreference = self.userPreference {
+            userPreference.receiveDailyHealthTip = newValue
+            try await UserPreferenceService.shared.updateDocument(userPreference)
+            DispatchQueue.main.async {
+                self.userPreference = userPreference
+                print(userPreference)
             }
         }
     }
