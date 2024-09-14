@@ -71,7 +71,6 @@ class CartDeliveryViewModel: ObservableObject {
             cartItems: self.cartItems, shippingMethod: self.selectedShippingMethod
         )
         
-        
 //        var newTotalMRP: Double = 0
 //        var newTotalDiscount: Double = 0
 //        var newPayableAmount: Double = 0
@@ -112,4 +111,17 @@ class CartDeliveryViewModel: ObservableObject {
             self.error = error
         }
     }
+    
+    func removeCartItem(_ item: CartItem) async {
+            isLoading = true
+            do {
+                try await cartItemService.deleteDocument(item)
+                cartItems.removeAll { $0.id == item.id }
+                
+                try await calculateTotals()
+            } catch {
+                self.error = error
+            }
+            isLoading = false
+        }
 }

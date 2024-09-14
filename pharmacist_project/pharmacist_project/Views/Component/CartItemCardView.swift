@@ -17,6 +17,8 @@ struct CartItemCardView: View {
     @StateObject var cartItemVM: CartItemViewModel
     @Binding var cartItem: CartItem
     @EnvironmentObject var viewModel: CartDeliveryViewModel
+    @State private var offset: CGFloat = 0
+    @State private var isSwiped = false
 
     init(cartItem: Binding<CartItem>) {
         self._cartItem = cartItem
@@ -24,7 +26,7 @@ struct CartItemCardView: View {
     }
 
     var body: some View {
-        ZStack(alignment: .topTrailing) {
+        ZStack(alignment: .trailing) {
             HStack(spacing: 16) {
                 VStack {
                     AsyncImage(url: URL(string: cartItemVM.representImage)) { phase in
@@ -92,19 +94,55 @@ struct CartItemCardView: View {
                     .padding(.bottom, 4)
                 }
             }
-            .onAppear {
-                Task {
-                    await cartItemVM.loadMedicine()
-                }
-            }
             .padding()
             .background(Color.white)
             .cornerRadius(10)
             .frame(width: 380, height: 150)
             .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+            
+            // Trash button
+            Button(action: {
+                Task {
+                    await viewModel.removeCartItem(cartItem)
+                }
+            }) {
+                Image(systemName: "trash")
+                    .foregroundColor(.white)
+                    .frame(width: 80, height: 150)
+                    .background(Color.red)
+                    .cornerRadius(10)
+            }
+            .offset(x: isSwiped ? 0 : 80)
+        }
+        .offset(x: offset)
+        .animation(.spring(), value: offset)
+        .gesture(
+            DragGesture()
+                .onChanged { gesture in
+                    if gesture.translation.width < 0 {
+                        offset = max(gesture.translation.width, -80)
+                    }
+                }
+                .onEnded { _ in
+                    withAnimation {
+                        if offset < -40 {
+                            isSwiped = true
+                            offset = -80
+                        } else {
+                            isSwiped = false
+                            offset = 0
+                        }
+                    }
+                }
+        )
+        .onAppear {
+            Task {
+                await cartItemVM.loadMedicine()
+            }
         }
     }
 }
+
 
 #Preview {
     @State var exampleCartItem = CartItem(

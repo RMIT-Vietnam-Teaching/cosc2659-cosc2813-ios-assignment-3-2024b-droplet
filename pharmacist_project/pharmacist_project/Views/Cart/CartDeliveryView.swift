@@ -174,6 +174,8 @@ struct OrderSummaryView: View {
                     .fontWeight(.bold)
             }
             Spacer()
+            Spacer()
+            Spacer()
         }
         .padding()
         .background(Color.white)
