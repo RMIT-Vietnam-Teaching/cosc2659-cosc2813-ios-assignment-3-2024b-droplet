@@ -16,6 +16,7 @@
 		1994C1012C898732004EF663 /* CustomColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1994C1002C898732004EF663 /* CustomColors.swift */; };
 		19A159DC2C897F5E0025681C /* SplashscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19A159DA2C897F5E0025681C /* SplashscreenView.swift */; };
 		19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19BE73A42C8AC92200C4E82D /* CartItem.swift */; };
+		19EB43E12C959D3F00E67B38 /* ActivityIndicatorView in Frameworks */ = {isa = PBXBuildFile; productRef = 19EB43E02C959D3F00E67B38 /* ActivityIndicatorView */; };
 		19FEEF1A2C91655E008D3269 /* ProductDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19FEEF192C91655E008D3269 /* ProductDetailViewModel.swift */; };
 		7127D1802C8D52BB00B779CC /* OrderInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127D17F2C8D52BB00B779CC /* OrderInfoView.swift */; };
 		7127D1822C8D52E000B779CC /* OrderItemCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7127D1812C8D52E000B779CC /* OrderItemCardView.swift */; };
@@ -157,6 +158,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				19EB43E12C959D3F00E67B38 /* ActivityIndicatorView in Frameworks */,
 				8A7B28172C8CAB9F005A652C /* FacebookLogin in Frameworks */,
 				8A67F5472C91DBF6002027F1 /* ChatGPTSwift in Frameworks */,
 				8A4A02392C8A0A55004CF016 /* FirebaseAnalytics in Frameworks */,
@@ -448,6 +450,7 @@
 				8A7B28142C8CAB9F005A652C /* FacebookCore */,
 				8A7B28162C8CAB9F005A652C /* FacebookLogin */,
 				8A67F5462C91DBF6002027F1 /* ChatGPTSwift */,
+				19EB43E02C959D3F00E67B38 /* ActivityIndicatorView */,
 			);
 			productName = pharmacist_project;
 			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
@@ -482,6 +485,7 @@
 				8AEB8BD52C8B5DD8002AA1B7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				8A7B28132C8CAB9F005A652C /* XCRemoteSwiftPackageReference "facebook-ios-sdk" */,
 				8A67F5452C91DBF6002027F1 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				19EB43DF2C959D3F00E67B38 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */,
 			);
 			productRefGroup = C48032862C88498200E662AE /* Products */;
 			projectDirPath = "";
@@ -783,6 +787,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		19EB43DF2C959D3F00E67B38 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/exyte/ActivityIndicatorView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
 		8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
@@ -818,6 +830,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		19EB43E02C959D3F00E67B38 /* ActivityIndicatorView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 19EB43DF2C959D3F00E67B38 /* XCRemoteSwiftPackageReference "ActivityIndicatorView" */;
+			productName = ActivityIndicatorView;
+		};
 		8A4A02382C8A0A55004CF016 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 8A4A02352C89E9A4004CF016 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

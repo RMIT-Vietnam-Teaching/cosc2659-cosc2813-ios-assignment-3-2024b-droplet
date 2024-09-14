@@ -8,11 +8,19 @@
 import Foundation
 import SwiftUI
 
+enum ColorSchemeMode: String, Codable {
+    case automatic
+    case light
+    case dark
+}
+
 @MainActor
 class UserProfileViewModel: ObservableObject {
     @Published var user: AppUser?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    
+    @AppStorage("appearanceMode") var appearanceMode: ColorSchemeMode = .automatic
     
     private var authService: AuthenticationService = AuthenticationService.shared
     private var userService: UserService = UserService.shared
@@ -91,7 +99,6 @@ class UserProfileViewModel: ObservableObject {
         }
     }
     
-    
     func toLoginPage() {
         guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
             return
@@ -101,4 +108,17 @@ class UserProfileViewModel: ObservableObject {
         windowScene.windows.first?.makeKeyAndVisible()
     }
     
+    func updateAppearanceMode(_ mode: ColorSchemeMode) {
+        appearanceMode = mode
+        switch mode {
+        case .automatic:
+            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .unspecified
+        case .light:
+            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .light
+        case .dark:
+            UIApplication.shared.windows.first?.overrideUserInterfaceStyle = .dark
+        }
+    }
 }
+
+
