@@ -32,7 +32,6 @@ class CartDeliveryViewModel: ObservableObject {
         isLoading = true
         do {
             if let newCartItem = try await cartService.addNewOrIncreaseCartItem(medicineId: item.medicineId, userId: AuthenticationService.shared.getAuthenticatedUser()?.id ?? "") {
-                // Handle new cart item if needed
             } else {
                 throw NSError(domain: "CartError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to add item to cart"])
             }

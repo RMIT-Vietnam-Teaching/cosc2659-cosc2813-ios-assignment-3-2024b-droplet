@@ -97,44 +97,44 @@ struct CartItemCardView: View {
             .padding()
             .background(Color.white)
             .cornerRadius(10)
-            .frame(width: 380, height: 150)
             .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
-            
-            // Trash button
-            Button(action: {
-                Task {
-                    await viewModel.removeCartItem(cartItem)
-                }
-            }) {
-                Image(systemName: "trash")
-                    .foregroundColor(.white)
-                    .frame(width: 80, height: 150)
-                    .background(Color.red)
-                    .cornerRadius(10)
-            }
-            .offset(x: isSwiped ? 0 : 80)
-        }
-        .offset(x: offset)
-        .animation(.spring(), value: offset)
-        .gesture(
-            DragGesture()
-                .onChanged { gesture in
-                    if gesture.translation.width < 0 {
-                        offset = max(gesture.translation.width, -80)
-                    }
-                }
-                .onEnded { _ in
-                    withAnimation {
-                        if offset < -40 {
-                            isSwiped = true
-                            offset = -80
-                        } else {
-                            isSwiped = false
-                            offset = 0
+            .offset(x: offset)
+            .gesture(
+                DragGesture()
+                    .onChanged { gesture in
+                        if gesture.translation.width < 0 {
+                            offset = gesture.translation.width
                         }
                     }
+                    .onEnded { _ in
+                        withAnimation {
+                            if offset < -50 {
+                                isSwiped = true
+                                offset = -80
+                            } else {
+                                isSwiped = false
+                                offset = 0
+                            }
+                        }
+                    }
+            )
+            
+            if isSwiped {
+                Button(action: {
+                    Task {
+                        await viewModel.removeCartItem(cartItem)
+                    }
+                }) {
+                    Image(systemName: "trash")
+                        .foregroundColor(.white)
+                        .frame(width: 80, height: 150)
+                        .background(Color.red)
+                        .cornerRadius(10)
                 }
-        )
+                .transition(.move(edge: .trailing))
+            }
+        }
+        .frame(height: 150)
         .onAppear {
             Task {
                 await cartItemVM.loadMedicine()
@@ -142,7 +142,6 @@ struct CartItemCardView: View {
         }
     }
 }
-
 
 #Preview {
     @State var exampleCartItem = CartItem(

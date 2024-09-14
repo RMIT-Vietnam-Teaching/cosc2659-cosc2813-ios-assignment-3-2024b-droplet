@@ -88,7 +88,7 @@ struct PaymentMethodPicker: View {
     @Binding var selectedMethod: PaymentMethod
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 5) {
             Text("Payment Method")
                 .font(.headline)
             
@@ -114,7 +114,7 @@ struct ShippingMethodPicker: View {
     @Binding var selectedMethod: ShippingMethod
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
+        VStack(alignment: .leading, spacing: 5) {
             Text("Shipping Method")
                 .font(.headline)
             
