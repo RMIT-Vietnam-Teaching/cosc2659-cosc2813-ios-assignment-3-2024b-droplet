@@ -83,6 +83,15 @@ final class OrderService: CRUDService<Order> {
         return res
     }
     
+    func getCurrentShoppingCartPriceInformation(cartItems: [CartItem], shippingMethod: ShippingMethod) async throws -> OrderPriceInformation {
+        var medicines = [Medicine]()
+        for cartItem in cartItems {
+            let medicine = try await MedicineService.shared.getDocument(cartItem.medicineId)
+            medicines.append(medicine)
+        }
+        return try await getNotPaymentPriceInformation(cartItems: cartItems, shippingMethod: shippingMethod, medicines: medicines)
+    }
+    
     func getNotPaymentPriceInformation(cartItems: [CartItem], shippingMethod: ShippingMethod, medicines: [Medicine]? = nil) async throws -> OrderPriceInformation {
         var totalProductFee: Double = 0
         var totalDiscount: Double = 0
@@ -109,8 +118,8 @@ final class OrderService: CRUDService<Order> {
         
         // calculate
         for (idx, item) in cartItems.enumerated() {
-            totalProductFee += _medicines[idx].price!
-            totalDiscount += _medicines[idx].price! - _medicines[idx].priceDiscount!
+            totalProductFee += _medicines[idx].price!*Double(cartItems[idx].quantity!)
+            totalDiscount += (_medicines[idx].price! - _medicines[idx].priceDiscount!)*Double(cartItems[idx].quantity!)
         }
         shippingFree = shippingMethod.fee
         totalPayable = totalProductFee + shippingFree - totalDiscount

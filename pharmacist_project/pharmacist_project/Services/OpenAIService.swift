@@ -8,6 +8,17 @@
 import Foundation
 import ChatGPTSwift
 
+enum OpenAIResponseType: String {
+    case hyperLink
+    case text
+}
+
+struct HyperLinkResponse {
+    var type: OpenAIResponseType
+    var rawText: String
+    var medicineId: String
+}
+
 class OpenAIService {
     static let shared = OpenAIService()
     private let API_KEY = "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"
@@ -22,6 +33,17 @@ class OpenAIService {
     init() {
         self.openAPI = ChatGPTAPI(apiKey: API_KEY)
     }
+    
+//    func sendAndGetHyperLinkResponse(text: String) async throws -> HyperLinkResponse {
+//        let responseText = try await self.sendMessage(text: text)
+//        let medicines = try await MedicineService.shared.getAllDocuments()
+//        let medicineNameToMedicine = [String: String]()
+//        for medicine in medicines {
+//            medicineNameToMedicine[medicineName] = medicine
+//        }
+//        
+//        
+//    }
     
     // full response
     func sendMessage(text: String) async throws -> String {
@@ -54,11 +76,12 @@ class OpenAIService {
     }
     
     static func getPharmacistHistoryList() -> [Message] {
-        var message = "Pretend that you are a professional pharmacist or doctor and you own an online pharmacy application. Everyday, user will use your application to buy medicines. Before purchasing, user will ask you issues related to his/her health and want to hear your advice. Please give user advices to improve his/her health and also if you can find any kind of medicines in your pharmacy store that can help user then tell user the name of the medicines. Here is list of medicines with their description currently available in your store:\n"
+        var message = "Pretend that you are a professional pharmacist or doctor and you own an online pharmacy application. Everyday, user will use your application to buy medicines. Before purchasing, user will ask you issues related to his/her health and want to hear your advice. Please give user advices to improve his/her health and also if you can find any kind of medicines in your pharmacy store that can help user response with the id of the medicine, please note that the id of the medicine must be wrapped by triple asterisk symbols. Here is list of medicines with their description currently available in your store:\n"
         
         for medicine in MockDataUtil.getMockMedicines() {
             if medicine.name != nil && !medicine.name!.isEmpty {
                 message += "\n"
+                message += "id: \(medicine.id)\n"
                 message += "name: \(medicine.name ?? "")\n"
                 message += "description: \(medicine.description ?? "")\n"
                 message += "\n"
