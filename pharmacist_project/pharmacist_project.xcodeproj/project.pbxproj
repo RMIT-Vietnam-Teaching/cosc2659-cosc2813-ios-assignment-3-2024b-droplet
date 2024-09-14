@@ -42,6 +42,8 @@
 		8A852F752C8F411300071F3F /* MockDataUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A852F742C8F411300071F3F /* MockDataUtil.swift */; };
 		8ADF6D0F2C95AE68001EF154 /* HyperLinkTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADF6D0E2C95AE68001EF154 /* HyperLinkTextView.swift */; };
 		8ADF6D122C95BEC5001EF154 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 8ADF6D112C95BEC5001EF154 /* WrappingHStack */; };
+		8ADF6D142C95D31E001EF154 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADF6D132C95D31E001EF154 /* UserPreference.swift */; };
+		8ADF6D182C95DBDD001EF154 /* UserPreferenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADF6D172C95DBDD001EF154 /* UserPreferenceService.swift */; };
 		8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */; };
 		8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */; };
 		8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */; };
@@ -124,6 +126,8 @@
 		8A7B28182C8CAE0F005A652C /* pharmacist_project.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = pharmacist_project.entitlements; sourceTree = "<group>"; };
 		8A852F742C8F411300071F3F /* MockDataUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataUtil.swift; sourceTree = "<group>"; };
 		8ADF6D0E2C95AE68001EF154 /* HyperLinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperLinkTextView.swift; sourceTree = "<group>"; };
+		8ADF6D132C95D31E001EF154 /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
+		8ADF6D172C95DBDD001EF154 /* UserPreferenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferenceService.swift; sourceTree = "<group>"; };
 		8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pharmacist-project-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -291,6 +295,7 @@
 				8AEB8C022C8C11F6002AA1B7 /* Cart.swift */,
 				8AEB8C082C8C17AA002AA1B7 /* OrderItem.swift */,
 				8A7B28002C8C935B005A652C /* OrderPriceInformation.swift */,
+				8ADF6D132C95D31E001EF154 /* UserPreference.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -308,6 +313,7 @@
 				8AEB8C062C8C1730002AA1B7 /* CartItemService.swift */,
 				8AEB8C0A2C8C17EC002AA1B7 /* OrderItemService.swift */,
 				8A67F5432C91DB9C002027F1 /* OpenAIService.swift */,
+				8ADF6D172C95DBDD001EF154 /* UserPreferenceService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -571,6 +577,7 @@
 				714373552C94039B0018624E /* ProgressBar.swift in Sources */,
 				C40879BF2C897CE600829660 /* OrderView.swift in Sources */,
 				8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */,
+				8ADF6D182C95DBDD001EF154 /* UserPreferenceService.swift in Sources */,
 				C43E9B662C8ED4A70089D056 /* UserSettingsView.swift in Sources */,
 				8AEB8BF22C8C07E9002AA1B7 /* Order.swift in Sources */,
 				8A67F54B2C91E66E002027F1 /* ChatView.swift in Sources */,
@@ -602,6 +609,7 @@
 				C4F06C212C8B17BD00BDB1F8 /* OrderSummaryCardView.swift in Sources */,
 				C49124C12C9163A000924973 /* OrderViewModel.swift in Sources */,
 				C478BE192C9423F60005382E /* StripePaymentView.swift in Sources */,
+				8ADF6D142C95D31E001EF154 /* UserPreference.swift in Sources */,
 				8AEB8BE32C8B779D002AA1B7 /* LoginViewModel.swift in Sources */,
 				19BE73A52C8AC92200C4E82D /* CartItem.swift in Sources */,
 				C4F06C182C8ACB7C00BDB1F8 /* Medicine.swift in Sources */,

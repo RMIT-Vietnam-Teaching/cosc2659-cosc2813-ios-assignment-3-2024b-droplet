@@ -17,6 +17,7 @@ enum ColorSchemeMode: String, Codable {
 @MainActor
 class UserProfileViewModel: ObservableObject {
     @Published var user: AppUser?
+    @Published var userPreference: UserPreference?
     @Published var isLoading = false
     @Published var errorMessage: String?
     
@@ -45,6 +46,10 @@ class UserProfileViewModel: ObservableObject {
                 self.errorMessage = "please login"
                 print("please login")
                 self.isLoading = false
+            }
+            
+            if self.user != nil {
+                self.userPreference = try await UserPreferenceService.shared.getUserPreference(userId: user!.id)
             }
         }
     }
@@ -129,7 +134,40 @@ class UserProfileViewModel: ObservableObject {
             window.overrideUserInterfaceStyle = .dark
         }
     }
-
+    
+    func toggleReceiveHealthTip(_ newValue: Bool) {
+        Task {
+            if var userPreference = self.userPreference {
+                do {
+                    userPreference.receiveDailyHealthTip = newValue
+                    try await UserPreferenceService.shared.updateDocument(userPreference)
+                    DispatchQueue.main.async {
+                        self.userPreference = userPreference
+                        print(userPreference)
+                    }
+                } catch {
+                    print("Failed to update user preference: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func toggleReceiveDeliveryStatus(_ newValue: Bool) {
+        Task {
+            if var userPreference = self.userPreference {
+                do {
+                    userPreference.receiveDeliveryStatus = newValue
+                    try await UserPreferenceService.shared.updateDocument(userPreference)
+                    DispatchQueue.main.async {
+                        self.userPreference = userPreference
+                        print(userPreference)
+                    }
+                } catch {
+                    print("Failed to update user preference: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 
