@@ -50,7 +50,7 @@ class UserProfileViewModel: ObservableObject {
         let newAddress = address ?? currentUser.address
         let newPhotoURL = photoURL?.absoluteString ?? currentUser.photoURL
         
-        print(newPhotoURL!)
+        //print(newPhotoURL!)
         
         isLoading = true
         errorMessage = nil

@@ -62,7 +62,6 @@ class CartDeliveryViewModel: ObservableObject {
 
     func updateShippingMethod(_ method: ShippingMethod) {
         selectedShippingMethod = method
-        // No need to call calculateTotals() here, it will be called by the didSet observer
     }
     
     @MainActor
@@ -125,12 +124,10 @@ class CartDeliveryViewModel: ObservableObject {
                 "addressType": addressType
             ])
             
-            // You might want to update the local user object as well
             if var user = await AuthenticationService.shared.getAuthenticatedUser() {
                 user.name = fullName
                 user.phoneNumber = phoneNumber
                 user.address = address
-                // Note: We're not updating the user type here as it's not typically changed during address update
             }
         } catch {
             throw error

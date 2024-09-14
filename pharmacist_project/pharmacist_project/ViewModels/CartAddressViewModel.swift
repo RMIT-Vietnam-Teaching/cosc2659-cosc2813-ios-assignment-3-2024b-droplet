@@ -38,11 +38,6 @@ class CartAddressViewModel: ObservableObject {
         
         Task {
             do {
-//                try await self.updateDeliveryInfo(
-//                    fullName: fullName,
-//                    phoneNumber: phoneNumber,
-//                    address: address
-//                )
                 self.callStripePaymentSheet(amount: payableAmount)
             } catch {
                 showAlert(message: "Failed to save address: \(error.localizedDescription)")
@@ -67,15 +62,19 @@ class CartAddressViewModel: ObservableObject {
                 "address": address,
             ])
             
-            // You might want to update the local user object as well
             if var user = await AuthenticationService.shared.getAuthenticatedUser() {
                 user.name = fullName
                 user.phoneNumber = phoneNumber
                 user.address = address
-                // Note: We're not updating the user type here as it's not typically changed during address update
             }
         } catch {
             throw error
+        }
+    }
+    
+    func callStripePaymentSheet(amount: Double) {
+        Task {
+            paymentViewModel.initiatePayment(amount: amount)
         }
     }
     
@@ -85,12 +84,6 @@ class CartAddressViewModel: ObservableObject {
     
     func paymentFailedCallback() {
         print("dsaf")
-    }
-    
-    func callStripePaymentSheet(amount: Double) {
-        Task {
-            paymentViewModel.initiatePayment(amount: amount)
-        }
     }
 }
 

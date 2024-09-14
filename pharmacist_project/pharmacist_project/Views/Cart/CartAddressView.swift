@@ -30,7 +30,7 @@ struct CartAddressView: View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    ProgressBar(steps: ["Delivery", "Address", "Payment", "Place Order"], currentStep: 1)
+                    ProgressBar(steps: ["Delivery", "Address"], currentStep: 1)
                     
                     VStack(alignment: .leading) {
                         Text("Full Name*")
@@ -59,7 +59,6 @@ struct CartAddressView: View {
                 .padding()
             }
             .background(Color.white)
-            .navigationTitle("Delivery Address")
             .alert(isPresented: $viewModel.showAlert) {
                 Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
             }
