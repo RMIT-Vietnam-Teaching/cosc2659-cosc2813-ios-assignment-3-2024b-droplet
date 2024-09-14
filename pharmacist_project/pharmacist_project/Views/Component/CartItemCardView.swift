@@ -14,9 +14,15 @@
 import SwiftUI
 
 struct CartItemCardView: View {
-    @StateObject var cartItemVM = CartItemViewModel()
-    @State var cartItem: CartItem // can modify this later to binding
-    
+    @StateObject var cartItemVM: CartItemViewModel
+    @Binding var cartItem: CartItem
+    @EnvironmentObject var viewModel: CartDeliveryViewModel
+
+    init(cartItem: Binding<CartItem>) {
+        self._cartItem = cartItem
+        self._cartItemVM = StateObject(wrappedValue: CartItemViewModel(medicineId: cartItem.wrappedValue.medicineId))
+    }
+
     var body: some View {
         ZStack(alignment: .topTrailing) {
             HStack(spacing: 16) {
@@ -39,7 +45,7 @@ struct CartItemCardView: View {
                     HStack(spacing: 10) {
                         Button(action: {
                             Task {
-                                await cartItemVM.decreaseQuantity()
+                                await viewModel.updateCartItemQuantity(cartItem, increase: false)
                             }
                         }) {
                             Image(systemName: "minus.square")
@@ -54,7 +60,7 @@ struct CartItemCardView: View {
                         
                         Button(action: {
                             Task {
-                                await cartItemVM.increaseQuantity()
+                                await viewModel.updateCartItemQuantity(cartItem, increase: true)
                             }
                         }) {
                             Image(systemName: "plus.square")
@@ -77,19 +83,18 @@ struct CartItemCardView: View {
 
                     HStack {
                         Spacer()
-                        Text("\(((cartItemVM.medicine?.price ?? 0)*Double(cartItem.quantity ?? 0)).formatAsCurrency())")
+                        Text("\(((cartItemVM.medicine?.price ?? 0) * Double(cartItem.quantity ?? 0)).formatAsCurrency())")
                             .font(.system(size: 16))
                             .fontWeight(.bold)
                             .padding(.top, 4)
                             .frame(alignment: .trailing)
                     }
-                    .padding(.bottom, 4) 
+                    .padding(.bottom, 4)
                 }
             }
             .onAppear {
                 Task {
-                    cartItemVM.setupWith(cartItem: self.cartItem)
-                    try await cartItemVM.loadMedicine()
+                    await cartItemVM.loadMedicine()
                 }
             }
             .padding()
@@ -102,7 +107,7 @@ struct CartItemCardView: View {
 }
 
 #Preview {
-    let exampleCartItem = CartItem(
+    @State var exampleCartItem = CartItem(
         id: PreviewsUtil.getPreviewCartItemId(),
         cartId: PreviewsUtil.getPreviewCartId(),
         medicineId: PreviewsUtil.getPreviewMedicineId(),
@@ -110,5 +115,6 @@ struct CartItemCardView: View {
         createdDate: Date()
     )
     
-    return CartItemCardView(cartItem: exampleCartItem)
+    return CartItemCardView(cartItem: $exampleCartItem)
+        .environmentObject(CartDeliveryViewModel())
 }

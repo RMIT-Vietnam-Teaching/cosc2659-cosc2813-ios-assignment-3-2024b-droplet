@@ -12,36 +12,47 @@ final class CartItemViewModel: ObservableObject {
     @Published var representImage: String = GlobalUtils.getLoadingImageString()
     @Published var medicineName: String = "loading.."
     @Published var medicine: Medicine? = nil
-    var cartItem: CartItem? = nil
+    @Published var cartItem: CartItem? = nil
+    @Published var errorMessage: String? = nil
+    @Published var isLoading: Bool = false
     
-    func setupWith(cartItem: CartItem) {
-        self.cartItem = cartItem
+    private let medicineId: String
+    
+    init(medicineId: String) {
+        self.medicineId = medicineId
     }
     
-    func loadMedicine() async throws {
-        medicine = try await MedicineService.shared.getDocument(cartItem!.medicineId)
-        
-        medicineName = medicine!.name ?? ""
-        representImage = medicine!.getRepresentImageStr()
+    func loadMedicine() async {
+        isLoading = true
+        do {
+            medicine = try await MedicineService.shared.getDocument(medicineId)
+            medicineName = medicine?.name ?? ""
+            representImage = medicine?.getRepresentImageStr() ?? GlobalUtils.getLoadingImageString()
+        } catch {
+            errorMessage = "Failed to load medicine: \(error.localizedDescription)"
+        }
+        isLoading = false
     }
     
     func increaseQuantity() async {
-        if self.cartItem != nil {
-            do {
-                self.cartItem = try await CartItemService.shared.increaseQuantity(cartItemId: self.cartItem!.id)
-            } catch {
-                print("increase error \(error)")
-            }
+        guard let cartItem = cartItem else { return }
+        isLoading = true
+        do {
+            self.cartItem = try await CartItemService.shared.increaseQuantity(cartItemId: cartItem.id)
+        } catch {
+            errorMessage = "Failed to increase quantity: \(error.localizedDescription)"
         }
+        isLoading = false
     }
     
     func decreaseQuantity() async {
-        if self.cartItem != nil {
-            do {
-                self.cartItem = try await CartItemService.shared.decreaseQuantity(cartItemId: self.cartItem!.id)
-            } catch {
-                print("decrease error \(error)")
-            }
+        guard let cartItem = cartItem else { return }
+        isLoading = true
+        do {
+            self.cartItem = try await CartItemService.shared.decreaseQuantity(cartItemId: cartItem.id)
+        } catch {
+            errorMessage = "Failed to decrease quantity: \(error.localizedDescription)"
         }
+        isLoading = false
     }
 }
