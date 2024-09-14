@@ -40,16 +40,23 @@ struct VerticalProductItemCardView: View {
                 .frame(maxHeight: 50)
                 
                 HStack {
-                    Text((medicine.price ?? 0.0).formatAsCurrency())
-                        .font(.title3)
-                        .fontWeight(.bold)
-                    
-                    if let priceDiscount = medicine.priceDiscount, priceDiscount > 0 {
-                        Text(priceDiscount.formatAsCurrency())
-                            .font(.subheadline)
-                            .strikethrough()
-                            .foregroundColor(.gray)
+                    if medicine.priceDiscount != nil && medicine.priceDiscount! > 0 {
+                        Text((medicine.priceDiscount ?? 0.0).formatAsCurrency())
+                            .font(.title3)
+                            .fontWeight(.bold)
+                        
+                        if let price = medicine.price, price > 0 {
+                            Text(price.formatAsCurrency())
+                                .font(.subheadline)
+                                .strikethrough()
+                                .foregroundColor(.gray)
+                        }
+                    } else {
+                        Text((medicine.price ?? 0.0).formatAsCurrency())
+                            .font(.title3)
+                            .fontWeight(.bold)
                     }
+                    
                     
                     Spacer()
                     

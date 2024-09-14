@@ -51,7 +51,7 @@ class CRUDService<T: FirebaseModel> {
     }
     
     func getAllDocuments() async throws -> [T] {
-        var documents = try await collection.getDocuments().documents
+        let documents = try await collection.getDocuments().documents
         let results: [T] = documents.compactMap { document in
             try? document.data(as: T.self)
         }

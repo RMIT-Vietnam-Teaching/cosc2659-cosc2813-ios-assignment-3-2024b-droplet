@@ -58,17 +58,17 @@ struct MedicineDetailView: View {
                     
                     // Price and discount
                     HStack {
-                        Text(viewModel.medicine.price?.formatAsCurrency() ?? "Price Unavailable")
+                        Text(viewModel.medicine.priceDiscount?.formatAsCurrency() ?? "Price Unavailable")
                             .font(.title)
                             .fontWeight(.bold)
                         
-                        if let priceDiscount = viewModel.medicine.priceDiscount {
-                            Text(priceDiscount.formatAsCurrency())
+                        if let price = viewModel.medicine.price {
+                            Text(price.formatAsCurrency())
                                 .strikethrough()
                                 .foregroundColor(.gray)
                                 .font(.subheadline)
                             
-                            if let discountPercentage = viewModel.medicine.price?.calculateDiscountPercentage(priceDiscount: priceDiscount) {
+                            if let discountPercentage = viewModel.medicine.price?.calculateDiscountPercentage(priceDiscount: viewModel.medicine.priceDiscount ?? price) {
                                 Text("\(discountPercentage)% OFF")
                                     .font(.subheadline)
                                     .foregroundColor(.red)
