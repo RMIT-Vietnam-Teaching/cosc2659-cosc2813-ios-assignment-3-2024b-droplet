@@ -66,6 +66,7 @@ class UserProfileViewModel: ObservableObject {
                     phoneNumber: newPhoneNumber,
                     photoURL: newPhotoURL,
                     type: currentUser.type,
+                    bio: "",
                     createdDate: currentUser.createdDate
                 )
                 

@@ -24,6 +24,7 @@ struct AppUser: FirebaseModel {
     var phoneNumber: String?
     var photoURL: String?
     var type: UserType?
+    var bio: String?
     let createdDate: Date?
     
     // only for new created user
@@ -48,6 +49,7 @@ struct AppUser: FirebaseModel {
         phoneNumber: String? = nil,
         photoURL: String? = nil, 
         type: UserType?,
+        bio: String?,
         createdDate: Date?
     ) {
         self.id = id
@@ -58,6 +60,7 @@ struct AppUser: FirebaseModel {
         self.phoneNumber = phoneNumber
         self.photoURL = photoURL
         self.type = type
+        self.bio = bio
         self.createdDate = createdDate
     }
     
@@ -69,6 +72,7 @@ struct AppUser: FirebaseModel {
         phoneNumber: String? = nil,
         photoURL: String? = nil,
         type: UserType?,
+        bio: String?,
         createdDate: Date?
     ) {
         self.id = CRUDService<AppUser>.generateUniqueId(collection: UserService.shared.collection)
@@ -79,6 +83,7 @@ struct AppUser: FirebaseModel {
         self.phoneNumber = phoneNumber
         self.photoURL = photoURL
         self.type = type
+        self.bio = bio
         self.createdDate = createdDate
     }
 }
