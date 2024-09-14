@@ -44,9 +44,9 @@ enum ShippingMethod: String, Codable, CaseIterable {
     var fee: Double {
         switch self {
         case .ShopeeExpress:
-            return 30.0
+            return 30000.0
         case .NinjaVan:
-            return 50.0
+            return 50000.0
         }
     }
 }
