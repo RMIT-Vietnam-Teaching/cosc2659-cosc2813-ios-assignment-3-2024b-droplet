@@ -18,12 +18,11 @@ struct ChatView: View {
             VStack {
                 Text("Medical Assistant")
                     .font(.headline)
-                    .foregroundColor(.black)
-                    .padding(.vertical, 10)
+                    .foregroundColor(.primary)
                 
                 Divider()
             }
-            .background(Color.white)
+            .background(Color(.systemBackground))
             
             Spacer()
             
@@ -42,9 +41,9 @@ struct ChatView: View {
                             } else {
                                 Text(message)
                                     .padding()
-                                    .background(Color.gray.opacity(0.2))
+                                    .background(Color(.systemGray5))
                                     .cornerRadius(12)
-                                    .foregroundColor(.black)
+                                    .foregroundColor(.primary)
                                     .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .leading)
                                 Spacer()
                             }
@@ -71,6 +70,9 @@ struct ChatView: View {
                     TextField("Ask something...", text: $prompt, axis: .vertical)
                         .textFieldStyle(.roundedBorder)
                         .padding()
+                        .background(Color(.systemGray6))
+                        .cornerRadius(8)
+                        .foregroundColor(.primary)
                     
                     Button(action: {
                         if !prompt.isEmpty {
@@ -97,13 +99,14 @@ struct ChatView: View {
                             .padding()
                     }
                 }
-                .background(Color(.systemGray6))
+                .background(Color(.systemGray5))
                 .cornerRadius(12)
                 .padding(.horizontal)
                 
             }
             .padding(.bottom, 10)
         }
+        .background(Color(.systemBackground))  
     }
 }
 
