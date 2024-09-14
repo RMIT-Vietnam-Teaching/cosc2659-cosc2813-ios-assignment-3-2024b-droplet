@@ -9,6 +9,7 @@ import SwiftUI
 
 struct VerticalProductItemCardView: View {
     let medicine: Medicine
+    @StateObject private var cartViewModel = CartDeliveryViewModel()
     
     var body: some View {
         NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
@@ -43,8 +44,8 @@ struct VerticalProductItemCardView: View {
                         .font(.title3)
                         .fontWeight(.bold)
                     
-                    if medicine.priceDiscount != nil && medicine.priceDiscount! > 0 {
-                        Text(medicine.priceDiscount!.formatAsCurrency())
+                    if let priceDiscount = medicine.priceDiscount, priceDiscount > 0 {
+                        Text(priceDiscount.formatAsCurrency())
                             .font(.subheadline)
                             .strikethrough()
                             .foregroundColor(.gray)
@@ -52,8 +53,8 @@ struct VerticalProductItemCardView: View {
                     
                     Spacer()
                     
-                    if medicine.price != nil && medicine.priceDiscount != nil {
-                        Text("\(medicine.price!.calculateDiscountPercentage(priceDiscount: medicine.priceDiscount!))% Off")
+                    if let price = medicine.price, let priceDiscount = medicine.priceDiscount {
+                        Text("\(price.calculateDiscountPercentage(priceDiscount: priceDiscount))% Off")
                             .font(.subheadline)
                             .foregroundColor(.red)
                     }
@@ -63,18 +64,8 @@ struct VerticalProductItemCardView: View {
                     .font(.subheadline)
                     .padding(.top, -5)
                 
-                Button(action: {
-                    // add to cart
-                    print("add to cart")
-                }) {
-                    Text("Add To Cart")
-                        .fontWeight(.bold)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.orange)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
+                AddToCartButtonView(medicine: medicine)
+
             }
             .padding()
             .background(Color.white)

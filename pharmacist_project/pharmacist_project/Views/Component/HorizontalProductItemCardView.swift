@@ -7,8 +7,6 @@
 
 import SwiftUI
 
-import SwiftUI
-
 struct HorizontalProductItemCardView: View {
     let medicine: Medicine
     
