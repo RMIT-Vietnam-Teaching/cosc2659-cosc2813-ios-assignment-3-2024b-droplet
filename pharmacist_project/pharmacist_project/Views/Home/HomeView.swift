@@ -21,7 +21,7 @@ struct HomeView: View {
                 .tag(0)
             
             // ChatBot Tab
-            ChatBotView()
+            ChatView()
                 .tabItem {
                     Image(systemName: selectedTab == 1 ? "message.fill" : "message")
                     Text("ChatBot")
@@ -36,19 +36,17 @@ struct HomeView: View {
                 }
                 .tag(2)
         }
-        .background(Color.white)
         .accentColor(Color(hex: "2EB5FA"))
         .onAppear {
-            UITabBar.appearance().backgroundColor = UIColor.white
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor { traitCollection in
+                return traitCollection.userInterfaceStyle == .dark ? UIColor.black : UIColor.white
+            }
+            UITabBar.appearance().standardAppearance = appearance
+            UITabBar.appearance().scrollEdgeAppearance = appearance
             UITabBar.appearance().unselectedItemTintColor = UIColor.gray
         }
-    }
-}
-
-// Example ChatBot and Profile views
-struct ChatBotView: View {
-    var body: some View {
-        Text("ChatBot Screen")
     }
 }
 
