@@ -44,6 +44,7 @@
 		8ADF6D122C95BEC5001EF154 /* WrappingHStack in Frameworks */ = {isa = PBXBuildFile; productRef = 8ADF6D112C95BEC5001EF154 /* WrappingHStack */; };
 		8ADF6D142C95D31E001EF154 /* UserPreference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADF6D132C95D31E001EF154 /* UserPreference.swift */; };
 		8ADF6D182C95DBDD001EF154 /* UserPreferenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADF6D172C95DBDD001EF154 /* UserPreferenceService.swift */; };
+		8ADF6D1A2C95EAD7001EF154 /* DarkLightModeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ADF6D192C95EAD7001EF154 /* DarkLightModeService.swift */; };
 		8AEB8BD72C8B5DD8002AA1B7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD62C8B5DD8002AA1B7 /* GoogleSignIn */; };
 		8AEB8BD92C8B5DD8002AA1B7 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8AEB8BD82C8B5DD8002AA1B7 /* GoogleSignInSwift */; };
 		8AEB8BDE2C8B6214002AA1B7 /* TopViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */; };
@@ -128,6 +129,7 @@
 		8ADF6D0E2C95AE68001EF154 /* HyperLinkTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HyperLinkTextView.swift; sourceTree = "<group>"; };
 		8ADF6D132C95D31E001EF154 /* UserPreference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreference.swift; sourceTree = "<group>"; };
 		8ADF6D172C95DBDD001EF154 /* UserPreferenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPreferenceService.swift; sourceTree = "<group>"; };
+		8ADF6D192C95EAD7001EF154 /* DarkLightModeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DarkLightModeService.swift; sourceTree = "<group>"; };
 		8AEB8BDA2C8B5E28002AA1B7 /* pharmacist-project-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "pharmacist-project-Info.plist"; sourceTree = SOURCE_ROOT; };
 		8AEB8BDD2C8B6214002AA1B7 /* TopViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopViewController.swift; sourceTree = "<group>"; };
 		8AEB8BDF2C8B76EB002AA1B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
@@ -314,6 +316,7 @@
 				8AEB8C0A2C8C17EC002AA1B7 /* OrderItemService.swift */,
 				8A67F5432C91DB9C002027F1 /* OpenAIService.swift */,
 				8ADF6D172C95DBDD001EF154 /* UserPreferenceService.swift */,
+				8ADF6D192C95EAD7001EF154 /* DarkLightModeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -568,6 +571,7 @@
 				8AEB8C002C8C1162002AA1B7 /* PharmacyService.swift in Sources */,
 				196DFA622C90078D006890A0 /* CategorySectionView.swift in Sources */,
 				8AEB8C0B2C8C17EC002AA1B7 /* OrderItemService.swift in Sources */,
+				8ADF6D1A2C95EAD7001EF154 /* DarkLightModeService.swift in Sources */,
 				8ADF6D0F2C95AE68001EF154 /* HyperLinkTextView.swift in Sources */,
 				8A4A02442C8A13B7004CF016 /* AppUser.swift in Sources */,
 				C480329E2C884FFB00E662AE /* LoginView.swift in Sources */,

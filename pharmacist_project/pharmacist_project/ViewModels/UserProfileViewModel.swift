@@ -21,7 +21,7 @@ class UserProfileViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
     
-    @AppStorage("appearanceMode") var appearanceMode: ColorSchemeMode = .automatic
+    @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     private var authService: AuthenticationService = AuthenticationService.shared
     private var userService: UserService = UserService.shared
@@ -128,10 +128,13 @@ class UserProfileViewModel: ObservableObject {
         switch mode {
         case .automatic:
             window.overrideUserInterfaceStyle = .unspecified
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .system)
         case .light:
             window.overrideUserInterfaceStyle = .light
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .light)
         case .dark:
             window.overrideUserInterfaceStyle = .dark
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .dark)
         }
     }
     

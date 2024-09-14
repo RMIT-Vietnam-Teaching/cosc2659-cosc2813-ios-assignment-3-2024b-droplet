@@ -19,7 +19,7 @@ struct UserSettingsView: View {
     @State private var dailyHealthTipsNotification = true
     @State private var deliveryStatusNotification = false
     
-    @AppStorage("appearanceMode") private var appearanceMode: ColorSchemeMode = .automatic
+    @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     
     var body: some View {
