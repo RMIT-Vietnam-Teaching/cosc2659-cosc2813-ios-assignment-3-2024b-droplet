@@ -10,6 +10,7 @@ import ActivityIndicatorView
 
 struct ChatView: View {
     @State var prompt: String = ""
+    @State private var messages: [(String, Bool)] = []
     @State private var messages: [([HyperLinkResponse], Bool)] = []
     @State private var isLoading: Bool = false
     
@@ -23,6 +24,40 @@ struct ChatView: View {
                 Divider()
             }
             .background(Color(.systemBackground))
+            
+            Spacer()
+            
+            ScrollView {
+                VStack(alignment: .leading, spacing: 10) {
+                    ForEach(messages, id: \.0) { message, isUser in
+                        HStack {
+                            if isUser {
+                                Spacer()
+                                Text(message)
+                                    .padding()
+                                    .background(Color.blue)
+                                    .cornerRadius(12)
+                                    .foregroundColor(.white)
+                                    .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .trailing)
+                            } else {
+                                Text(message)
+                                    .padding()
+                                    .background(Color(.systemGray5))
+                                    .cornerRadius(12)
+                                    .foregroundColor(.primary)
+                                    .frame(maxWidth: UIScreen.main.bounds.width * 0.7, alignment: .leading)
+                                Spacer()
+                            }
+                        }
+                    }
+                    
+                    if isLoading {
+                        HStack {
+                            Spacer()
+                            ActivityIndicatorView(isVisible: $isLoading, type: .opacityDots(count: 3, inset: 4))
+                                .frame(width: 40, height: 40)
+                                .foregroundColor(.gray)
+                            Spacer()
             
             Spacer()
             ScrollViewReader { proxy in
@@ -73,6 +108,7 @@ struct ChatView: View {
                         proxy.scrollTo(newValue - 1, anchor: .bottom)
                     }
                 }
+                .padding(.horizontal)
             }
             
             Spacer()
@@ -88,6 +124,7 @@ struct ChatView: View {
                     
                     Button(action: {
                         if !prompt.isEmpty {
+                            messages.append((prompt, true))
                             messages.append(([HyperLinkResponse(type: .text, rawText: prompt, medicineId: "")], true))
                             
                             let currentPrompt = prompt
@@ -97,6 +134,10 @@ struct ChatView: View {
                             
                             Task {
                                 do {
+                                    let aiResponse = try await OpenAIService.shared.sendMessage(text: currentPrompt)
+                                    messages.append((aiResponse, false))
+                                } catch {
+                                    messages.append(("Unable to get a response.", false))
                                     let aiResponse = try await OpenAIService.shared.sendAndGetHyperLinkResponse(text: currentPrompt)
                                     messages.append((aiResponse, false))
                                 } catch {

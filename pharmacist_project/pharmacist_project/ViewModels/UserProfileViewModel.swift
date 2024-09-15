@@ -24,6 +24,8 @@ class UserProfileViewModel: ObservableObject {
     
     @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
+    @AppStorage("appearanceMode") var appearanceMode: ColorSchemeMode = .automatic
+    
     private var authService: AuthenticationService = AuthenticationService.shared
     private var userService: UserService = UserService.shared
     
@@ -64,7 +66,7 @@ class UserProfileViewModel: ObservableObject {
         let newAddress = address ?? currentUser.address
         let newPhotoURL = photoURL?.absoluteString ?? currentUser.photoURL
         
-        print(newPhotoURL!)
+        //print(newPhotoURL!)
         
         isLoading = true
         errorMessage = nil
@@ -129,6 +131,13 @@ class UserProfileViewModel: ObservableObject {
         switch mode {
         case .automatic:
             window.overrideUserInterfaceStyle = .unspecified
+        case .light:
+            window.overrideUserInterfaceStyle = .light
+        case .dark:
+            window.overrideUserInterfaceStyle = .dark
+        }
+    }
+
             DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .system)
         case .light:
             window.overrideUserInterfaceStyle = .light

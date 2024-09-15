@@ -19,6 +19,7 @@ struct UserSettingsView: View {
     @State private var dailyHealthTipsNotification = true
     @State private var deliveryStatusNotification = false
     
+    @AppStorage("appearanceMode") private var appearanceMode: ColorSchemeMode = .automatic
     @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     
@@ -145,6 +146,11 @@ struct UserSettingsView: View {
                             .padding(.leading)
                         
                         VStack {
+                            Toggle(isOn: $dailyHealthTipsNotification) {
+                                Text("Daily health tips")
+                            }
+                            
+                            Toggle(isOn: $deliveryStatusNotification) {
                             Toggle(isOn: Binding(
                                 get: { viewModel.userPreference?.receiveDailyHealthTip ?? false },
                                 set: { newValue in
@@ -194,6 +200,7 @@ struct UserSettingsView: View {
             } else {
                 ProgressView("Loading...")
             }
+
         }
         
         // MARK: notification permission alert

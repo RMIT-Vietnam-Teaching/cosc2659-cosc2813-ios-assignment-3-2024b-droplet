@@ -32,7 +32,6 @@ class CartDeliveryViewModel: ObservableObject {
         isLoading = true
         do {
             if let newCartItem = try await cartService.addNewOrIncreaseCartItem(medicineId: item.medicineId, userId: AuthenticationService.shared.getAuthenticatedUser()?.id ?? "") {
-                // Handle new cart item if needed
             } else {
                 throw NSError(domain: "CartError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Failed to add item to cart"])
             }
@@ -63,7 +62,6 @@ class CartDeliveryViewModel: ObservableObject {
 
     func updateShippingMethod(_ method: ShippingMethod) {
         selectedShippingMethod = method
-        // No need to call calculateTotals() here, it will be called by the didSet observer
     }
     
     @MainActor
@@ -75,7 +73,7 @@ class CartDeliveryViewModel: ObservableObject {
 //        var newTotalMRP: Double = 0
 //        var newTotalDiscount: Double = 0
 //        var newPayableAmount: Double = 0
-//        
+//
 //        for item in cartItems {
 //            do {
 //                let medicine = try await medicineService.getDocument(item.medicineId)
@@ -89,7 +87,7 @@ class CartDeliveryViewModel: ObservableObject {
 //            }
 //        }
 //        newPayableAmount += selectedShippingMethod.fee
-//        
+//
 //        // Update the published properties
 //        self.totalMRP = newTotalMRP
 //        self.totalDiscount = newTotalDiscount
@@ -126,15 +124,26 @@ class CartDeliveryViewModel: ObservableObject {
                 "addressType": addressType
             ])
             
-            // You might want to update the local user object as well
             if var user = await AuthenticationService.shared.getAuthenticatedUser() {
                 user.name = fullName
                 user.phoneNumber = phoneNumber
                 user.address = address
-                // Note: We're not updating the user type here as it's not typically changed during address update
             }
         } catch {
             throw error
         }
     }
+    
+    func removeCartItem(_ item: CartItem) async {
+                isLoading = true
+                do {
+                    try await cartItemService.deleteDocument(item)
+                    cartItems.removeAll { $0.id == item.id }
+                    
+                    try await calculateTotals()
+                } catch {
+                    self.error = error
+                }
+                isLoading = false
+            }
 }
