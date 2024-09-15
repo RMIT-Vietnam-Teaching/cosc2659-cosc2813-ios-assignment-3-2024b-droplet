@@ -9,14 +9,6 @@ import SwiftUI
 
 struct CartDeliveryView: View {
     @StateObject private var viewModel = CartDeliveryViewModel()
-//    @State private var fullName: String
-//    @State private var payableAmount: Double
-//    @State private var phoneNumber: String
-//    @State private var address: String
-//    @State private var showAlert = false
-//    @State private var alertMessage = ""
-//    @State private var paymentMethod: PaymentMethod
-//    @State private var shippingMethod: ShippingMethod
     
     var body: some View {
         NavigationView {
@@ -24,7 +16,7 @@ struct CartDeliveryView: View {
                 VStack(spacing: 20) {
                     // Progress indicators
                     HStack(spacing: 0) {
-                        ProgressBar(steps: ["Delivery", "Address"], currentStep: 0)
+                        ProgressBar(steps: ["Delivery", "Address", "Payment", "Place Order"], currentStep: 0)
                     }
                     
                     // Delivery date
@@ -63,12 +55,7 @@ struct CartDeliveryView: View {
         .overlay(
             VStack {
                 Spacer()
-                NavigationLink(destination: CartAddressView(
-                    payableAmount: viewModel.payableAmount,
-                    paymentMethod: viewModel.selectedPaymentMethod,
-                    shippingMethod: viewModel.selectedShippingMethod)
-                )
-                {
+                NavigationLink(destination: CartAddressView()) {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -89,7 +76,7 @@ struct PaymentMethodPicker: View {
     @Binding var selectedMethod: PaymentMethod
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("Payment Method")
                 .font(.headline)
             
@@ -115,7 +102,7 @@ struct ShippingMethodPicker: View {
     @Binding var selectedMethod: ShippingMethod
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 10) {
             Text("Shipping Method")
                 .font(.headline)
             
@@ -174,9 +161,6 @@ struct OrderSummaryView: View {
                 Text(viewModel.payableAmount.formatAsCurrency())
                     .fontWeight(.bold)
             }
-            Spacer()
-            Spacer()
-            Spacer()
         }
         .padding()
         .background(Color.white)
