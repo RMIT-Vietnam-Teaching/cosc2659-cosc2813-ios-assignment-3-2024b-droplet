@@ -43,6 +43,7 @@ struct CartDeliveryView: View {
                     
                     // Order Summary
                     OrderSummaryView(viewModel: viewModel)
+                        .padding(.bottom, 48)
 
                 }
                 .padding()

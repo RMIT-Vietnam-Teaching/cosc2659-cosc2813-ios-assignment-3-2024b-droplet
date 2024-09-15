@@ -19,7 +19,7 @@ struct UserSettingsView: View {
     @State private var dailyHealthTipsNotification = true
     @State private var deliveryStatusNotification = false
     
-    @AppStorage("appearanceMode") private var appearanceMode: ColorSchemeMode = .automatic
+    @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     
     var body: some View {
@@ -145,11 +145,21 @@ struct UserSettingsView: View {
                             .padding(.leading)
                         
                         VStack {
-                            Toggle(isOn: $dailyHealthTipsNotification) {
+                            Toggle(isOn: Binding(
+                                get: { viewModel.userPreference?.receiveDailyHealthTip ?? false },
+                                set: { newValue in
+                                    viewModel.toggleReceiveHealthTip(newValue)
+                                }
+                            )) {
                                 Text("Daily health tips")
                             }
                             
-                            Toggle(isOn: $deliveryStatusNotification) {
+                            Toggle(isOn: Binding(
+                                get: { viewModel.userPreference?.receiveDeliveryStatus ?? false },
+                                set: { newValue in
+                                    viewModel.toggleReceiveDeliveryStatus(newValue)
+                                }
+                            )) {
                                 Text("Delivery status")
                             }
                         }
@@ -184,6 +194,21 @@ struct UserSettingsView: View {
             } else {
                 ProgressView("Loading...")
             }
+        }
+        
+        // MARK: notification permission alert
+        .alert(isPresented: $viewModel.isShowNotificationPermissionAlert) {
+            Alert(
+                title: Text("Notification Permission"),
+                message: Text("Your application's notification is turned off hence your account notification's settings will do not have effect. Please turn notification on."),
+                primaryButton: .default(Text("Settings"), action: {
+                    // Action to open settings or request permissions
+                    if let appSettings = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(appSettings) {
+                        UIApplication.shared.open(appSettings)
+                    }
+                }),
+                secondaryButton: .cancel(Text("Cancel"))
+            )
         }
     }
 }

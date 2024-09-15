@@ -22,6 +22,10 @@ struct pharmacist_projectApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    // Set up dark light mode
+                    DarkLightModeService.shared.updateAppearanceMode(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
+                }
         }
     }
 }
