@@ -17,16 +17,7 @@ class StripePaymentViewModel: ObservableObject {
     @Published var paymentSheet: PaymentSheet?
     lazy var functions = Functions.functions()
     
-    var actionSuccess: () -> Void
-    var actionFailed: () -> Void
-    
-    init(actionSuccess: @escaping () -> Void, actionFailed: @escaping () -> Void) {
-        self.actionSuccess = actionSuccess
-        self.actionFailed  = actionFailed
-    }
-
-    
-    func initiatePayment(amount: Double) {
+    func initiatePayment(amount: Int) {
         DispatchQueue.main.async {
             self.paymentInProgress = true
         }
@@ -89,10 +80,8 @@ class StripePaymentViewModel: ObservableObject {
                     self.paymentSuccess = true
                     print("Payment succeeded!")
                 case .failed(let error):
-                    self.paymentInProgress = false
                     print("Payment failed: \(error.localizedDescription)")
                 case .canceled:
-                    self.paymentInProgress = false
                     print("Payment canceled")
                 }
             }
