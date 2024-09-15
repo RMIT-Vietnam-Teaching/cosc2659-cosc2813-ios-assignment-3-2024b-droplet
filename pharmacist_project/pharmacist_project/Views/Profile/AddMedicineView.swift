@@ -10,6 +10,7 @@ import SwiftUI
 struct AddMedicineView: View {
     @StateObject private var viewModel = AddMedicineViewModel()
     @Environment(\.dismiss) private var dismiss
+    @State private var showAlert = false
     
     var body: some View {
         NavigationView {
@@ -42,12 +43,14 @@ struct AddMedicineView: View {
                     }
                 }
                 
-                Section(header: Text("Images")) {
+                Section(header: Text("Images (Max 5)")) {
                     ForEach(viewModel.images.indices, id: \.self) { index in
                         TextField("Image URL", text: $viewModel.images[index])
                     }
-                    Button("Add Image") {
-                        viewModel.images.append("")
+                    if viewModel.images.count < 5 {
+                        Button("Add Image") {
+                            viewModel.addImage()
+                        }
                     }
                 }
             }
@@ -55,12 +58,23 @@ struct AddMedicineView: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
-                        Task {
-                            await viewModel.saveMedicine()
-                            dismiss()
+                        if viewModel.isValid {
+                            Task {
+                                await viewModel.saveMedicine()
+                                dismiss()
+                            }
+                        } else {
+                            showAlert = true
                         }
                     }
                 }
+            }
+            .alert(isPresented: $showAlert) {
+                Alert(
+                    title: Text("Incomplete Information"),
+                    message: Text("Please fill in all required fields before saving."),
+                    dismissButton: .default(Text("OK"))
+                )
             }
         }
     }

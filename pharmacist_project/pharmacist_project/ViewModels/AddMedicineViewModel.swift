@@ -7,6 +7,8 @@
 
 import Foundation
 
+import Foundation
+
 class AddMedicineViewModel: ObservableObject {
     @Published var name: String = ""
     @Published var price: Double = 0.0
@@ -21,6 +23,18 @@ class AddMedicineViewModel: ObservableObject {
     @Published var supplier: String = ""
     @Published var images: [String] = [""]
     @Published var category: Category = .vitamin
+    
+    var isValid: Bool {
+        !name.isEmpty &&
+        price > 0 &&
+        priceDiscount >= 0 &&
+        availableQuantity >= 0 &&
+        !description.isEmpty &&
+        !ingredients.isEmpty &&
+        !dosage.isEmpty &&
+        !supplier.isEmpty &&
+        !images.filter { !$0.isEmpty }.isEmpty
+    }
     
     func addImage() {
         guard images.count < 5 else { return }
@@ -40,9 +54,9 @@ class AddMedicineViewModel: ObservableObject {
             sideEffect: sideEffect,
             dosage: dosage,
             supplier: supplier,
-            images: images,
+            images: images.filter { !$0.isEmpty },
             category: category,
-            pharmacyId: nil, // You might want to set this based on the admin's pharmacy
+            pharmacyId: nil,
             createdDate: Date()
         )
         
