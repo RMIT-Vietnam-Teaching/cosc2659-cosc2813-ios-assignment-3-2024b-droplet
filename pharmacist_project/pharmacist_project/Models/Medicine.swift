@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum Category: String, Codable {
+enum Category: String, Codable, CaseIterable {
     case vitamin
     case calcium
     case mineral
