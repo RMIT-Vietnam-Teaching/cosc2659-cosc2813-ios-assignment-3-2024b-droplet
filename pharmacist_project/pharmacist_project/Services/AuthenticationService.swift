@@ -40,6 +40,10 @@ final class AuthenticationService {
     func signOut() -> String? {
         do {
             try Auth.auth().signOut()
+            
+            DarkLightModeService.shared.removeDarkLightModePreference()
+            DarkLightModeService.shared.updateAppearanceMode(darkLightMode: DarkLightModeService.shared.defaultMode)
+            NotificationService.shared.cancelAllNotifications()
             return nil
         } catch let error as NSError {
             return error.localizedDescription
@@ -230,55 +234,3 @@ extension AuthenticationService {
         return await signInWithCredential(credential: credential)
     }
 }
-
-
-// DO NOT DELETE
-//struct AuthenView: View {
-//    @StateObject private var authVM = AuthenticationViewModel()
-//    
-//    var body: some View {
-//        TextField("email...", text: $authVM.email)
-//        
-//        SecureField("password...", text: $authVM.password)
-//        
-//        Button {
-//            authVM.register()
-//        } label: {
-//            Text("register")
-//        }
-//        
-//        Button {
-//            authVM.signIn()
-//        } label: {
-//            Text("sign in")
-//        }
-//        
-//        Button {
-//            authVM.signOut()
-//        } label: {
-//            Text("log out")
-//        }
-//        
-//        Button {
-//            authVM.resetPassword()
-//        } label: {
-//            Text("reset password")
-//        }
-//        
-//        Button {
-//            authVM.resetPassword()
-//        } label: {
-//            Text("update password")
-//        }
-//        
-//        GoogleSignInButton(viewModel: GoogleSignInButtonViewModel(scheme: .dark, style: .wide, state: .normal)) {
-//            authVM.signInGoogle()
-//        }
-//        
-//        Button {
-//            authVM.printCurrentUser()
-//        } label: {
-//            Text("Print user info")
-//        }
-//    }
-//}

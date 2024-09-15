@@ -66,7 +66,7 @@ class CartDeliveryViewModel: ObservableObject {
     
     @MainActor
     public func calculateTotals() async throws {
-        var priceInfo = try await OrderService.shared.getCurrentShoppingCartPriceInformation(
+        let priceInfo = try await OrderService.shared.getCurrentShoppingCartPriceInformation(
             cartItems: self.cartItems, shippingMethod: self.selectedShippingMethod
         )
         

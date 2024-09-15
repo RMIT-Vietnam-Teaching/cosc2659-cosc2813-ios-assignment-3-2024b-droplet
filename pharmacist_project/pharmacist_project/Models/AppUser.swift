@@ -86,4 +86,12 @@ struct AppUser: FirebaseModel {
         self.bio = bio
         self.createdDate = createdDate
     }
+    
+    func isAdmin() -> Bool {
+        return self.type! == .admin
+    }
+    
+    func isCustomer() -> Bool {
+        return self.type! == .customer
+    }
 }

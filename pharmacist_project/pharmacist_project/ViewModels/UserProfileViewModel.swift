@@ -17,8 +17,12 @@ enum ColorSchemeMode: String, Codable {
 @MainActor
 class UserProfileViewModel: ObservableObject {
     @Published var user: AppUser?
+    @Published var userPreference: UserPreference?
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var isShowNotificationPermissionAlert = false
+    
+    @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     @AppStorage("appearanceMode") var appearanceMode: ColorSchemeMode = .automatic
     
@@ -45,6 +49,10 @@ class UserProfileViewModel: ObservableObject {
                 self.errorMessage = "please login"
                 print("please login")
                 self.isLoading = false
+            }
+            
+            if self.user != nil {
+                self.userPreference = try await UserPreferenceService.shared.getUserPreference(userId: user!.id)
             }
         }
     }
@@ -130,6 +138,61 @@ class UserProfileViewModel: ObservableObject {
         }
     }
 
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .system)
+        case .light:
+            window.overrideUserInterfaceStyle = .light
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .light)
+        case .dark:
+            window.overrideUserInterfaceStyle = .dark
+            DarkLightModeService.shared.saveDarkLightModePreference(darkLightMode: .dark)
+        }
+    }
+    
+    func toggleReceiveHealthTip(_ newValue: Bool) {
+        Task {
+            if var userPreference = self.userPreference {
+                do {
+                    if newValue == true {
+                        let isNotificationPermissionDenied = await NotificationService.shared.isNotificationPermissionDenied()
+                        if isNotificationPermissionDenied {
+                            isShowNotificationPermissionAlert = true
+                        }
+                    }
+                    try await updateNotificationSetting(newValue)
+                } catch {
+                    print("Failed to update user preference: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    func updateNotificationSetting(_ newValue: Bool) async throws {
+        if var userPreference = self.userPreference {
+            userPreference.receiveDailyHealthTip = newValue
+            try await UserPreferenceService.shared.updateDocument(userPreference)
+            DispatchQueue.main.async {
+                self.userPreference = userPreference
+                print(userPreference)
+            }
+        }
+    }
+    
+    func toggleReceiveDeliveryStatus(_ newValue: Bool) {
+        Task {
+            if var userPreference = self.userPreference {
+                do {
+                    userPreference.receiveDeliveryStatus = newValue
+                    try await UserPreferenceService.shared.updateDocument(userPreference)
+                    DispatchQueue.main.async {
+                        self.userPreference = userPreference
+                        print(userPreference)
+                    }
+                } catch {
+                    print("Failed to update user preference: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
 }
 
 

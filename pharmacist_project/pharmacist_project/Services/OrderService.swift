@@ -22,6 +22,9 @@ final class OrderService: CRUDService<Order> {
     ) async throws -> Order {
         var cartItems = try await CartItemService.shared.getUserCartItems(userId: userId)
         
+        // filter zero quantity items
+        cartItems = cartItems.filter { $0.quantity ?? 0 > 0 }
+        
         // enforce quantity rules
         var atLeastOneNotEnoughtQuantity = false
         var medicines = [Medicine]()
@@ -43,7 +46,7 @@ final class OrderService: CRUDService<Order> {
         
         // create order
         let priceInfo = try await self.getNotPaymentPriceInformation(cartItems: cartItems, shippingMethod: shippingMethod, medicines: medicines)
-        var order = Order(
+        let order = Order(
             userId: userId,
             fullName: fullName,
             phoneNumber: phoneNumber,
@@ -56,7 +59,7 @@ final class OrderService: CRUDService<Order> {
             shippingMethod: shippingMethod,
             createdDate: Date()
         )
-        var orderItems = mapcartItemsToOrderItems(cartItems: cartItems, medicines: medicines, orderId: order.id)
+        let orderItems = mapcartItemsToOrderItems(cartItems: cartItems, medicines: medicines, orderId: order.id)
         try await self.createDocument(order)
         try await OrderItemService.shared.bulkCreate(documents: orderItems)
         
@@ -118,8 +121,8 @@ final class OrderService: CRUDService<Order> {
         
         // calculate
         for (idx, item) in cartItems.enumerated() {
-            totalProductFee += _medicines[idx].price!*Double(cartItems[idx].quantity!)
-            totalDiscount += (_medicines[idx].price! - _medicines[idx].priceDiscount!)*Double(cartItems[idx].quantity!)
+            totalProductFee += _medicines[idx].price!*Double(item.quantity!)
+            totalDiscount += (_medicines[idx].price! - _medicines[idx].priceDiscount!)*Double(item.quantity!)
         }
         shippingFree = shippingMethod.fee
         totalPayable = totalProductFee + shippingFree - totalDiscount
