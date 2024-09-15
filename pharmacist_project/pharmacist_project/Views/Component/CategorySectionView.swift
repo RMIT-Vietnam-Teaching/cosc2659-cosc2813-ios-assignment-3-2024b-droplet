@@ -89,7 +89,6 @@ struct CategorySectionView: View {
     }
 }
 
-
 struct CategoryButtonView: View {
     var title: String
     var isActive: Bool
@@ -104,9 +103,9 @@ struct CategoryButtonView: View {
             Text(title)
                 .font(.system(size: 14, weight: .medium))
                 .frame(width: buttonWidth, height: buttonHeight)
-                .background(isActive ? Color.blue.opacity(0.2) : Color.gray.opacity(0.1))
+                .background(isActive ? (DarkLightModeService.shared.isDarkMode() ? Color.blue.opacity(0.4) : Color.blue.opacity(0.2)) : (DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.4) : Color.gray.opacity(0.2)))
                 .cornerRadius(10)
-                .foregroundColor(isActive ? .blue : .black)
+                .foregroundColor(isActive ? .blue : (DarkLightModeService.shared.isDarkMode() ? .white : .black))
         }
     }
 }
