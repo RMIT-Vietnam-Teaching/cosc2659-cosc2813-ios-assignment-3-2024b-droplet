@@ -7,39 +7,42 @@
 
 import SwiftUI
 
+enum AddressType: String, CaseIterable {
+    case home = "Home"
+    case office = "Office"
+    case others = "Others"
+}
+
 struct CartAddressView: View {
-    @StateObject private var viewModel = CartDeliveryViewModel()
-    @State private var fullName: String = ""
-    @State private var phoneNumber: String = ""
-    @State private var address: String = ""
-    @State private var selectedAddressType: AddressType = .home
-    @State private var otherAddressType: String = ""
-    @State private var showAlert = false
-    @State private var alertMessage = ""
+    @StateObject private var viewModel = CartAddressViewModel()
     
-    enum AddressType: String, CaseIterable {
-        case home = "Home"
-        case office = "Office"
-        case others = "Others"
+    var payableAmount: Double
+    var paymentMethod: PaymentMethod
+    var shippingMethod: ShippingMethod
+    
+    init(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod) {
+        self.payableAmount = payableAmount
+        self.paymentMethod = paymentMethod
+        self.shippingMethod = shippingMethod
     }
     
     var body: some View {
         NavigationView {
             ScrollView {
                 VStack(alignment: .leading, spacing: 20) {
-                    ProgressBar(steps: ["Delivery", "Address", "Payment", "Place Order"], currentStep: 1)
+                    ProgressBar(steps: ["Delivery", "Address"], currentStep: 1)
                     
                     VStack(alignment: .leading) {
                         Text("Full Name*")
                             .font(.headline)
-                        TextField("Enter your fullname", text: $fullName)
+                        TextField("Enter your fullname", text: $viewModel.fullName)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
                     
                     VStack(alignment: .leading) {
                         Text("Phone Number*")
                             .font(.headline)
-                        TextField("Enter your phone number", text: $phoneNumber)
+                        TextField("Enter your phone number", text: $viewModel.phoneNumber)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                             .keyboardType(.phonePad)
                     }
@@ -47,7 +50,7 @@ struct CartAddressView: View {
                     VStack(alignment: .leading) {
                         Text("Address*")
                             .font(.headline)
-                        TextField("Please add your full address", text: $address)
+                        TextField("Please add your full address", text: $viewModel.address)
                             .textFieldStyle(RoundedBorderTextFieldStyle())
                     }
                     
@@ -56,15 +59,19 @@ struct CartAddressView: View {
                 .padding()
             }
             .background(Color.white)
-            .navigationTitle("Delivery Address")
-            .alert(isPresented: $showAlert) {
-                Alert(title: Text("Error"), message: Text(alertMessage), dismissButton: .default(Text("OK")))
+            .alert(isPresented: $viewModel.showAlert) {
+                Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
             }
         }
         .overlay(
             VStack {
                 Spacer()
-                Button(action: saveAddressAndProceed) {
+                Button(action: {
+                    Task {
+                        try await viewModel.saveAddressAndProceed(payableAmount: payableAmount, paymentMethod: paymentMethod, shippingMethod: shippingMethod)
+                    }
+                    
+                }) {
                     Text("Save Address & Proceed")
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -76,50 +83,13 @@ struct CartAddressView: View {
             }
         )
         .onAppear {
-            loadUserData()
-        }
-    }
-    
-    private func loadUserData() {
-        Task {
-            if let user = await AuthenticationService.shared.getAuthenticatedUser() {
-                DispatchQueue.main.async {
-                    self.fullName = user.name ?? ""
-                    self.phoneNumber = user.phoneNumber ?? ""
-                    self.address = user.address ?? ""
-                }
+            Task {
+                await viewModel.loadUserData()
             }
         }
-    }
-    
-    private func saveAddressAndProceed() {
-        guard !fullName.isEmpty, !phoneNumber.isEmpty, !address.isEmpty else {
-            showAlert(message: "Please fill in all required fields.")
-            return
-        }
-        
-        Task {
-            do {
-                try await viewModel.updateDeliveryInfo(
-                    fullName: fullName,
-                    phoneNumber: phoneNumber,
-                    address: address,
-                    addressType: selectedAddressType.rawValue
-                )
-                // Navigate to the next screen (e.g., payment screen)
-                // You'll need to implement this navigation
-            } catch {
-                showAlert(message: "Failed to save address: \(error.localizedDescription)")
-            }
-        }
-    }
-    
-    private func showAlert(message: String) {
-        alertMessage = message
-        showAlert = true
     }
 }
 
 #Preview {
-    CartAddressView()
+    CartAddressView(payableAmount: 1000, paymentMethod: .visa, shippingMethod: .NinjaVan)
 }

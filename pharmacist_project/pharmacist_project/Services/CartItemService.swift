@@ -16,7 +16,10 @@ final class CartItemService: CRUDService<CartItem> {
         let cartItems = try await self.fetchDocuments(filter: { query in
             query.whereField("cartId", isEqualTo: cartId)
         })
-        return cartItems
+        // sort by new to old (new cart item display first)
+        return cartItems.sorted(by: {
+            $0.createdDate! < $1.createdDate!
+        })
     }
     
     func getUserCartItems(userId: String) async throws -> [CartItem] {
@@ -24,9 +27,9 @@ final class CartItemService: CRUDService<CartItem> {
         let cartItems = try await self.fetchDocuments(filter: { query in
             query.whereField("cartId", isEqualTo: cart.id)
         })
-        // sort by old to new
+        // sort by new to old (new cart item display first)
         return cartItems.sorted(by: {
-            $0.createdDate! > $1.createdDate!
+            $0.createdDate! < $1.createdDate!
         })
     }
     

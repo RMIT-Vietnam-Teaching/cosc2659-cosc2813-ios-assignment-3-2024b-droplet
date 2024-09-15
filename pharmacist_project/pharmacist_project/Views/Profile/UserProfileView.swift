@@ -11,6 +11,7 @@ struct UserProfileView: View {
     @StateObject var viewModel = UserProfileViewModel()
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
+    @State private var isShowAvatarUploadView = false
     
     var body: some View {
         NavigationStack {
@@ -22,40 +23,54 @@ struct UserProfileView: View {
                         Divider()
                         
                         HStack {
-                            NavigationLink(destination: ImageUploadView(userProfileViewModel: viewModel)) {
-                                AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    } else if phase.error != nil {
-                                        Image("defaultUserProfile")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    } else {
-                                        ProgressView()
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    }
+                            AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else if phase.error != nil {
+                                    Image("defaultUserProfile")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else {
+                                    ProgressView()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
                                 }
                             }
+                            .overlay(
+                                VStack {
+                                    Button(action: {
+                                        isShowAvatarUploadView = true
+                                    }, label: {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .font(.title2)
+                                            .foregroundColor(.white)
+                                            .padding(4)
+                                            .background(Color.black.opacity(0.24))
+                                            .clipShape(Circle())
+                                            .position(x: 80, y: 80)
+                                    })
+                                }
+                            )
                             
                             VStack(alignment: .leading) {
                                 Text(user.name ?? "N/A")
                                     .font(.title3)
                                     .fontWeight(.bold)
+                                    .foregroundColor(Color.primary)
                                 
                                 Text(user.email ?? "N/A")
                                     .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(Color.secondary)
                                 
                                 Text(user.address ?? "Address not specified")
                                     .font(.subheadline)
-                                    .foregroundColor(.secondary)
+                                    .foregroundColor(Color.secondary)
                             }
                             .padding(.leading)
                             
@@ -66,12 +81,46 @@ struct UserProfileView: View {
                         Divider()
                         
                         NavigationLink(destination: OrderView(orderViewModel: OrderViewModel())) {
-                            UserProfileRow(title: "My orders", subtitle: "Check your orders")
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("My orders")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    Text("Check your orders")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                            }
+                            .padding()
+                            .background(Color(.systemBackground))
+                            .cornerRadius(8)
+                            .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                            .padding(.horizontal)
                         }
                         .buttonStyle(PlainButtonStyle())
                         
                         NavigationLink(destination: UserSettingsView(viewModel: viewModel)) {
-                            UserProfileRow(title: "Settings", subtitle: "Notifications, Name, Phone Number,...")
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text("Settings")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                    Text("Notifications, Name, Phone Number,...")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                }
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.gray)
+                            }
+                            .padding()
+                            .background(Color(.systemBackground))
+                            .cornerRadius(8)
+                            .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                            .padding(.horizontal)
                         }
                         .buttonStyle(PlainButtonStyle())
                         
@@ -85,7 +134,7 @@ struct UserProfileView: View {
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
-                                .background(Color.white)
+                                .background(Color(.systemBackground))
                                 .cornerRadius(10)
                                 .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
                         }
@@ -100,7 +149,7 @@ struct UserProfileView: View {
                     }
                     .navigationTitle("Profile")
                     .navigationBarTitleDisplayMode(.inline)
-                    .background(Color(.systemGray6))
+                    .background(Color(.systemGroupedBackground))  
                 } else if let errorMessage = viewModel.errorMessage {
                     Text(errorMessage)
                         .foregroundColor(.red)
@@ -125,6 +174,10 @@ struct UserProfileView: View {
         .onAppear {
             viewModel.loadAuthenticatedUser()
         }
+        
+        .navigationDestination(isPresented: $isShowAvatarUploadView) {
+            ImageUploadView(userProfileViewModel: viewModel)
+        }
     }
     
     func logOutWithDelay() {
@@ -133,31 +186,6 @@ struct UserProfileView: View {
             viewModel.signOut()
             isLoggingOut = false
         }
-    }
-}
-
-struct UserProfileRow: View {
-    let title: String
-    let subtitle: String
-    
-    var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: 4) {
-                Text(title)
-                    .font(.headline)
-                Text(subtitle)
-                    .font(.subheadline)
-                    .foregroundColor(.secondary)
-            }
-            Spacer()
-            Image(systemName: "chevron.right")
-                .foregroundColor(.gray)
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(8)
-        .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
-        .padding(.horizontal)
     }
 }
 
