@@ -12,7 +12,6 @@ enum Category: String, Codable {
     case calcium
     case mineral
     case probiotic
-    case cardiovascular
     // ...
 }
 

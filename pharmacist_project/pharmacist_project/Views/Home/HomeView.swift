@@ -69,7 +69,6 @@ struct HomeView: View {
             )
         }
     }
-
     
     func requestNotificationPermissionForTheFirstTime() {
         Task {
