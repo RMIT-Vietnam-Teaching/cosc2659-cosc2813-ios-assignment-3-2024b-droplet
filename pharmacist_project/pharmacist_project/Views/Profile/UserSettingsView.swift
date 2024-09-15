@@ -195,5 +195,20 @@ struct UserSettingsView: View {
                 ProgressView("Loading...")
             }
         }
+        
+        // MARK: notification permission alert
+        .alert(isPresented: $viewModel.isShowNotificationPermissionAlert) {
+            Alert(
+                title: Text("Notification Permission"),
+                message: Text("Your application's notification is turned off hence your account notification's settings will do not have effect. Please turn notification on."),
+                primaryButton: .default(Text("Settings"), action: {
+                    // Action to open settings or request permissions
+                    if let appSettings = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(appSettings) {
+                        UIApplication.shared.open(appSettings)
+                    }
+                }),
+                secondaryButton: .cancel(Text("Cancel"))
+            )
+        }
     }
 }

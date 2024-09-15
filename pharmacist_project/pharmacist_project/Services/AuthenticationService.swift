@@ -40,8 +40,10 @@ final class AuthenticationService {
     func signOut() -> String? {
         do {
             try Auth.auth().signOut()
+            
             DarkLightModeService.shared.removeDarkLightModePreference()
             DarkLightModeService.shared.updateAppearanceMode(darkLightMode: DarkLightModeService.shared.defaultMode)
+            NotificationService.shared.cancelAllNotifications()
             return nil
         } catch let error as NSError {
             return error.localizedDescription
