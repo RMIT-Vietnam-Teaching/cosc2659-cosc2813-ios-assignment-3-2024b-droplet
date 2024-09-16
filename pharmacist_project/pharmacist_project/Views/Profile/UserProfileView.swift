@@ -111,25 +111,7 @@ struct UserProfileView: View {
                         .buttonStyle(PlainButtonStyle())
                         
                         Spacer()
-                        
-                        NavigationLink(destination: AddMedicineView()) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text("Add Medicine")
-                                        .font(.headline)
-                                        .foregroundColor(.primary)
-                                }
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .foregroundColor(.gray)
-                            }
-                            .padding()
-                            .background(Color(.systemBackground))
-                            .cornerRadius(8)
-                            .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
-                            .padding(.horizontal)
-                        }
-                        .buttonStyle(PlainButtonStyle())
+                    
                         
                         Button(action: {
                             showLogoutAlert = true
