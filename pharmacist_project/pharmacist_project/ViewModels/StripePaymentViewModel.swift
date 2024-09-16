@@ -18,7 +18,7 @@ class StripePaymentViewModel: ObservableObject {
     lazy var functions = Functions.functions()
     
     var actionSuccess: () -> Void
-    var actionFailed: (Error?) -> Void  // Updated to accept an optional Error
+    var actionFailed: (Error?) -> Void 
     
     init(actionSuccess: @escaping () -> Void, actionFailed: @escaping (Error?) -> Void) {
         self.actionSuccess = actionSuccess

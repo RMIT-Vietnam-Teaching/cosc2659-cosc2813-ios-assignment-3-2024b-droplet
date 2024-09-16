@@ -13,15 +13,18 @@ class CartAddressViewModel: ObservableObject {
     var paymentMethod: PaymentMethod
     var shippingMethod: ShippingMethod
     
-    @State var curUser: AppUser? = nil
+    var curUser: AppUser? = nil
     @Published var fullName: String = ""
     @Published var phoneNumber: String = ""
     @Published var address: String = ""
     @Published var note: String = ""
     @Published var showAlert = false
+    @Published var isError = true
     @Published var alertMessage = ""
     @Published var isProcessingPayment = false
 
+    @Published var navigationPath = NavigationPath()
+    
     private var orderService = OrderService.shared
     
     lazy var paymentViewModel: StripePaymentViewModel = {
@@ -60,13 +63,19 @@ class CartAddressViewModel: ObservableObject {
 
         isProcessingPayment = true
         
-        Task {
-            do {
-                try await self.callStripePaymentSheet(amount: payableAmount)
-            } catch {
-                isProcessingPayment = false
-                showAlert(message: "Payment failed: \(error.localizedDescription)")
-                return
+        if paymentMethod == .visa {
+            Task {
+                do {
+                    try await self.callStripePaymentSheet(amount: payableAmount)
+                } catch {
+                    isProcessingPayment = false
+                    showAlert(message: "Payment failed: \(error.localizedDescription)")
+                    return
+                }
+            }
+        } else {
+            Task {
+                await placeOrder()
             }
         }
     }
@@ -75,42 +84,52 @@ class CartAddressViewModel: ObservableObject {
         paymentViewModel.initiatePayment(amount: amount)
     }
 
-    func paymentSuccessCallback() {
-        Task {
-            guard let user = curUser else { return }
-            do {
-                let _ = try await orderService.placeOrder(
-                    userId: user.id,
-                    fullName: fullName,
-                    phoneNumber: phoneNumber,
-                    address: address,
-                    note: note,
-                    paymentMethod: paymentMethod,
-                    shippingMethod: shippingMethod
-                )
-                DispatchQueue.main.async {
-                    self.isProcessingPayment = false
-                    self.showAlert(message: "Order place")
-                    print("Order placed successfully")
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    self.isProcessingPayment = false
-                    self.showAlert(message: "Failed to place the order: \(error.localizedDescription)")
-                }
+    // Handles order placement after payment success
+    func placeOrder() async {
+        do {
+            try await orderService.placeOrder(
+                userId: curUser!.id,
+                fullName: fullName,
+                phoneNumber: phoneNumber,
+                address: address,
+                note: note,
+                paymentMethod: paymentMethod,
+                shippingMethod: shippingMethod
+            )
+            DispatchQueue.main.async {
+                self.isProcessingPayment = false
+                print("Order placed successfully")
+                
+                self.showAlert(message: "Order Placed", isError: false)
             }
+        } catch {
+            DispatchQueue.main.async {
+                self.isProcessingPayment = false
+                self.showAlert(message: "Failed to place the order: \(error.localizedDescription)", isError: true)
+            }
+        }
+    }
+
+    // Payment success callback to navigate to OrderView
+    func paymentSuccessCallback() {
+        print("Placing order")
+        Task {
+            await placeOrder()
         }
     }
 
     func paymentFailedCallback(error: Error) {
         DispatchQueue.main.async {
             self.isProcessingPayment = false
-            self.showAlert(message: "\(error.localizedDescription)")
+            self.showAlert(message: "Payment failed: \(error.localizedDescription)", isError: true)
         }
     }
 
-    func showAlert(message: String) {
-        alertMessage = message
-        showAlert = true
+    func showAlert(message: String, isError: Bool = true) {
+        self.alertMessage = message
+        self.isError = isError
+        self.showAlert = true
     }
 }
+
+
