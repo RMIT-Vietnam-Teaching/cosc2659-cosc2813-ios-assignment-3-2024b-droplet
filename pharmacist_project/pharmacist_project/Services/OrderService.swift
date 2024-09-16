@@ -64,9 +64,7 @@ final class OrderService: CRUDService<Order> {
         try await OrderItemService.shared.bulkCreate(documents: orderItems)
         
         // remove cart items
-        try await bulkDelete(documentIds: cartItems.map {
-            $0.cartId
-        })
+        try await CartItemService.shared.bulkDelete(documentIds: cartItems.map { $0.id })
         
         return order
     }
