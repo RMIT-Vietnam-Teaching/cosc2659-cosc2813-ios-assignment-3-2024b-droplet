@@ -15,6 +15,9 @@ class GlobalUtils {
     }
     
     static func isValidName(name: String) -> String? {
+        if name.isEmpty {
+            return "Name can not be empty"
+        }
         return nil
     }
     

@@ -92,6 +92,10 @@ final class RegistrationViewModel: ObservableObject {
             return passwordErrorMessage!
         }
         
+        if password != confirmPassword {
+            return "Password and password confirmation is not identical"
+        }
+        
         return nil
     }
     

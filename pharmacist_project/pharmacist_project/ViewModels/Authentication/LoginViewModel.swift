@@ -47,19 +47,30 @@ final class LoginViewModel: ObservableObject {
     
     func signInGoogle() {
         Task {
+            loginButtonState = .disabled
+            signUpButtonState = .disabled
+            
             let (errorMsg, _) = await AuthenticationService.shared.signInWithGoogle()
             
             if errorMsg != nil {
                 print("sign in with google error \(errorMsg!)")
+                errorMessage = errorMsg!
             } else {
                 print("sign in with google succcess")
+                errorMessage = nil
                 isShowHomeView = true
             }
+            
+            loginButtonState = .active
+            signUpButtonState = .active
         }
     }
     
     func signInFacebook() {
         Task {
+            loginButtonState = .disabled
+            signUpButtonState = .disabled
+            
             let (errorMsg, _) = try await AuthenticationService.shared.signInWithFacebook()
             
             if errorMsg != nil {
@@ -70,6 +81,9 @@ final class LoginViewModel: ObservableObject {
                 errorMessage = nil
                 isShowHomeView = true
             }
+            
+            loginButtonState = .active
+            signUpButtonState = .active
         }
     }
 }
