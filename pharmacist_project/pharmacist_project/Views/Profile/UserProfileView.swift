@@ -11,6 +11,7 @@ struct UserProfileView: View {
     @StateObject var viewModel = UserProfileViewModel()
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
+    @State private var isShowAvatarUploadView = false
     
     var body: some View {
         NavigationStack {
@@ -22,27 +23,40 @@ struct UserProfileView: View {
                         Divider()
                         
                         HStack {
-                            NavigationLink(destination: ImageUploadView(userProfileViewModel: viewModel)) {
-                                AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    } else if phase.error != nil {
-                                        Image("defaultUserProfile")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    } else {
-                                        ProgressView()
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    }
+                            AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else if phase.error != nil {
+                                    Image("defaultUserProfile")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else {
+                                    ProgressView()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
                                 }
                             }
+                            .overlay(
+                                VStack {
+                                    Button(action: {
+                                        isShowAvatarUploadView = true
+                                    }, label: {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .font(.title2)
+                                            .foregroundColor(.white)
+                                            .padding(4)
+                                            .background(Color.black.opacity(0.24))
+                                            .clipShape(Circle())
+                                            .position(x: 80, y: 80)
+                                    })
+                                }
+                            )
                             
                             VStack(alignment: .leading) {
                                 Text(user.name ?? "N/A")
@@ -81,7 +95,7 @@ struct UserProfileView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(Color(.systemBackground))
+                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
                             .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
@@ -103,7 +117,7 @@ struct UserProfileView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(Color(.systemBackground))
+                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
                             .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
@@ -111,7 +125,6 @@ struct UserProfileView: View {
                         .buttonStyle(PlainButtonStyle())
                         
                         Spacer()
-                    
                         
                         Button(action: {
                             showLogoutAlert = true
@@ -121,7 +134,7 @@ struct UserProfileView: View {
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
-                                .background(Color(.systemBackground))
+                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
                                 .cornerRadius(10)
                                 .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
                         }
@@ -160,6 +173,10 @@ struct UserProfileView: View {
         }
         .onAppear {
             viewModel.loadAuthenticatedUser()
+        }
+        
+        .navigationDestination(isPresented: $isShowAvatarUploadView) {
+            ImageUploadView(userProfileViewModel: viewModel)
         }
     }
     
