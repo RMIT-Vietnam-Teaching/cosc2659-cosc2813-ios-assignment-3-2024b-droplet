@@ -152,4 +152,18 @@ extension OrderService {
             $0.0.createdDate! < $1.0.createdDate!
         })
     }
+    
+    func getOrdersFromAllUsers() async throws -> [(Order, [OrderItem])] {
+        var res = [(Order, [OrderItem])]()
+        let users: [AppUser] = try await UserService.shared.getAllDocuments()
+        
+        for user in users {
+            let userOrders = try await self.getUserOrderHistory(userId: user.id)
+            res.append(contentsOf: userOrders)
+        }
+
+        return res.sorted(by: {
+            $0.0.createdDate! < $1.0.createdDate!
+        })
+    }
 }

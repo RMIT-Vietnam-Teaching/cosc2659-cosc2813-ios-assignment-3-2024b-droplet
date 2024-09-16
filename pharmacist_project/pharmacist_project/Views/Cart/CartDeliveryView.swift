@@ -9,14 +9,6 @@ import SwiftUI
 
 struct CartDeliveryView: View {
     @StateObject private var viewModel = CartDeliveryViewModel()
-//    @State private var fullName: String
-//    @State private var payableAmount: Double
-//    @State private var phoneNumber: String
-//    @State private var address: String
-//    @State private var showAlert = false
-//    @State private var alertMessage = ""
-//    @State private var paymentMethod: PaymentMethod
-//    @State private var shippingMethod: ShippingMethod
     
     var body: some View {
         NavigationView {
@@ -27,31 +19,36 @@ struct CartDeliveryView: View {
                         ProgressBar(steps: ["Delivery", "Address"], currentStep: 0)
                     }
                     
-                    // Delivery date
-                    HStack {
-                        Image(systemName: "truck.box")
-                        Text("Delivery by \(Date().addingTimeInterval(7*24*60*60).formatted(date: .abbreviated, time: .omitted))")
+                    if !viewModel.cartItems.isEmpty {
+                        // Delivery date
+                        HStack {
+                            Image(systemName: "truck.box")
+                            Text("Delivery by \(Date().addingTimeInterval(7*24*60*60).formatted(date: .abbreviated, time: .omitted))")
+                        }
+                        .font(.subheadline)
+                        .padding(.horizontal)
+                        
+                        // Cart items
+                        ForEach($viewModel.cartItems, id: \.id) { $item in
+                            CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                        }
+                        
+                        // Payment and Shipping methods
+                        VStack(spacing: 10) {
+                            PaymentMethodPicker(selectedMethod: $viewModel.selectedPaymentMethod)
+                            ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        
+                        // Order Summary
+                        OrderSummaryView(viewModel: viewModel)
+                    } else {
+                        Text("Your cart is empty.")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
                     }
-                    .font(.subheadline)
-                    .padding(.horizontal)
-                    
-                    // Cart items
-                    ForEach($viewModel.cartItems, id: \.id) { $item in
-                        CartItemCardView(cartItem: $item).environmentObject(viewModel)
-                    }
-                    
-                    // Payment and Shipping methods
-                    VStack(spacing: 10) {
-                        PaymentMethodPicker(selectedMethod: $viewModel.selectedPaymentMethod)
-                        ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    
-                    // Order Summary
-                    OrderSummaryView(viewModel: viewModel)
-
                 }
                 .padding()
             }
@@ -63,19 +60,22 @@ struct CartDeliveryView: View {
             VStack {
                 Spacer()
                 NavigationLink(destination: CartAddressView(
-                    payableAmount: viewModel.payableAmount,
-                    paymentMethod: viewModel.selectedPaymentMethod,
-                    shippingMethod: viewModel.selectedShippingMethod)
-                )
-                {
+                    viewModel: CartAddressViewModel(
+                        payableAmount: viewModel.payableAmount,
+                        paymentMethod: viewModel.selectedPaymentMethod,
+                        shippingMethod: viewModel.selectedShippingMethod)
+                    )
+                ) {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(hex: "#FF6F5C"))
+                        .background(viewModel.cartItems.isEmpty ? Color.gray : Color(hex: "#FF6F5C"))
                         .foregroundColor(.white)
                         .cornerRadius(6)
                 }
                 .padding()
+                // Disable the "Continue" button if cart is empty
+                .disabled(viewModel.cartItems.isEmpty)
             }
         )
         .task {

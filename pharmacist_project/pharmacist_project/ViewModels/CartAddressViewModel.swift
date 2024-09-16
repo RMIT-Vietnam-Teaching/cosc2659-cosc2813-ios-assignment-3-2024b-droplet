@@ -9,80 +9,125 @@ import Foundation
 import SwiftUI
 
 class CartAddressViewModel: ObservableObject {
-    lazy var paymentViewModel = StripePaymentViewModel(actionSuccess: self.paymentSuccessCallback, actionFailed: self.paymentFailedCallback)
-    @State var curUser: AppUser? = nil
+    var payableAmount: Double
+    var paymentMethod: PaymentMethod
+    var shippingMethod: ShippingMethod
+    
+    var curUser: AppUser? = nil
     @Published var fullName: String = ""
     @Published var phoneNumber: String = ""
     @Published var address: String = ""
+    @Published var note: String = ""
     @Published var showAlert = false
+    @Published var isError = true
     @Published var alertMessage = ""
+    @Published var isProcessingPayment = false
     
+    private var orderService = OrderService.shared
+    
+    lazy var paymentViewModel: StripePaymentViewModel = {
+        StripePaymentViewModel(
+            actionSuccess: { [weak self] in
+                self?.paymentSuccessCallback()
+            },
+            actionFailed: { [weak self] error in
+                self?.paymentFailedCallback(error: error!)
+            }
+        )
+    }()
+
+    init(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod) {
+        self.payableAmount = payableAmount
+        self.paymentMethod = paymentMethod
+        self.shippingMethod = shippingMethod
+    }
+
     func loadUserData() async {
-        Task {
-            if let user = await AuthenticationService.shared.getAuthenticatedUser() {
-                DispatchQueue.main.async {
-                    self.curUser = user
-                    self.fullName = user.name ?? ""
-                    self.phoneNumber = user.phoneNumber ?? ""
-                    self.address = user.address ?? ""
-                }
+        if let user = await AuthenticationService.shared.getAuthenticatedUser() {
+            DispatchQueue.main.async {
+                self.curUser = user
+                self.fullName = user.name ?? ""
+                self.phoneNumber = user.phoneNumber ?? ""
+                self.address = user.address ?? ""
             }
         }
     }
-    
-    func saveAddressAndProceed(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod) async throws {
+
+    func proceedToPayment() async throws {
         guard !fullName.isEmpty, !phoneNumber.isEmpty, !address.isEmpty else {
             showAlert(message: "Please fill in all required fields.")
             return
         }
+
+        isProcessingPayment = true
         
-        Task {
-            do {
-                self.callStripePaymentSheet(amount: payableAmount)
-            } catch {
-                showAlert(message: "Failed to save address: \(error.localizedDescription)")
+        if paymentMethod == .visa {
+            Task {
+                do {
+                    try await self.callStripePaymentSheet(amount: payableAmount)
+                } catch {
+                    isProcessingPayment = false
+                    showAlert(message: "Payment failed: \(error.localizedDescription)")
+                    return
+                }
+            }
+        } else {
+            Task {
+                await placeOrder()
             }
         }
     }
-    
-    func showAlert(message: String) {
-        alertMessage = message
-        showAlert = true
+
+    func callStripePaymentSheet(amount: Double) async throws {
+        paymentViewModel.initiatePayment(amount: amount)
     }
-    
-    func updateDeliveryInfo(fullName: String, phoneNumber: String, address: String) async throws {
-        guard let userId = AuthenticationService.shared.getAuthenticatedUserOffline()?.id else {
-            throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
-        }
-        
+
+    // Handles order placement after payment success
+    func placeOrder() async {
         do {
-            try await UserService.shared.updateDocumentFields(userId: userId, fields: [
-                "name": fullName,
-                "phoneNumber": phoneNumber,
-                "address": address,
-            ])
-            
-            if var user = await AuthenticationService.shared.getAuthenticatedUser() {
-                user.name = fullName
-                user.phoneNumber = phoneNumber
-                user.address = address
+            try await orderService.placeOrder(
+                userId: curUser!.id,
+                fullName: fullName,
+                phoneNumber: phoneNumber,
+                address: address,
+                note: note,
+                paymentMethod: paymentMethod,
+                shippingMethod: shippingMethod
+            )
+            DispatchQueue.main.async {
+                self.isProcessingPayment = false
+                print("Order placed successfully")
+                
+                self.showAlert(message: "Order Placed", isError: false)
             }
         } catch {
-            throw error
+            DispatchQueue.main.async {
+                self.isProcessingPayment = false
+                self.showAlert(message: "Failed to place the order: \(error.localizedDescription)", isError: true)
+            }
         }
     }
-    
-    func callStripePaymentSheet(amount: Double) {
-        Task {
-            paymentViewModel.initiatePayment(amount: amount)
-        }
-    }
-    
+
+    // Payment success callback to navigate to OrderView
     func paymentSuccessCallback() {
-        print("abc")
+        print("Placing order")
+        Task {
+            await placeOrder()
+        }
     }
-    
-    func paymentFailedCallback() {
-        print("dsaf")
+
+    func paymentFailedCallback(error: Error) {
+        DispatchQueue.main.async {
+            self.isProcessingPayment = false
+            self.showAlert(message: "Payment failed: \(error.localizedDescription)", isError: true)
+        }
+    }
+
+    func showAlert(message: String, isError: Bool = true) {
+        self.alertMessage = message
+        self.isError = isError
+        self.showAlert = true
     }
 }
+
+
