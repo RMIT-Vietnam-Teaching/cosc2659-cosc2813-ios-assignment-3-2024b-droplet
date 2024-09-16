@@ -61,7 +61,7 @@ struct OrderDetailView: View {
         case .accepted:
             nextStatus = .delivering
         case .delivering:
-            return AnyView(EmptyView())
+            nextStatus = .completed // admin can mark order as completed
         case .completed:
             return AnyView(EmptyView())
         default:

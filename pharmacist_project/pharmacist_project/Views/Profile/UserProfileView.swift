@@ -124,6 +124,30 @@ struct UserProfileView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         
+                        if user.type == .admin {
+                            NavigationLink(destination: AddMedicineView()) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Add Medicine")
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+                                        Text("Add new medicines to the inventory")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.gray)
+                                }
+                                .padding()
+                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                                .cornerRadius(8)
+                                .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                                .padding(.horizontal)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        
                         Spacer()
                         
                         Button(action: {
