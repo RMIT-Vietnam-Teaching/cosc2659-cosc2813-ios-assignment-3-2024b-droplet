@@ -17,18 +17,21 @@ struct MedicineView: View {
                     VStack(spacing: 10) {
                         ZStack {
                             Color(hex: "2EB5FA")
-                                .ignoresSafeArea(.all, edges: .top)
+                                .opacity(DarkLightModeService.shared.isDarkMode() ? 0.2 : 1.0)
+                                .ignoresSafeArea(.all, edges: .top) 
                                 .frame(height: 80)
+                            
                             VStack {
                                 HStack {
                                     TextField("Search for products", text: $viewModel.searchText)
                                         .padding(.leading, 20)
                                         .frame(height: 40)
-                                        .background(Color.white)
+                                        .background(Color(UIColor.systemBackground))
                                         .cornerRadius(8)
                                         .onChange(of: viewModel.searchText) {
                                             viewModel.filterMedicines()
                                         }
+                                    
                                     NavigationLink(destination: CartDeliveryView()) {
                                         HStack {
                                             Image(systemName: "cart")
@@ -66,11 +69,11 @@ struct MedicineView: View {
                             },
                             availableCategories: viewModel.availableCategories
                         )
-
+                        
                         if viewModel.isViewAllActive {
                             FlashSaleSection(viewModel: viewModel)
                             NewReleasesSection(viewModel: viewModel)
-
+                            
                             ForEach(viewModel.availableCategories, id: \.self) { category in
                                 if let categoryEnum = Category(rawValue: category.lowercased()) {
                                     CategorySection(viewModel: viewModel, category: categoryEnum)
@@ -81,11 +84,11 @@ struct MedicineView: View {
                                 if let selectedFilter = viewModel.selectedHomeFilter {
                                     headerWithViewAll(title: selectedFilter == .flashSale ? "Flash Sales ⚡" : "New Releases", viewModel: viewModel)
                                 }
-
+                                
                                 if let selectedCategory = viewModel.selectedCategory {
                                     headerWithViewAll(title: selectedCategory.rawValue.capitalized, viewModel: viewModel)
                                 }
-
+                                
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 15) {
                                         ForEach(viewModel.filteredMedicines) { medicine in

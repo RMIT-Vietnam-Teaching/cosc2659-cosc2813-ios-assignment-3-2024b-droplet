@@ -81,7 +81,7 @@ struct UserProfileView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(Color(.systemBackground))
+                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
                             .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
@@ -103,7 +103,7 @@ struct UserProfileView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(Color(.systemBackground))
+                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
                             .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
@@ -121,7 +121,7 @@ struct UserProfileView: View {
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
-                                .background(Color(.systemBackground))
+                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
                                 .cornerRadius(10)
                                 .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
                         }

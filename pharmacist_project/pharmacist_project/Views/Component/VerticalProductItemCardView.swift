@@ -75,7 +75,7 @@ struct VerticalProductItemCardView: View {
 
             }
             .padding()
-            .background(Color.white)
+            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white) 
             .cornerRadius(15)
             .shadow(radius: 5)
             .frame(width: 300)
