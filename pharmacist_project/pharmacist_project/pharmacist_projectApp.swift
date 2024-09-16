@@ -42,8 +42,10 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
         print("FacebookSDK is configured!")
         
-        OpenAIService.shared.replaceHistory(OpenAIService.getPharmacistHistoryList())
-        print("OpenAI is configured!")
+        Task {
+            OpenAIService.shared.replaceHistory(try await OpenAIService.getPharmacistHistoryList())
+            print("OpenAI is configured!")
+        }
         return true
     }
     

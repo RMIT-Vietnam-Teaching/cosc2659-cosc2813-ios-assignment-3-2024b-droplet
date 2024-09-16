@@ -101,11 +101,11 @@ class NotificationService {
     }
     
     static func getStaticDailyNotificationRequests() async throws -> [DailyNotificationRequest] {
-        let morningText = try await OpenAIService.shared.sendMessage(text: "write me a short text to help me have a good day start")
-        let nightText = try await OpenAIService.shared.sendMessage(text: "write me a short text to help me have a good cozy night")
+        let morningText = try await OpenAIService.shared.sendMessage(text: "write me a health quote about 20 words to help me have a good day start")
+        let nightText = try await OpenAIService.shared.sendMessage(text: "write me a health quote about 20 words to help me have a cozy night")
         return [
-            DailyNotificationRequest(time: DateComponents(hour: 7), title: "Good morning", body: morningText, sound: .default),
-            DailyNotificationRequest(time: DateComponents(hour: 21), title: "Have a cozy night", body: nightText, sound: .default),
+            DailyNotificationRequest(time: DateComponents(hour: 7), title: "Good morning 🔥", body: morningText, sound: .default),
+            DailyNotificationRequest(time: DateComponents(hour: 21), title: "Have a cozy night 🍎", body: nightText, sound: .default),
         ]
     }
 }

@@ -140,7 +140,7 @@ final class OrderService: CRUDService<Order> {
 extension OrderService {
     func getUserOrderHistory(userId: String) async throws -> [(Order, [OrderItem])] {
         var res = [(Order, [OrderItem])]()
-        var orders = try await self.fetchDocuments(filter: {query in
+        let orders = try await self.fetchDocuments(filter: {query in
             query.whereField("userId", isEqualTo: userId)
         })
         for order in orders {

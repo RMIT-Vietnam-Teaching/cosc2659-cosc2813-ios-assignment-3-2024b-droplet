@@ -56,7 +56,7 @@ struct HyperLinkTextView: View {
         Task {
             do {
                 let medicine = try await MedicineService.shared.getDocument(medicineId)
-                let pharmacy = try await PharmacyService.shared.getDocument(medicine.pharmacyId!)
+                let pharmacy = try await PharmacyService.shared.getDocument(medicine.pharmacyId ?? "1")
                 
                 let viewModel = MedicineDetailViewModel(medicine: medicine)
                 viewModel.medicine = medicine
