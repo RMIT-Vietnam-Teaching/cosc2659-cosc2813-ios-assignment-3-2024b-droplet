@@ -62,6 +62,7 @@ struct RegisterScreenView: View {
                         if let errorMessage = regisVM.errorMessage {
                             Text(errorMessage)
                                 .foregroundColor(.red)
+                                .padding(.horizontal)
                         }
                     }
                     
@@ -78,16 +79,9 @@ struct RegisterScreenView: View {
                     }
                     .padding(.top, 8)
                     
-                    Button(action: {
+                    // Sign up button
+                    LoadingButton(title: "Sign up", state: $regisVM.signUpButtonState, style: .fill) {
                         regisVM.register()
-                    }) {
-                        Text("Sign up")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(hex: "2EB5FA"))
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                            .shadow(radius: 4)
                     }
                     .padding(.horizontal)
                     .padding(.top, 10)

@@ -13,9 +13,14 @@ final class LoginViewModel: ObservableObject {
     @Published var password = ""
     @Published var errorMessage: String? = nil
     @Published var isShowHomeView: Bool = false
+    @Published var loginButtonState: ButtonState = .active
+    @Published var signUpButtonState: ButtonState = .active
     
     func signIn() {
         Task {
+            loginButtonState = .loading
+            signUpButtonState = .disabled
+            
             let (errorMsg, _) = await AuthenticationService.shared.signIn(email: email, password: password)
             errorMessage = errorMsg
             if errorMsg != nil {
@@ -24,6 +29,9 @@ final class LoginViewModel: ObservableObject {
                 print("sign in success")
                 isShowHomeView = true
             }
+            
+            loginButtonState = .active
+            signUpButtonState = .active
         }
     }
     

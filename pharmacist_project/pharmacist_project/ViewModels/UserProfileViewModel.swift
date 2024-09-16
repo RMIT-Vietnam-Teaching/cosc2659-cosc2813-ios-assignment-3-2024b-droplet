@@ -64,7 +64,12 @@ class UserProfileViewModel: ObservableObject {
         let newAddress = address ?? currentUser.address
         let newPhotoURL = photoURL?.absoluteString ?? currentUser.photoURL
         
-        print(newPhotoURL!)
+        if newPhotoURL != nil {
+            print(newPhotoURL!)
+        } else {
+            print("no new photo uploaded")
+        }
+        
         
         isLoading = true
         errorMessage = nil

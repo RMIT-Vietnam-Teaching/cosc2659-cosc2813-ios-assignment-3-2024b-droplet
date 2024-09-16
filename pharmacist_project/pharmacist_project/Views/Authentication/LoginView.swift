@@ -52,39 +52,23 @@ struct LoginScreenView: View {
                     if let errorMessage = loginVM.errorMessage {
                         Text(errorMessage)
                             .foregroundColor(.red)
+                            .padding(.horizontal)
                     }
                     
                     // Login Button
-                    Button(action: {
+                    LoadingButton(title: "Login", state: $loginVM.loginButtonState, style: .fill) {
                         // Login action
                         loginVM.signIn()
-                    }) {
-                        Text("Login")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(hex: "2EB5FA"))
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                            .shadow(radius: 4)
                     }
                     .padding(.horizontal)
                     .padding(.top, 15)
                     
                     // Sign Up Button
-                    Button(action: {
+                    LoadingButton(title: "Sign up", state: $loginVM.signUpButtonState, style: .outline) {
                         navigateToRegister = true
-                    }) {
-                        Text("Sign up")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(Color(hex: "2EB5FA"))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color(hex: "2EB5FA"), lineWidth: 2)
-                            )
                     }
                     .padding(.horizontal)
-                    .padding(.top, 5)
+                    .padding(.top, 6)
                     
                     Spacer()
                     

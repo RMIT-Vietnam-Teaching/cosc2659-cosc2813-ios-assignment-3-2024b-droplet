@@ -15,6 +15,7 @@ final class RegistrationViewModel: ObservableObject {
     @Published var password = ""
     @Published var confirmPassword = ""
     @Published var errorMessage: String? = nil
+    @Published var signUpButtonState: ButtonState = .active
     
     @Published var isShowHomeView = false
     
@@ -27,6 +28,8 @@ final class RegistrationViewModel: ObservableObject {
         }
         
         Task {
+            signUpButtonState = .loading
+            
             let (errorMsg, _) = await AuthenticationService.shared.createUserWithName(email: email, password: password, name: name)
             
             if errorMsg != nil {
@@ -37,6 +40,8 @@ final class RegistrationViewModel: ObservableObject {
                 errorMessage = nil
                 isShowHomeView = true
             }
+            
+            signUpButtonState = .active
         }
     }
 
