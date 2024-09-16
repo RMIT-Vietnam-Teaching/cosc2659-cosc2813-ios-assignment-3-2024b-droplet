@@ -16,6 +16,7 @@
 import SwiftUI
 
 struct RegisterScreenView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var regisVM = RegistrationViewModel()
     
     @State private var navigateToLogin = false
@@ -29,36 +30,38 @@ struct RegisterScreenView: View {
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, geometry.size.height * 0.05)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                     
                     Spacer()
                     
                     VStack(spacing: 16) {
                         TextField("Name", text: $regisVM.name)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
                         TextField("Email", text: $regisVM.email)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
                         SecureField("Password", text: $regisVM.password)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
                         SecureField("Confirm Password", text: $regisVM.confirmPassword)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
-                        if regisVM.errorMessage != nil {
-                            Text(regisVM.errorMessage!)
+                        if let errorMessage = regisVM.errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
                         }
                     }
                     
@@ -75,7 +78,6 @@ struct RegisterScreenView: View {
                     }
                     .padding(.top, 8)
                     
-                    // MARK: Register Button
                     Button(action: {
                         regisVM.register()
                     }) {
@@ -94,13 +96,11 @@ struct RegisterScreenView: View {
                     
                     Text("Or register with social account")
                         .font(.body)
-                        .foregroundColor(.gray)
+                        .foregroundColor(colorScheme == .dark ? .gray : .black)
                         .padding(.top, geometry.size.height * 0.03)
                     
-                    // MARK: Register with social account buttons
                     HStack(spacing: 16) {
                         Button(action: {
-                            // MARK: Google register
                             regisVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
@@ -124,7 +124,7 @@ struct RegisterScreenView: View {
                     }
                     .padding(.bottom, geometry.size.height * 0.02)
                 }
-                .background(Color(hex: "F9F9F9"))
+                .background(colorScheme == .dark ? Color.black : Color(hex: "F9F9F9"))
                 .navigationBarBackButtonHidden(true)
                 .navigationDestination(isPresented: $navigateToLogin) {
                     LoginScreenView()
