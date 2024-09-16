@@ -146,4 +146,16 @@ class CartDeliveryViewModel: ObservableObject {
                 }
                 isLoading = false
             }
+    
+    func isCartItemEmpty() -> Bool {
+        if cartItems.isEmpty {
+            return true
+        }
+        for cartItem in cartItems {
+            if cartItem.quantity != 0 {
+                return false;
+            }
+        }
+        return true;
+    }
 }

@@ -154,14 +154,14 @@ struct UserSettingsView: View {
                                 Text("Daily health tips")
                             }
                             
-                            Toggle(isOn: Binding(
-                                get: { viewModel.userPreference?.receiveDeliveryStatus ?? false },
-                                set: { newValue in
-                                    viewModel.toggleReceiveDeliveryStatus(newValue)
-                                }
-                            )) {
-                                Text("Delivery status")
-                            }
+//                            Toggle(isOn: Binding(
+//                                get: { viewModel.userPreference?.receiveDeliveryStatus ?? false },
+//                                set: { newValue in
+//                                    viewModel.toggleReceiveDeliveryStatus(newValue)
+//                                }
+//                            )) {
+//                                Text("Delivery status")
+//                            }
                         }
                         .padding(.horizontal)
                     }

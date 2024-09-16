@@ -52,6 +52,7 @@ struct ImageUploadView: View {
                 .clipShape(Capsule())
             }
         }
+        .navigationTitle("Upload avatar")
         .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
             ImagePickerView(image: $inputImage)
         }

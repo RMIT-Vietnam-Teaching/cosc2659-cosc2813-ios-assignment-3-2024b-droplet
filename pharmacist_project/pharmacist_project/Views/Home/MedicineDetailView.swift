@@ -166,6 +166,7 @@ struct MedicineDetailView: View {
                 }
             }
         }
+        .navigationTitle("Product details")
         .onAppear {
             viewModel.fetchPharmacyDetails()
         }

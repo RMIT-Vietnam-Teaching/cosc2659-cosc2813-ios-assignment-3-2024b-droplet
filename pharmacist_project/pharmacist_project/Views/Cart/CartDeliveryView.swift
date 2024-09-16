@@ -69,15 +69,16 @@ struct CartDeliveryView: View {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(viewModel.cartItems.isEmpty ? Color.gray : Color(hex: "#FF6F5C"))
+                        .background(viewModel.isCartItemEmpty() ? Color.gray : Color(hex: "#FF6F5C"))
                         .foregroundColor(.white)
                         .cornerRadius(6)
                 }
                 .padding()
                 // Disable the "Continue" button if cart is empty
-                .disabled(viewModel.cartItems.isEmpty)
+                .disabled(viewModel.isCartItemEmpty())
             }
         )
+        .navigationTitle("Shopping cart")
         .task {
             await viewModel.loadCartItems()
         }

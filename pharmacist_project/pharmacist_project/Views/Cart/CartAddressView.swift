@@ -56,10 +56,11 @@ struct CartAddressView: View {
                     }
                     .background(Color.white)
                     .alert(isPresented: $viewModel.showAlert) {
-                        Alert(title: Text("Error"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
+                        Alert(title: Text("Alert"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
                     }
                 }
             }
+            .navigationTitle("Receiver information")
             .overlay(
                 VStack {
                     Spacer()
