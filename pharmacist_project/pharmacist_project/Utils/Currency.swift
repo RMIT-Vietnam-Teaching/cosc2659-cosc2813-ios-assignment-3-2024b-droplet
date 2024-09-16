@@ -12,22 +12,14 @@ extension Double {
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         formatter.currencyCode = "VND"
-        formatter.maximumFractionDigits = 0 // No decimals for VND
-        formatter.currencySymbol = "₫" // Vietnamese Dong symbol
+        formatter.maximumFractionDigits = 0
+        formatter.currencySymbol = "₫"
         return formatter.string(from: NSNumber(value: self)) ?? "₫\(self)"
     }
     
     func calculateDiscountPercentage(priceDiscount: Double) -> Int {
-        guard priceDiscount != 0.0 else {
-            return 100
-        }
-        
-        guard self != 0.0 else {
-            return 100
-        }
-        
-        guard self >= priceDiscount else {
-            return 100
+        guard self != 0 else {
+            return 0
         }
         
         let discount = (self - priceDiscount) / self * 100

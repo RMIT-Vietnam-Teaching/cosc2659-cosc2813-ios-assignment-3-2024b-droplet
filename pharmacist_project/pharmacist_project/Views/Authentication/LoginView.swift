@@ -16,6 +16,7 @@
 import SwiftUI
 
 struct LoginScreenView: View {
+    @Environment(\.colorScheme) var colorScheme
     @StateObject var loginVM = LoginViewModel()
     @StateObject private var viewModel = UserProfileViewModel()
     
@@ -30,34 +31,33 @@ struct LoginScreenView: View {
                         .bold()
                         .frame(maxWidth: .infinity, alignment: .center)
                         .padding(.top, geometry.size.height * 0.05)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                     
                     Spacer()
                     
                     VStack(spacing: 16) {
                         TextField("Email", text: $loginVM.email)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                         
                         SecureField("Password", text: $loginVM.password)
                             .padding()
-                            .background(Color(UIColor.systemGray6))
+                            .background(colorScheme == .dark ? Color(UIColor.systemGray5) : Color(UIColor.systemGray6))
                             .cornerRadius(8)
                             .padding(.horizontal)
                     }
                     
-                    if loginVM.errorMessage != nil {
-                        Text(loginVM.errorMessage!)
+                    if let errorMessage = loginVM.errorMessage {
+                        Text(errorMessage)
+                            .foregroundColor(.red)
                     }
                     
                     // Login Button
                     Button(action: {
                         // Login action
                         loginVM.signIn()
-//                        Task {
-//                            try await MockDataUtil.createMockData()
-//                        }
                     }) {
                         Text("Login")
                             .frame(maxWidth: .infinity)
@@ -91,13 +91,12 @@ struct LoginScreenView: View {
                     // login with social
                     Text("Or login with social account")
                         .font(.body)
-                        .foregroundColor(.gray)
+                        .foregroundColor(colorScheme == .dark ? .gray : .black)
                         .padding(.bottom, 8)
                     
                     // Login with social account buttons
                     HStack(spacing: 16) {
                         Button(action: {
-                            // MARK: Google login
                             loginVM.signInGoogle()
                         }) {
                             Image("GoogleIcon")
@@ -110,7 +109,6 @@ struct LoginScreenView: View {
                         }
                         
                         Button(action: {
-                            // MARK: Facebook login
                             loginVM.signInFacebook()
                         }) {
                             Image("FacebookIcon")
@@ -123,7 +121,6 @@ struct LoginScreenView: View {
                     }
                     .padding(.bottom, geometry.size.height * 0.02)
                 }
-                // MARK: check user login state
                 .onAppear {
                     if loginVM.isUserLoggedIn() {
                         loginVM.isShowHomeView = true
@@ -131,10 +128,9 @@ struct LoginScreenView: View {
                         loginVM.isShowHomeView = false
                     }
                 }
-                .background(Color(hex: "F9F9F9"))
+                .background(colorScheme == .dark ? Color.black : Color(hex: "F9F9F9"))
                 .navigationBarBackButtonHidden(true)
                 
-                // MARK: navigation
                 .navigationDestination(isPresented: $navigateToRegister) {
                     RegisterScreenView()
                         .navigationBarHidden(true)

@@ -60,7 +60,7 @@ struct HorizontalProductItemCardView: View {
                 }
             }
             .padding(10)
-            .background(Color.white)
+            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
             .cornerRadius(10)
             .shadow(radius: 2)
         }
