@@ -1,9 +1,27 @@
-//
-//  OpenAIService.swift
-//  pharmacist_project
-//
-//  Created by Thinh Ngo on 11/9/24.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Ngo Ngoc Thinh
+  ID: s3879364
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
+*/
 
 import Foundation
 import ChatGPTSwift
@@ -75,10 +93,10 @@ class OpenAIService {
         openAPI.deleteHistoryList()
     }
     
-    static func getPharmacistHistoryList() -> [Message] {
-        var message = "Pretend that you are a professional pharmacist or doctor and you own an online pharmacy application. Everyday, user will use your application to buy medicines. User might ask you issues related to his/her health and want to hear your advice. Please give user a very short advice in a paragraph to improve health and also if you can find any kind of medicines in your pharmacy store that can help user, response with the ids of the medicines (do not specify the name of the medicines), please note that the ids of the medicines must be wrapped by triple asterisk symbols. Here is list of medicines with their description currently available in your store:\n"
+    static func getPharmacistHistoryList() async throws -> [Message] {
+        var message = "Pretend that you are a professional pharmacist or doctor and you own an online pharmacy application. Everyday, user will use your application to buy medicines. User might ask you issues related to his/her health and want to hear your advice. Please give user a very short advice in a paragraph to improve health and also if you can find any kind of medicines in your pharmacy store that can help user, response with the ids of the medicines (do not specify the name of the medicines), please note that the ids of the medicines can be string or integer and the ids must be wrapped by triple asterisk symbols. Here is list of medicines with their description currently available in your store:\n"
         
-        for medicine in MockDataUtil.getMockMedicines() {
+        for medicine in try await MedicineService.shared.getAllDocuments() {
             if medicine.name != nil && !medicine.name!.isEmpty {
                 message += "\n"
                 message += "id: \(medicine.id)\n"
@@ -98,7 +116,7 @@ class OpenAIService {
     
     func parseTextWithMedicineIDs(_ input: String, medicineIdToMedicine: [String: Medicine]) -> [HyperLinkResponse] {
         // Regular expression to match text segments and IDs wrapped in ***
-        let pattern = #"(\*\*\*\d+\*\*\*)|([^*]+)"#
+        let pattern = #"(\*\*\*\w+\*\*\*)|([^*]+)"#
         
         // Create a regex object
         let regex = try! NSRegularExpression(pattern: pattern, options: [])
@@ -114,7 +132,9 @@ class OpenAIService {
             if let range1 = Range(match.range(at: 1), in: input) {
                 // If the match group 1 is non-nil, it's an ID wrapped in ***
                 let idWithAsterisks = String(input[range1])
-                let id = idWithAsterisks.replacingOccurrences(of: "***", with: "")
+                var id = idWithAsterisks.replacingOccurrences(of: "***(", with: "")
+                id = idWithAsterisks.replacingOccurrences(of: "***)", with: "")
+                id = idWithAsterisks.replacingOccurrences(of: "***", with: "")
                 result.append(HyperLinkResponse(type: .hyperLink, rawText: medicineIdToMedicine[id]?.name ?? "", medicineId: id))
             } else if let range2 = Range(match.range(at: 2), in: input) {
                 // If the match group 2 is non-nil, it's a normal text segment

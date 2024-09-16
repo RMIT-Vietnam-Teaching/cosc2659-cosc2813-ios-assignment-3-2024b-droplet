@@ -1,9 +1,27 @@
-//
-//  NotificationService.swift
-//  pharmacist_project
-//
-//  Created by Thinh Ngo on 15/9/24.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Ngo Ngoc Thinh
+  ID: s3879364
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
+*/
 
 import Foundation
 import UserNotifications
@@ -89,7 +107,7 @@ class NotificationService {
                 if let error = error {
                     print("Failed to schedule notification: \(error.localizedDescription)")
                 } else {
-                    print("Notification scheduled at \(notificationRequest.time).")
+                    print("Notification scheduled at \(notificationRequest.time). Body: \(notificationRequest.body)")
                 }
             }
         }
@@ -101,11 +119,11 @@ class NotificationService {
     }
     
     static func getStaticDailyNotificationRequests() async throws -> [DailyNotificationRequest] {
-        let morningText = try await OpenAIService.shared.sendMessage(text: "write me a short text to help me have a good day start")
-        let nightText = try await OpenAIService.shared.sendMessage(text: "write me a short text to help me have a good cozy night")
+        let morningText = try await OpenAIService.shared.sendMessage(text: "write me a health quote about 20 words to help me have a good day start")
+        let nightText = try await OpenAIService.shared.sendMessage(text: "write me a health quote about 20 words to help me have a cozy night")
         return [
-            DailyNotificationRequest(time: DateComponents(hour: 7), title: "Good morning", body: morningText, sound: .default),
-            DailyNotificationRequest(time: DateComponents(hour: 21), title: "Have a cozy night", body: nightText, sound: .default),
+            DailyNotificationRequest(time: DateComponents(hour: 7), title: "Good morning 🔥", body: morningText, sound: .default),
+            DailyNotificationRequest(time: DateComponents(hour: 21), title: "Have a cozy night 🍎", body: nightText, sound: .default),
         ]
     }
 }

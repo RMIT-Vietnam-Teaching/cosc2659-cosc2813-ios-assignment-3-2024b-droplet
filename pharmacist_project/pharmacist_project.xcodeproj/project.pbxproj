@@ -31,6 +31,7 @@
 		8A4A023C2C8A0C30004CF016 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 8A4A023B2C8A0C30004CF016 /* FirebaseAuth */; };
 		8A4A02422C8A1093004CF016 /* GlobalUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02412C8A1093004CF016 /* GlobalUtils.swift */; };
 		8A4A02442C8A13B7004CF016 /* AppUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A4A02432C8A13B7004CF016 /* AppUser.swift */; };
+		8A6157592C986F02007EA748 /* LoadingButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A6157582C986F02007EA748 /* LoadingButton.swift */; };
 		8A67F5442C91DB9C002027F1 /* OpenAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67F5432C91DB9C002027F1 /* OpenAIService.swift */; };
 		8A67F5472C91DBF6002027F1 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8A67F5462C91DBF6002027F1 /* ChatGPTSwift */; };
 		8A67F54B2C91E66E002027F1 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A67F54A2C91E66E002027F1 /* ChatView.swift */; };
@@ -124,6 +125,7 @@
 		71EF839C2C96CD0A00E1F952 /* AddMedicineViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMedicineViewModel.swift; sourceTree = "<group>"; };
 		8A4A02412C8A1093004CF016 /* GlobalUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalUtils.swift; sourceTree = "<group>"; };
 		8A4A02432C8A13B7004CF016 /* AppUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUser.swift; sourceTree = "<group>"; };
+		8A6157582C986F02007EA748 /* LoadingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingButton.swift; sourceTree = "<group>"; };
 		8A67F5432C91DB9C002027F1 /* OpenAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAIService.swift; sourceTree = "<group>"; };
 		8A67F54A2C91E66E002027F1 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		8A7B27FE2C8C8B47005A652C /* BusinessError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessError.swift; sourceTree = "<group>"; };
@@ -166,7 +168,7 @@
 		C447E0562C8D93D6007CC7EC /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		C478BE182C9423F60005382E /* StripePaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripePaymentView.swift; sourceTree = "<group>"; };
 		C478BE1D2C942FC90005382E /* StripePaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripePaymentViewModel.swift; sourceTree = "<group>"; };
-		C48032852C88498200E662AE /* pharmacist_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pharmacist_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C48032852C88498200E662AE /* Smart Pharmacist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Pharmacist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C48032882C88498200E662AE /* pharmacist_projectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pharmacist_projectApp.swift; sourceTree = "<group>"; };
 		C480328A2C88498200E662AE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C480328C2C88498400E662AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -377,7 +379,7 @@
 		C48032862C88498200E662AE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C48032852C88498200E662AE /* pharmacist_project.app */,
+				C48032852C88498200E662AE /* Smart Pharmacist.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -468,6 +470,7 @@
 				714373542C94039B0018624E /* ProgressBar.swift */,
 				196DFA612C90078D006890A0 /* CategorySectionView.swift */,
 				8ADF6D0E2C95AE68001EF154 /* HyperLinkTextView.swift */,
+				8A6157582C986F02007EA748 /* LoadingButton.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -515,7 +518,7 @@
 				8ADF6D112C95BEC5001EF154 /* WrappingHStack */,
 			);
 			productName = pharmacist_project;
-			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
+			productReference = C48032852C88498200E662AE /* Smart Pharmacist.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -589,6 +592,7 @@
 				8A4A02442C8A13B7004CF016 /* AppUser.swift in Sources */,
 				C480329E2C884FFB00E662AE /* LoginView.swift in Sources */,
 				8AEB8C052C8C1579002AA1B7 /* CartService.swift in Sources */,
+				8A6157592C986F02007EA748 /* LoadingButton.swift in Sources */,
 				71EF839B2C96CCEF00E1F952 /* AddMedicineView.swift in Sources */,
 				C4F06C1A2C8AE0DC00BDB1F8 /* Currency.swift in Sources */,
 				1994C1012C898732004EF663 /* CustomColors.swift in Sources */,
@@ -802,7 +806,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.droplet.pharmacist-project";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Smart Pharmacist";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -834,7 +838,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.droplet.pharmacist-project";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Smart Pharmacist";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
