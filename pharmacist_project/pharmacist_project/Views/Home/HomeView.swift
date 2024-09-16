@@ -68,6 +68,7 @@ struct HomeView: View {
                 secondaryButton: .cancel(Text("Cancel"))
             )
         }
+        .navigationBarBackButtonHidden(true)
     }
     
     func requestNotificationPermissionForTheFirstTime() {
