@@ -83,10 +83,10 @@ struct UserProfileView: View {
                         NavigationLink(destination: OrderView(orderViewModel: OrderViewModel())) {
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("My orders")
+                                    Text("Orders")
                                         .font(.headline)
                                         .foregroundColor(.primary)
-                                    Text("Check your orders")
+                                    Text(viewModel.user?.type == UserType.admin ? "Manage orders" : "View your orders")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }

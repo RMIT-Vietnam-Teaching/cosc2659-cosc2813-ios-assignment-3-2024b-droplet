@@ -9,80 +9,108 @@ import Foundation
 import SwiftUI
 
 class CartAddressViewModel: ObservableObject {
-    lazy var paymentViewModel = StripePaymentViewModel(actionSuccess: self.paymentSuccessCallback, actionFailed: self.paymentFailedCallback)
+    var payableAmount: Double
+    var paymentMethod: PaymentMethod
+    var shippingMethod: ShippingMethod
+    
     @State var curUser: AppUser? = nil
     @Published var fullName: String = ""
     @Published var phoneNumber: String = ""
     @Published var address: String = ""
+    @Published var note: String = ""
     @Published var showAlert = false
     @Published var alertMessage = ""
+    @Published var isProcessingPayment = false
+
+    private var orderService = OrderService.shared
     
+    lazy var paymentViewModel: StripePaymentViewModel = {
+        StripePaymentViewModel(
+            actionSuccess: { [weak self] in
+                self?.paymentSuccessCallback()
+            },
+            actionFailed: { [weak self] error in
+                self?.paymentFailedCallback(error: error!)
+            }
+        )
+    }()
+
+    init(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod) {
+        self.payableAmount = payableAmount
+        self.paymentMethod = paymentMethod
+        self.shippingMethod = shippingMethod
+    }
+
     func loadUserData() async {
-        Task {
-            if let user = await AuthenticationService.shared.getAuthenticatedUser() {
-                DispatchQueue.main.async {
-                    self.curUser = user
-                    self.fullName = user.name ?? ""
-                    self.phoneNumber = user.phoneNumber ?? ""
-                    self.address = user.address ?? ""
-                }
+        if let user = await AuthenticationService.shared.getAuthenticatedUser() {
+            DispatchQueue.main.async {
+                self.curUser = user
+                self.fullName = user.name ?? ""
+                self.phoneNumber = user.phoneNumber ?? ""
+                self.address = user.address ?? ""
             }
         }
     }
-    
-    func saveAddressAndProceed(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod) async throws {
+
+    func proceedToPayment() async throws {
         guard !fullName.isEmpty, !phoneNumber.isEmpty, !address.isEmpty else {
             showAlert(message: "Please fill in all required fields.")
             return
         }
+
+        isProcessingPayment = true
         
         Task {
             do {
-                self.callStripePaymentSheet(amount: payableAmount)
+                try await self.callStripePaymentSheet(amount: payableAmount)
             } catch {
-                showAlert(message: "Failed to save address: \(error.localizedDescription)")
+                isProcessingPayment = false
+                showAlert(message: "Payment failed: \(error.localizedDescription)")
+                return
             }
         }
     }
-    
+
+    func callStripePaymentSheet(amount: Double) async throws {
+        paymentViewModel.initiatePayment(amount: amount)
+    }
+
+    func paymentSuccessCallback() {
+        Task {
+            guard let user = curUser else { return }
+            do {
+                let _ = try await orderService.placeOrder(
+                    userId: user.id,
+                    fullName: fullName,
+                    phoneNumber: phoneNumber,
+                    address: address,
+                    note: note,
+                    paymentMethod: paymentMethod,
+                    shippingMethod: shippingMethod
+                )
+                DispatchQueue.main.async {
+                    self.isProcessingPayment = false
+                    self.showAlert(message: "Order place")
+                    print("Order placed successfully")
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.isProcessingPayment = false
+                    self.showAlert(message: "Failed to place the order: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+
+    func paymentFailedCallback(error: Error) {
+        DispatchQueue.main.async {
+            self.isProcessingPayment = false
+            self.showAlert(message: "\(error.localizedDescription)")
+        }
+    }
+
     func showAlert(message: String) {
         alertMessage = message
         showAlert = true
-    }
-    
-    func updateDeliveryInfo(fullName: String, phoneNumber: String, address: String) async throws {
-        guard let userId = AuthenticationService.shared.getAuthenticatedUserOffline()?.id else {
-            throw NSError(domain: "Authentication", code: 0, userInfo: [NSLocalizedDescriptionKey: "User not authenticated"])
-        }
-        
-        do {
-            try await UserService.shared.updateDocumentFields(userId: userId, fields: [
-                "name": fullName,
-                "phoneNumber": phoneNumber,
-                "address": address,
-            ])
-            
-            if var user = await AuthenticationService.shared.getAuthenticatedUser() {
-                user.name = fullName
-                user.phoneNumber = phoneNumber
-                user.address = address
-            }
-        } catch {
-            throw error
-        }
-    }
-    
-    func callStripePaymentSheet(amount: Double) {
-        Task {
-            paymentViewModel.initiatePayment(amount: amount)
-        }
-    }
-    
-    func paymentSuccessCallback() {
-        print("abc")
-    }
-    
-    func paymentFailedCallback() {
-        print("dsaf")
     }
 }
