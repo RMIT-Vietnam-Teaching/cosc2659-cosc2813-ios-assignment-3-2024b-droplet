@@ -22,8 +22,6 @@ class CartAddressViewModel: ObservableObject {
     @Published var isError = true
     @Published var alertMessage = ""
     @Published var isProcessingPayment = false
-
-    @Published var navigationPath = NavigationPath()
     
     private var orderService = OrderService.shared
     

@@ -41,6 +41,8 @@ class OrderViewModel: ObservableObject {
                 self.user = onlineUser
                 print("Loaded online user: \(onlineUser)")
                 self.isLoading = false
+                
+                await loadOrderHistory()
             } else {
                 self.errorMessage = "Please login"
                 print("Please login")
@@ -60,9 +62,15 @@ class OrderViewModel: ObservableObject {
         errorMessage = nil
         
         do {
-            let orderHistory = try await orderService.getUserOrderHistory(userId: user.id)
-            self.orders = orderHistory
-            print("Loaded order history: \(orderHistory.count) orders")
+            if user.type == .admin {
+                let allOrders = try await orderService.getOrdersFromAllUsers()
+                self.orders = allOrders
+                print("Loaded all orders: \(allOrders.count) orders")
+            } else {
+                let orderHistory = try await orderService.getUserOrderHistory(userId: user.id)
+                self.orders = orderHistory
+                print("Loaded order history: \(orderHistory.count) orders")
+            }
             self.isLoading = false
         } catch {
             self.errorMessage = "Failed to load order history: \(error.localizedDescription)"

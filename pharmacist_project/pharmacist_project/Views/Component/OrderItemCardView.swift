@@ -57,13 +57,8 @@ struct OrderItemCardView: View {
                         Spacer()
                         
                         HStack {
-                            Text("\(orderItem.pricePerUnitDiscount!.formatAsCurrency())")
-                                .font(.headline)
-                                .fontWeight(.bold)
-                            
                             Text("\(orderItem.pricePerUnit!.formatAsCurrency())")
                                 .font(.subheadline)
-                                .strikethrough()
                                 .foregroundColor(.secondary)
                         }
                     }

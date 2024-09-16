@@ -28,11 +28,6 @@ struct OrderView: View {
                 }
             }
             .navigationTitle("Orders History")
-            .onAppear {
-                Task {
-                    await orderViewModel.loadOrderHistory()
-                }
-            }
         }
     }
     
