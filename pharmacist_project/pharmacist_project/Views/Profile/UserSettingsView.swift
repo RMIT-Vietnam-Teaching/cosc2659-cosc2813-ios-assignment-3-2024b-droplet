@@ -181,7 +181,7 @@ struct UserSettingsView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal)
-                    .onChange(of: appearanceMode) { newMode in
+                    .onChange(of: appearanceMode) { _, newMode in
                         viewModel.updateAppearanceMode(newMode)
                     }
                     
