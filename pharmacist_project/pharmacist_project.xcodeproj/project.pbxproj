@@ -168,7 +168,7 @@
 		C447E0562C8D93D6007CC7EC /* UserProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileView.swift; sourceTree = "<group>"; };
 		C478BE182C9423F60005382E /* StripePaymentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripePaymentView.swift; sourceTree = "<group>"; };
 		C478BE1D2C942FC90005382E /* StripePaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripePaymentViewModel.swift; sourceTree = "<group>"; };
-		C48032852C88498200E662AE /* pharmacist_project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = pharmacist_project.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C48032852C88498200E662AE /* Smart Pharmacist.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Smart Pharmacist.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C48032882C88498200E662AE /* pharmacist_projectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = pharmacist_projectApp.swift; sourceTree = "<group>"; };
 		C480328A2C88498200E662AE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C480328C2C88498400E662AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -379,7 +379,7 @@
 		C48032862C88498200E662AE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				C48032852C88498200E662AE /* pharmacist_project.app */,
+				C48032852C88498200E662AE /* Smart Pharmacist.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -518,7 +518,7 @@
 				8ADF6D112C95BEC5001EF154 /* WrappingHStack */,
 			);
 			productName = pharmacist_project;
-			productReference = C48032852C88498200E662AE /* pharmacist_project.app */;
+			productReference = C48032852C88498200E662AE /* Smart Pharmacist.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -806,7 +806,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.droplet.pharmacist-project";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Smart Pharmacist";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -838,7 +838,7 @@
 				);
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.droplet.pharmacist-project";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = "Smart Pharmacist";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

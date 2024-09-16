@@ -163,17 +163,24 @@ class UserProfileViewModel: ObservableObject {
     }
     
     func toggleReceiveHealthTip(_ newValue: Bool) {
+        if self.userPreference != nil {
+            userPreference?.receiveDailyHealthTip = newValue
+        }
         Task {
-            if var userPreference = self.userPreference {
+            if self.userPreference != nil {
                 do {
                     if newValue == true {
                         let isNotificationPermissionDenied = await NotificationService.shared.isNotificationPermissionDenied()
                         if isNotificationPermissionDenied {
                             isShowNotificationPermissionAlert = true
                         }
+                        NotificationService.shared.scheduleDailyNotifications(dailyNotificationRequests: try await NotificationService.getStaticDailyNotificationRequests())
+                    } else {
+                        NotificationService.shared.cancelAllNotifications()
                     }
                     try await updateNotificationSetting(newValue)
                 } catch {
+                    userPreference?.receiveDailyHealthTip = !newValue
                     print("Failed to update user preference: \(error.localizedDescription)")
                 }
             }

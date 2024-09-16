@@ -107,7 +107,7 @@ class NotificationService {
                 if let error = error {
                     print("Failed to schedule notification: \(error.localizedDescription)")
                 } else {
-                    print("Notification scheduled at \(notificationRequest.time).")
+                    print("Notification scheduled at \(notificationRequest.time). Body: \(notificationRequest.body)")
                 }
             }
         }
