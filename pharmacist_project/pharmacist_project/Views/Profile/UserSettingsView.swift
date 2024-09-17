@@ -1,9 +1,27 @@
-//
-//  UserSettingsView.swift
-//  pharmacist_project
-//
-//  Created by Long Pham Hoang on 9/9/24.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Long Hoang Pham
+  ID: s3938007
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
+*/
 
 import SwiftUI
 
@@ -19,7 +37,7 @@ struct UserSettingsView: View {
     @State private var dailyHealthTipsNotification = true
     @State private var deliveryStatusNotification = false
     
-    @AppStorage("appearanceMode") private var appearanceMode: ColorSchemeMode = .automatic
+    @State private var appearanceMode: ColorSchemeMode = DarkLightModeService.shared.getColorSchemeModeFrom(darkLightMode: DarkLightModeService.shared.getDarkLightModePreference())
     
     
     var body: some View {
@@ -145,13 +163,23 @@ struct UserSettingsView: View {
                             .padding(.leading)
                         
                         VStack {
-                            Toggle(isOn: $dailyHealthTipsNotification) {
+                            Toggle(isOn: Binding(
+                                get: { viewModel.userPreference?.receiveDailyHealthTip ?? false },
+                                set: { newValue in
+                                    viewModel.toggleReceiveHealthTip(newValue)
+                                }
+                            )) {
                                 Text("Daily health tips")
                             }
                             
-                            Toggle(isOn: $deliveryStatusNotification) {
-                                Text("Delivery status")
-                            }
+//                            Toggle(isOn: Binding(
+//                                get: { viewModel.userPreference?.receiveDeliveryStatus ?? false },
+//                                set: { newValue in
+//                                    viewModel.toggleReceiveDeliveryStatus(newValue)
+//                                }
+//                            )) {
+//                                Text("Delivery status")
+//                            }
                         }
                         .padding(.horizontal)
                     }
@@ -171,7 +199,7 @@ struct UserSettingsView: View {
                     }
                     .pickerStyle(SegmentedPickerStyle())
                     .padding(.horizontal)
-                    .onChange(of: appearanceMode) { newMode in
+                    .onChange(of: appearanceMode) { _, newMode in
                         viewModel.updateAppearanceMode(newMode)
                     }
                     
@@ -184,6 +212,21 @@ struct UserSettingsView: View {
             } else {
                 ProgressView("Loading...")
             }
+        }
+        
+        // MARK: notification permission alert
+        .alert(isPresented: $viewModel.isShowNotificationPermissionAlert) {
+            Alert(
+                title: Text("Notification Permission"),
+                message: Text("Your application's notification is turned off hence your account notification's settings will do not have effect. Please turn notification on."),
+                primaryButton: .default(Text("Settings"), action: {
+                    // Action to open settings or request permissions
+                    if let appSettings = URL(string: UIApplication.openSettingsURLString), UIApplication.shared.canOpenURL(appSettings) {
+                        UIApplication.shared.open(appSettings)
+                    }
+                }),
+                secondaryButton: .cancel(Text("Cancel"))
+            )
         }
     }
 }

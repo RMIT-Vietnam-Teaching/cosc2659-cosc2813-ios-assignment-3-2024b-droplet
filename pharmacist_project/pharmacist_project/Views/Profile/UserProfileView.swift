@@ -1,9 +1,27 @@
-//
-//  UserProfileView.swift
-//  pharmacist_project
-//
-//  Created by Long Pham Hoang on 8/9/24.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Long Hoang Pham
+  ID: s3938007
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
+*/
 
 import SwiftUI
 
@@ -11,6 +29,7 @@ struct UserProfileView: View {
     @StateObject var viewModel = UserProfileViewModel()
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
+    @State private var isShowAvatarUploadView = false
     
     var body: some View {
         NavigationStack {
@@ -22,27 +41,40 @@ struct UserProfileView: View {
                         Divider()
                         
                         HStack {
-                            NavigationLink(destination: ImageUploadView(userProfileViewModel: viewModel)) {
-                                AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
-                                    if let image = phase.image {
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    } else if phase.error != nil {
-                                        Image("defaultUserProfile")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    } else {
-                                        ProgressView()
-                                            .frame(width: 100, height: 100)
-                                            .clipShape(Circle())
-                                    }
+                            AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
+                                if let image = phase.image {
+                                    image
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else if phase.error != nil {
+                                    Image("defaultUserProfile")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else {
+                                    ProgressView()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
                                 }
                             }
+                            .overlay(
+                                VStack {
+                                    Button(action: {
+                                        isShowAvatarUploadView = true
+                                    }, label: {
+                                        Image(systemName: "pencil.circle.fill")
+                                            .font(.title2)
+                                            .foregroundColor(.white)
+                                            .padding(4)
+                                            .background(Color.black.opacity(0.24))
+                                            .clipShape(Circle())
+                                            .position(x: 80, y: 80)
+                                    })
+                                }
+                            )
                             
                             VStack(alignment: .leading) {
                                 Text(user.name ?? "N/A")
@@ -69,10 +101,10 @@ struct UserProfileView: View {
                         NavigationLink(destination: OrderView(orderViewModel: OrderViewModel())) {
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
-                                    Text("My orders")
+                                    Text("Orders")
                                         .font(.headline)
                                         .foregroundColor(.primary)
-                                    Text("Check your orders")
+                                    Text(viewModel.user?.type == UserType.admin ? "Manage orders" : "View your orders")
                                         .font(.subheadline)
                                         .foregroundColor(.secondary)
                                 }
@@ -110,8 +142,31 @@ struct UserProfileView: View {
                         }
                         .buttonStyle(PlainButtonStyle())
                         
+                        if user.type == .admin {
+                            NavigationLink(destination: AddMedicineView()) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Add Medicine")
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+                                        Text("Add new medicines to the inventory")
+                                            .font(.subheadline)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .foregroundColor(.gray)
+                                }
+                                .padding()
+                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                                .cornerRadius(8)
+                                .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                                .padding(.horizontal)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                        }
+                        
                         Spacer()
-                    
                         
                         Button(action: {
                             showLogoutAlert = true
@@ -160,6 +215,10 @@ struct UserProfileView: View {
         }
         .onAppear {
             viewModel.loadAuthenticatedUser()
+        }
+        
+        .navigationDestination(isPresented: $isShowAvatarUploadView) {
+            ImageUploadView(userProfileViewModel: viewModel)
         }
     }
     

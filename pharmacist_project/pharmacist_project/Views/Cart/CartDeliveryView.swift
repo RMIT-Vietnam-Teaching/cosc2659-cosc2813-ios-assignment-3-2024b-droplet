@@ -1,22 +1,32 @@
-//
-//  CartDeliveryView.swift
-//  pharmacist_project
-//
-//  Created by Dinh Le Hong Tin on 10/9/24.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Dinh Le Hong Tin
+  ID: s3932134
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
+*/
 
 import SwiftUI
 
 struct CartDeliveryView: View {
     @StateObject private var viewModel = CartDeliveryViewModel()
-//    @State private var fullName: String
-//    @State private var payableAmount: Double
-//    @State private var phoneNumber: String
-//    @State private var address: String
-//    @State private var showAlert = false
-//    @State private var alertMessage = ""
-//    @State private var paymentMethod: PaymentMethod
-//    @State private var shippingMethod: ShippingMethod
     
     var body: some View {
         NavigationView {
@@ -27,31 +37,36 @@ struct CartDeliveryView: View {
                         ProgressBar(steps: ["Delivery", "Address"], currentStep: 0)
                     }
                     
-                    // Delivery date
-                    HStack {
-                        Image(systemName: "truck.box")
-                        Text("Delivery by \(Date().addingTimeInterval(7*24*60*60).formatted(date: .abbreviated, time: .omitted))")
+                    if !viewModel.cartItems.isEmpty {
+                        // Delivery date
+                        HStack {
+                            Image(systemName: "truck.box")
+                            Text("Delivery by \(Date().addingTimeInterval(7*24*60*60).formatted(date: .abbreviated, time: .omitted))")
+                        }
+                        .font(.subheadline)
+                        .padding(.horizontal)
+                        
+                        // Cart items
+                        ForEach($viewModel.cartItems, id: \.id) { $item in
+                            CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                        }
+                        
+                        // Payment and Shipping methods
+                        VStack(spacing: 10) {
+                            PaymentMethodPicker(selectedMethod: $viewModel.selectedPaymentMethod)
+                            ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
+                        }
+                        .padding()
+                        .background(Color.white)
+                        .cornerRadius(10)
+                        
+                        // Order Summary
+                        OrderSummaryView(viewModel: viewModel)
+                    } else {
+                        Text("Your cart is empty.")
+                            .font(.headline)
+                            .foregroundColor(.secondary)
                     }
-                    .font(.subheadline)
-                    .padding(.horizontal)
-                    
-                    // Cart items
-                    ForEach($viewModel.cartItems, id: \.id) { $item in
-                        CartItemCardView(cartItem: $item).environmentObject(viewModel)
-                    }
-                    
-                    // Payment and Shipping methods
-                    VStack(spacing: 10) {
-                        PaymentMethodPicker(selectedMethod: $viewModel.selectedPaymentMethod)
-                        ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
-                    }
-                    .padding()
-                    .background(Color.white)
-                    .cornerRadius(10)
-                    
-                    // Order Summary
-                    OrderSummaryView(viewModel: viewModel)
-
                 }
                 .padding()
             }
@@ -63,21 +78,25 @@ struct CartDeliveryView: View {
             VStack {
                 Spacer()
                 NavigationLink(destination: CartAddressView(
-                    payableAmount: viewModel.payableAmount,
-                    paymentMethod: viewModel.selectedPaymentMethod,
-                    shippingMethod: viewModel.selectedShippingMethod)
-                )
-                {
+                    viewModel: CartAddressViewModel(
+                        payableAmount: viewModel.payableAmount,
+                        paymentMethod: viewModel.selectedPaymentMethod,
+                        shippingMethod: viewModel.selectedShippingMethod)
+                    )
+                ) {
                     Text("Continue")
                         .frame(maxWidth: .infinity)
                         .padding()
-                        .background(Color(hex: "#FF6F5C"))
+                        .background(viewModel.isCartItemEmpty() ? Color.gray : Color(hex: "#FF6F5C"))
                         .foregroundColor(.white)
                         .cornerRadius(6)
                 }
                 .padding()
+                // Disable the "Continue" button if cart is empty
+                .disabled(viewModel.isCartItemEmpty())
             }
         )
+        .navigationTitle("Shopping cart")
         .task {
             await viewModel.loadCartItems()
         }

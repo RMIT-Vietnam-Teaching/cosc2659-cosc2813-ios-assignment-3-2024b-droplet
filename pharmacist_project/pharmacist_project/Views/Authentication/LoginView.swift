@@ -1,17 +1,30 @@
 /*
- RMIT University Vietnam
- Course: COSC2659 iOS Development
- Semester: 2023B
- Assessment: Assignment 3
- Author: Do Phan Nhat Anh
- ID: s3915034
- Created date: 05/09/2024
- Last modified: 05/09/2024
- Acknowledgement:
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Do Phan Nhat Anh
+  ID: s3915034
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
  
- Google Icon - Png Egg
- Facebook Icon - Png Egg
- */
+     Google Icon - Png Egg
+     Facebook Icon - Png Egg
+*/
 
 import SwiftUI
 
@@ -52,39 +65,23 @@ struct LoginScreenView: View {
                     if let errorMessage = loginVM.errorMessage {
                         Text(errorMessage)
                             .foregroundColor(.red)
+                            .padding(.horizontal)
                     }
                     
                     // Login Button
-                    Button(action: {
+                    LoadingButton(title: "Login", state: $loginVM.loginButtonState, style: .fill) {
                         // Login action
                         loginVM.signIn()
-                    }) {
-                        Text("Login")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color(hex: "2EB5FA"))
-                            .foregroundColor(.white)
-                            .cornerRadius(20)
-                            .shadow(radius: 4)
                     }
                     .padding(.horizontal)
                     .padding(.top, 15)
                     
                     // Sign Up Button
-                    Button(action: {
+                    LoadingButton(title: "Sign up", state: $loginVM.signUpButtonState, style: .outline) {
                         navigateToRegister = true
-                    }) {
-                        Text("Sign up")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .foregroundColor(Color(hex: "2EB5FA"))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 20)
-                                    .stroke(Color(hex: "2EB5FA"), lineWidth: 2)
-                            )
                     }
                     .padding(.horizontal)
-                    .padding(.top, 5)
+                    .padding(.top, 6)
                     
                     Spacer()
                     

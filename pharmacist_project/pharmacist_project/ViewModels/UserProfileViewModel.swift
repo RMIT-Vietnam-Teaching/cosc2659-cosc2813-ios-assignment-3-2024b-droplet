@@ -1,9 +1,27 @@
-//
-//  UserProfileViewModel.swift
-//  pharmacist_project
-//
-//  Created by Long Pham Hoang on 10/9/24.
-//
+/*
+  RMIT University Vietnam
+  Course: COSC2659 iOS Development
+  Semester: 2024B
+  Assessment: Assignment 3
+  Author: Long Hoang Pham
+  ID: s3938007
+  Created  date: 05/09/2024
+  Last modified: 16/09/2024
+  Acknowledgement:
+     https://rmit.instructure.com/courses/138616/modules/items/6274581
+     https://rmit.instructure.com/courses/138616/modules/items/6274582
+     https://rmit.instructure.com/courses/138616/modules/items/6274583
+     https://rmit.instructure.com/courses/138616/modules/items/6274584
+     https://rmit.instructure.com/courses/138616/modules/items/6274585
+     https://rmit.instructure.com/courses/138616/modules/items/6274586
+     https://rmit.instructure.com/courses/138616/modules/items/6274588
+     https://rmit.instructure.com/courses/138616/modules/items/6274589
+     https://rmit.instructure.com/courses/138616/modules/items/6274590
+     https://rmit.instructure.com/courses/138616/modules/items/6274591
+     https://rmit.instructure.com/courses/138616/modules/items/6274592
+     https://developer.apple.com/documentation/swift/
+     https://developer.apple.com/documentation/swiftui/
+*/
 
 import Foundation
 import SwiftUI
@@ -64,7 +82,12 @@ class UserProfileViewModel: ObservableObject {
         let newAddress = address ?? currentUser.address
         let newPhotoURL = photoURL?.absoluteString ?? currentUser.photoURL
         
-        print(newPhotoURL!)
+        if newPhotoURL != nil {
+            print(newPhotoURL!)
+        } else {
+            print("no new photo uploaded")
+        }
+        
         
         isLoading = true
         errorMessage = nil
@@ -140,17 +163,24 @@ class UserProfileViewModel: ObservableObject {
     }
     
     func toggleReceiveHealthTip(_ newValue: Bool) {
+        if self.userPreference != nil {
+            userPreference?.receiveDailyHealthTip = newValue
+        }
         Task {
-            if var userPreference = self.userPreference {
+            if self.userPreference != nil {
                 do {
                     if newValue == true {
                         let isNotificationPermissionDenied = await NotificationService.shared.isNotificationPermissionDenied()
                         if isNotificationPermissionDenied {
                             isShowNotificationPermissionAlert = true
                         }
+                        NotificationService.shared.scheduleDailyNotifications(dailyNotificationRequests: try await NotificationService.getStaticDailyNotificationRequests())
+                    } else {
+                        NotificationService.shared.cancelAllNotifications()
                     }
                     try await updateNotificationSetting(newValue)
                 } catch {
+                    userPreference?.receiveDailyHealthTip = !newValue
                     print("Failed to update user preference: \(error.localizedDescription)")
                 }
             }
