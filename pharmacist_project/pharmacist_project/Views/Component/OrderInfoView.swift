@@ -27,7 +27,8 @@ import SwiftUI
 
 struct OrderInfoView: View {
     let order: Order
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 20) {
             Text("Order Information")
@@ -65,9 +66,9 @@ struct OrderInfoView: View {
             }
         }
         .padding()
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
         .cornerRadius(10)
-        .shadow(radius: 2)
+        .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2)
     }
 }
 
@@ -75,7 +76,8 @@ struct InfoRow<Content: View>: View {
     let title: String
     let content: () -> Content
     let isImage: Bool
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     init(title: String, isImage: Bool = false, @ViewBuilder content: @escaping () -> Content) {
         self.title = title
         self.content = content
@@ -85,7 +87,7 @@ struct InfoRow<Content: View>: View {
     var body: some View {
         HStack(alignment: isImage ? .center : .firstTextBaseline) {
             Text(title)
-                .foregroundColor(.gray)
+                .foregroundColor(colorScheme == .dark ? .white : .gray)
                 .frame(width: 140, alignment: .leading)
                 .offset(y: isImage ? 1 : 0)
             

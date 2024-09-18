@@ -27,6 +27,7 @@ import SwiftUI
 
 struct CartAddressView: View {
     @StateObject var viewModel: CartAddressViewModel
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
         NavigationView {
@@ -44,6 +45,7 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Full Name*")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Enter your fullname", text: $viewModel.fullName)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
@@ -51,6 +53,7 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Phone Number*")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Enter your phone number", text: $viewModel.phoneNumber)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .keyboardType(.phonePad)
@@ -59,6 +62,7 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Address*")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Please add your full address", text: $viewModel.address)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
@@ -66,13 +70,14 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Note (Optional)")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Add a note", text: $viewModel.note)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
                         }
                         .padding()
                     }
-                    .background(Color.white)
+                    .background(colorScheme == .dark ? Color.black : Color.white)
                     .alert(isPresented: $viewModel.showAlert) {
                         Alert(title: Text("Alert"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
                     }

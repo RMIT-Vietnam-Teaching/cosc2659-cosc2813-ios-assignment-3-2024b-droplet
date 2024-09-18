@@ -1,13 +1,13 @@
 /*
-  RMIT University Vietnam
-  Course: COSC2659 iOS Development
-  Semester: 2024B
-  Assessment: Assignment 3
-  Author: Do Phan Nhat Anh
-  ID: s3915034
-  Created  date: 05/09/2024
-  Last modified: 16/09/2024
-  Acknowledgement:
+ RMIT University Vietnam
+ Course: COSC2659 iOS Development
+ Semester: 2024B
+ Assessment: Assignment 3
+ Author: Do Phan Nhat Anh
+ ID: s3915034
+ Created  date: 05/09/2024
+ Last modified: 16/09/2024
+ Acknowledgement:
      https://rmit.instructure.com/courses/138616/modules/items/6274581
      https://rmit.instructure.com/courses/138616/modules/items/6274582
      https://rmit.instructure.com/courses/138616/modules/items/6274583
@@ -21,7 +21,7 @@
      https://rmit.instructure.com/courses/138616/modules/items/6274592
      https://developer.apple.com/documentation/swift/
      https://developer.apple.com/documentation/swiftui/
-*/
+ */
 
 import SwiftUI
 
@@ -121,9 +121,9 @@ struct CategoryButtonView: View {
             Text(title)
                 .font(.system(size: 14, weight: .medium))
                 .frame(width: buttonWidth, height: buttonHeight)
-                .background(isActive ? (DarkLightModeService.shared.isDarkMode() ? Color.blue.opacity(0.4) : Color.blue.opacity(0.2)) : (DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.4) : Color.gray.opacity(0.2)))
+                .background(isActive ? Color.accentColor.opacity(0.2) : Color(UIColor.secondarySystemBackground))
                 .cornerRadius(10)
-                .foregroundColor(isActive ? .blue : (DarkLightModeService.shared.isDarkMode() ? .white : .black))
+                .foregroundColor(isActive ? .accentColor : .primary)
         }
     }
 }

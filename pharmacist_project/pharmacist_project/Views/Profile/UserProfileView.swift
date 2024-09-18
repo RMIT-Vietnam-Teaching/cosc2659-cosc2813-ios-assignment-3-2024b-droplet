@@ -30,7 +30,8 @@ struct UserProfileView: View {
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
     @State private var isShowAvatarUploadView = false
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -39,7 +40,7 @@ struct UserProfileView: View {
                 } else if let user = viewModel.user {
                     VStack(alignment: .leading, spacing: 16) {
                         Divider()
-                        
+
                         HStack {
                             AsyncImage(url: URL(string: user.photoURL ?? "defaultUserProfile")) { phase in
                                 if let image = phase.image {
@@ -75,99 +76,99 @@ struct UserProfileView: View {
                                     })
                                 }
                             )
-                            
+
                             VStack(alignment: .leading) {
                                 Text(user.name ?? "N/A")
                                     .font(.title3)
                                     .fontWeight(.bold)
                                     .foregroundColor(Color.primary)
-                                
+
                                 Text(user.email ?? "N/A")
                                     .font(.subheadline)
                                     .foregroundColor(Color.secondary)
-                                
+
                                 Text(user.address ?? "Address not specified")
                                     .font(.subheadline)
                                     .foregroundColor(Color.secondary)
                             }
                             .padding(.leading)
-                            
+
                             Spacer()
                         }
                         .padding(.horizontal)
-                        
+
                         Divider()
-                        
+
                         NavigationLink(destination: OrderView(orderViewModel: OrderViewModel())) {
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Orders")
                                         .font(.headline)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(Color.primary)
                                     Text(viewModel.user?.type == UserType.admin ? "Manage orders" : "View your orders")
                                         .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(Color.secondary)
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
-                            .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                            .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
                         }
                         .buttonStyle(PlainButtonStyle())
-                        
+
                         NavigationLink(destination: UserSettingsView(viewModel: viewModel)) {
                             HStack {
                                 VStack(alignment: .leading, spacing: 4) {
                                     Text("Settings")
                                         .font(.headline)
-                                        .foregroundColor(.primary)
+                                        .foregroundColor(Color.primary)
                                     Text("Notifications, Name, Phone Number,...")
                                         .font(.subheadline)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(Color.secondary)
                                 }
                                 Spacer()
                                 Image(systemName: "chevron.right")
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
-                            .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                            .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
                         }
                         .buttonStyle(PlainButtonStyle())
-                        
+
                         if user.type == .admin {
                             NavigationLink(destination: AddMedicineView()) {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 4) {
                                         Text("Add Medicine")
                                             .font(.headline)
-                                            .foregroundColor(.primary)
+                                            .foregroundColor(Color.primary)
                                         Text("Add new medicines to the inventory")
                                             .font(.subheadline)
-                                            .foregroundColor(.secondary)
+                                            .foregroundColor(Color.secondary)
                                     }
                                     Spacer()
                                     Image(systemName: "chevron.right")
                                         .foregroundColor(.gray)
                                 }
                                 .padding()
-                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                                .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
                                 .cornerRadius(8)
-                                .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
+                                .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                                 .padding(.horizontal)
                             }
                             .buttonStyle(PlainButtonStyle())
                         }
-                        
+
                         Spacer()
-                        
+
                         Button(action: {
                             showLogoutAlert = true
                         }) {
@@ -176,9 +177,9 @@ struct UserProfileView: View {
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
-                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                                .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
                                 .cornerRadius(10)
-                                .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
+                                .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)
                         }
                         .padding(.horizontal)
                         .padding(.bottom)
@@ -196,11 +197,11 @@ struct UserProfileView: View {
                     Text(errorMessage)
                         .foregroundColor(.red)
                 }
-                
+
                 if isLoggingOut {
                     Color.black.opacity(0.4)
                         .ignoresSafeArea()
-                    
+
                     VStack {
                         ProgressView("Logging out...")
                             .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -216,12 +217,11 @@ struct UserProfileView: View {
         .onAppear {
             viewModel.loadAuthenticatedUser()
         }
-        
         .navigationDestination(isPresented: $isShowAvatarUploadView) {
             ImageUploadView(userProfileViewModel: viewModel)
         }
     }
-    
+
     func logOutWithDelay() {
         isLoggingOut = true
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
