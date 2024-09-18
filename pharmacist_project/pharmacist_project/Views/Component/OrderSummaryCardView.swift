@@ -30,26 +30,29 @@ struct OrderSummaryCardView: View {
     var order: Order
     var orderItem: [OrderItem]
     
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         VStack(spacing: 16) {
             HStack {
                 Text("Order №\(order.id)")
                     .font(.system(size: 18, weight: .bold))
+                    .foregroundColor(colorScheme == .dark ? .white : .black)
                 Spacer()
                 Text(order.createdDate!.formatted(date: .abbreviated, time: .shortened))
                     .font(.system(size: 14))
-                    .foregroundColor(.gray)
+                    .foregroundColor(colorScheme == .dark ? .gray : .gray)
             }
             
             HStack {
                 VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text("Quantity:")
-                            .foregroundColor(.gray)
+                            .foregroundColor(colorScheme == .dark ? .gray : .gray)
                             .font(.system(size: 14))
                         Text("\(orderItem.count)")
                             .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                     }
                 }
                 
@@ -58,10 +61,11 @@ struct OrderSummaryCardView: View {
                 VStack(alignment: .trailing, spacing: 8) {
                     HStack {
                         Text("Total Amount:")
-                            .foregroundColor(.gray)
+                            .foregroundColor(colorScheme == .dark ? .gray : .gray)
                             .font(.system(size: 14))
                         Text("\(order.payable!.formatAsCurrency())")
                             .font(.system(size: 14, weight: .semibold))
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                     }
                 }
             }
@@ -75,6 +79,7 @@ struct OrderSummaryCardView: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(Color.black, lineWidth: 1)
                         )
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                 }
                 .buttonStyle(PlainButtonStyle())
                 
@@ -86,10 +91,10 @@ struct OrderSummaryCardView: View {
             }
         }
         .padding()
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
         .cornerRadius(15)
-        .shadow(color: Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)
-        .frame(width: 370)
+        .shadow(color: colorScheme == .dark ? Color.black.opacity(0.6) : Color.gray.opacity(0.3), radius: 5, x: 0, y: 2)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 

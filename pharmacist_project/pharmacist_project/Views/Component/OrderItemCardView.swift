@@ -28,7 +28,8 @@ import SwiftUI
 struct OrderItemCardView: View {
     var orderItem: OrderItem
     var medicine: Medicine
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         Button(action: {
             // go to product details
@@ -52,13 +53,14 @@ struct OrderItemCardView: View {
                 }
                 
                 VStack(alignment: .leading, spacing: 4) {
-                    Text(medicine.name!)
+                    Text(medicine.name ?? "No Name")
                         .font(.subheadline)
                         .lineLimit(2)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                     
-                    Text(medicine.description!)
+                    Text(medicine.description ?? "No Description")
                         .font(.subheadline)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(colorScheme == .dark ? .gray : .secondary)
                         .lineLimit(2)
                         .truncationMode(.tail)
                     
@@ -66,18 +68,18 @@ struct OrderItemCardView: View {
                         HStack {
                             Text("Unit:")
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
-                            Text("\(orderItem.quantity!)")
+                                .foregroundColor(colorScheme == .dark ? .gray : .secondary)
+                            Text("\(orderItem.quantity ?? 0)")
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(colorScheme == .dark ? .gray : .secondary)
                         }
                         
                         Spacer()
                         
                         HStack {
-                            Text("\(orderItem.pricePerUnit!.formatAsCurrency())")
+                            Text("\(orderItem.pricePerUnit?.formatAsCurrency() ?? "No Price")")
                                 .font(.subheadline)
-                                .foregroundColor(.secondary)
+                                .foregroundColor(colorScheme == .dark ? .gray : .secondary)
                         }
                     }
                 }
@@ -86,9 +88,9 @@ struct OrderItemCardView: View {
             }
             .frame(height: 100)
             .padding()
-            .background(Color.white)
+            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
             .cornerRadius(12)
-            .shadow(radius: 2)
+            .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2)
         }
         .buttonStyle(PlainButtonStyle())
     }
@@ -128,7 +130,7 @@ struct OrderItemCardView: View {
         category: .vitamin,
         pharmacyId: "1",
         createdDate: Date()
-        )
+    )
     
     return OrderItemCardView(orderItem: mockOrderItem, medicine: mockMedicine)
 }
