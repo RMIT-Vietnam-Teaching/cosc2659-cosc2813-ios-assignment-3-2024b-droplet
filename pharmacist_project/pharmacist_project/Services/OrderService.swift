@@ -85,6 +85,14 @@ final class OrderService: CRUDService<Order> {
         // remove cart items
         try await CartItemService.shared.bulkDelete(documentIds: cartItems.map { $0.id })
         
+        // decrease quantity
+        for var (idx, medicine) in medicines.enumerated() {
+            if medicine.availableQuantity != nil && cartItems[idx].quantity != nil {
+                medicine.availableQuantity! -= cartItems[idx].quantity!
+            }
+        }
+        try await MedicineService.shared.bulkUpdate(documents: medicines)
+        
         return order
     }
     
