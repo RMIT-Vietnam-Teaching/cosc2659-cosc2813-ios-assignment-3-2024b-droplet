@@ -192,10 +192,10 @@ struct MedicineDetailView: View {
 }
 
 struct DisclosureBox<Content: View>: View {
+    @Environment(\.colorScheme) private var colorScheme
     let title: String
     @Binding var isExpanded: Bool
     let content: () -> Content
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         VStack {

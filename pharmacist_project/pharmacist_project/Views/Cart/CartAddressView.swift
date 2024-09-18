@@ -24,8 +24,10 @@
 */
 
 import SwiftUI
+import PopupView
 
 struct CartAddressView: View {
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: CartAddressViewModel
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
@@ -83,7 +85,7 @@ struct CartAddressView: View {
                     }
                 }
             }
-            .navigationTitle("Receiver information")
+//            .navigationTitle("Receiver information")
             .overlay(
                 VStack {
                     Spacer()
@@ -109,10 +111,44 @@ struct CartAddressView: View {
                     await viewModel.loadUserData()
                 }
             }
+            
+            // MARK: order placed success popup
+            .popup(isPresented: $viewModel.isShowOrderPlacedSuccessPopUp) {
+                GradientBackgroundPopup(title: "") {
+                    VStack(spacing: 24) {
+                        Image("order-placed")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: 160)
+                        
+                        Text("Order placed")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        Spacer()
+                        
+                        LoadingButton(title: "Back Home", state: .constant(.active), style: .fill) {
+                            withAnimation {
+                                viewModel.isShowOrderPlacedSuccessPopUp = false
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .padding(.top)
+                    .padding(.top)
+                }
+                .navigationBarBackButtonHidden(true)
+            } customize: {
+                $0
+                    .closeOnTap(false)
+                    .closeOnTapOutside(false)
+            }
         }
     }
 }
 
 #Preview {
-    CartAddressView(viewModel: CartAddressViewModel(payableAmount: 100000, paymentMethod: .visa, shippingMethod: .NinjaVan))
+    CartAddressView(viewModel: CartAddressViewModel(payableAmount: 100000, paymentMethod: .visa, shippingMethod: .NinjaVan, isShouldPopbackAfterPayment: .constant(false)))
 }

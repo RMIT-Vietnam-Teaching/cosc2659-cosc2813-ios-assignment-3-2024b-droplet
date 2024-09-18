@@ -26,7 +26,11 @@
 import SwiftUI
 
 struct CartDeliveryView: View {
+    @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = CartDeliveryViewModel()
+    @State private var isShouldPopbackAfterPayment = false
+    @Binding var isComebackFromOrderPlaced: Bool
+    
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
@@ -47,9 +51,11 @@ struct CartDeliveryView: View {
                         .font(.subheadline)
                         .padding(.horizontal)
                         
-                        // Cart items
-                        ForEach($viewModel.cartItems, id: \.id) { $item in
-                            CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                        VStack(spacing: 36) {
+                            // Cart items
+                            ForEach($viewModel.cartItems, id: \.id) { $item in
+                                CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                            }
                         }
                         
                         // Payment and Shipping methods
@@ -83,7 +89,8 @@ struct CartDeliveryView: View {
                     viewModel: CartAddressViewModel(
                         payableAmount: viewModel.payableAmount,
                         paymentMethod: viewModel.selectedPaymentMethod,
-                        shippingMethod: viewModel.selectedShippingMethod)
+                        shippingMethod: viewModel.selectedShippingMethod,
+                        isShouldPopbackAfterPayment: $isShouldPopbackAfterPayment)
                     )
                 ) {
                     Text("Continue")
@@ -100,6 +107,12 @@ struct CartDeliveryView: View {
         .navigationTitle("Shopping cart")
         .task {
             await viewModel.loadCartItems()
+        }
+        .onChange(of: isShouldPopbackAfterPayment) { newValue in
+            if newValue {
+                presentationMode.wrappedValue.dismiss()
+                isComebackFromOrderPlaced = true
+            }
         }
     }
 }
@@ -211,5 +224,5 @@ struct OrderSummaryView: View {
 }
 
 #Preview {
-    CartDeliveryView()
+    CartDeliveryView(isComebackFromOrderPlaced: .constant(false))
 }

@@ -108,6 +108,7 @@ struct CategorySectionView: View {
 }
 
 struct CategoryButtonView: View {
+    @Environment(\.colorScheme) private var colorScheme
     var title: String
     var isActive: Bool
     var action: () -> Void

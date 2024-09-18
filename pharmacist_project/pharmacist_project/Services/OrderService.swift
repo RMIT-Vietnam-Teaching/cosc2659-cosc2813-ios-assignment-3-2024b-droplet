@@ -30,6 +30,7 @@ final class OrderService: CRUDService<Order> {
     
     override var collectionName: String {"orders"}
     
+    @discardableResult
     func placeOrder(userId: String,
                     fullName: String,
                     phoneNumber: String,
@@ -83,6 +84,14 @@ final class OrderService: CRUDService<Order> {
         
         // remove cart items
         try await CartItemService.shared.bulkDelete(documentIds: cartItems.map { $0.id })
+        
+        // decrease quantity
+        for i in 0..<medicines.count {
+            if medicines[i].availableQuantity != nil && cartItems[i].quantity != nil {
+                medicines[i].availableQuantity! -= cartItems[i].quantity!
+            }
+        }
+        try await MedicineService.shared.bulkUpdate(documents: medicines)
         
         return order
     }
@@ -170,12 +179,21 @@ extension OrderService {
     }
     
     func getOrdersFromAllUsers() async throws -> [(Order, [OrderItem])] {
-        var res = [(Order, [OrderItem])]()
-        let users: [AppUser] = try await UserService.shared.getAllDocuments()
+//        var res = [(Order, [OrderItem])]()
+//        let users: [AppUser] = try await UserService.shared.getAllDocuments()
+//        
+//        for user in users {
+//            let userOrders = try await self.getUserOrderHistory(userId: user.id)
+//            res.append(contentsOf: userOrders)
+//        }
         
-        for user in users {
-            let userOrders = try await self.getUserOrderHistory(userId: user.id)
-            res.append(contentsOf: userOrders)
+        var orders = try await OrderService.shared.getAllDocuments()
+        var res = [(Order, [OrderItem])]()
+        for order in orders {
+            let orderItems = try await OrderItemService.shared.fetchDocuments(filter: { query in
+                query.whereField("orderId", isEqualTo: order.id)
+            })
+            res.append((order, orderItems))
         }
 
         return res.sorted(by: {

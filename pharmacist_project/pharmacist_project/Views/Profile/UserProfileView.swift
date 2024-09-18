@@ -26,11 +26,11 @@
 import SwiftUI
 
 struct UserProfileView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject var viewModel = UserProfileViewModel()
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
     @State private var isShowAvatarUploadView = false
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
         NavigationStack {
