@@ -29,6 +29,7 @@ struct CartDeliveryView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = CartDeliveryViewModel()
     @State private var isShouldPopbackAfterPayment = false
+    @Binding var isComebackFromOrderPlaced: Bool
     
     var body: some View {
         NavigationView {
@@ -108,6 +109,7 @@ struct CartDeliveryView: View {
         .onChange(of: isShouldPopbackAfterPayment) { newValue in
             if newValue {
                 presentationMode.wrappedValue.dismiss()
+                isComebackFromOrderPlaced = true
             }
         }
     }
@@ -213,5 +215,5 @@ struct OrderSummaryView: View {
 }
 
 #Preview {
-    CartDeliveryView()
+    CartDeliveryView(isComebackFromOrderPlaced: .constant(false))
 }

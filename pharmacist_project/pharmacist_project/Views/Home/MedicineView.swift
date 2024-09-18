@@ -28,6 +28,7 @@ import SwiftUI
 struct MedicineView: View {
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel = MedicineViewModel()
+    @State private var isComebackFromOrderPlaced = false
     
     var body: some View {
         NavigationStack {
@@ -51,7 +52,7 @@ struct MedicineView: View {
                                             viewModel.filterMedicines()
                                         }
                                     
-                                    NavigationLink(destination: CartDeliveryView()) {
+                                    NavigationLink(destination: CartDeliveryView(isComebackFromOrderPlaced: $isComebackFromOrderPlaced)) {
                                         HStack {
                                             Image(systemName: "cart")
                                                 .foregroundColor(.white)
@@ -118,6 +119,14 @@ struct MedicineView: View {
                                 }
                             }
                         }
+                    }
+                }
+            }
+            .onChange(of: isComebackFromOrderPlaced) { newValue in
+                if newValue {
+                    Task {
+                        await viewModel.loadMedicines()
+                        isComebackFromOrderPlaced = false
                     }
                 }
             }
