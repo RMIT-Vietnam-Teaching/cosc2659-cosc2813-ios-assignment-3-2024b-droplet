@@ -26,6 +26,7 @@
 import SwiftUI
 
 struct MedicineView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel = MedicineViewModel()
     
     var body: some View {
@@ -35,8 +36,8 @@ struct MedicineView: View {
                     VStack(spacing: 10) {
                         ZStack {
                             Color(hex: "2EB5FA")
-                                .opacity(DarkLightModeService.shared.isDarkMode() ? 0.2 : 1.0)
-                                .ignoresSafeArea(.all, edges: .top) 
+                                .opacity(DarkLightModeService.shared.isDarkMode(colorScheme) ? 0.2 : 1.0)
+                                .ignoresSafeArea(.all, edges: .top)
                                 .frame(height: 80)
                             
                             VStack {

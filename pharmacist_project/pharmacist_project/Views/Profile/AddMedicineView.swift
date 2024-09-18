@@ -24,12 +24,14 @@
 */
 
 import SwiftUI
+import PhotosUI
 
 struct AddMedicineView: View {
     @StateObject private var viewModel = AddMedicineViewModel()
     @Environment(\.dismiss) private var dismiss
     @State private var showAlert = false
-    
+    @State private var isSaving = false
+
     var body: some View {
         NavigationView {
             Form {
@@ -61,29 +63,91 @@ struct AddMedicineView: View {
                     }
                 }
                 
+                // TabView to switch between URL and image upload
                 Section(header: Text("Images (Max 5)")) {
-                    ForEach(viewModel.images.indices, id: \.self) { index in
-                        TextField("Image URL", text: $viewModel.images[index])
-                    }
-                    if viewModel.images.count < 5 {
-                        Button("Add Image") {
-                            viewModel.addImage()
+                    TabView(selection: $viewModel.imageUploadSelectedTabIndex) {
+                        // Upload images by uploading
+                        VStack {
+                            PhotosPicker(
+                                selection: $viewModel.selectedImageItems,
+                                maxSelectionCount: 5,
+                                matching: .images
+                            ) {
+                                Text("Pick Images from Library")
+                            }
+                            
+                            // Display selected images in a scrollable view
+                            if !viewModel.selectedImages.isEmpty {
+                                ScrollView(.horizontal) {
+                                    HStack {
+                                        ForEach(viewModel.selectedImages, id: \.self) { image in
+                                            Image(uiImage: image)
+                                                .resizable()
+                                                .scaledToFit()
+                                                .frame(width: 100, height: 100)
+                                                .cornerRadius(10)
+                                        }
+                                    }
+                                }
+                                .frame(height: 100)
+                            }
                         }
+                        .tag(0)
+                        .tabItem {
+                            Label("Upload", systemImage: "photo")
+                        }
+                        .padding(.bottom, 24)
+                        
+                        // Upload images by input URLs
+                        VStack {
+                            ForEach(viewModel.images.indices, id: \.self) { index in
+                                HStack {
+                                    TextField("Image URL", text: $viewModel.images[index])
+                                    
+                                    // Add a delete button for each row
+                                    Button(action: {
+                                        viewModel.removeImage(at: index)
+                                    }) {
+                                        Image(systemName: "trash")
+                                            .foregroundColor(.red)
+                                    }
+                                    .padding(.leading, 8) // Add padding between text field and delete button
+                                }
+                            }
+                            
+                            if viewModel.images.count < 5 {
+                                Button("Add Image") {
+                                    viewModel.addImage()
+                                }
+                            }
+                        }
+                        .tag(0)
+                        .tabItem {
+                            Label("URL", systemImage: "link")
+                        }
+                        .padding(.bottom, 24)
                     }
+                    .frame(minHeight: 240)
                 }
             }
             .navigationTitle("Add New Medicine")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button("Save") {
-                        if viewModel.isValid {
-                            Task {
-                                await viewModel.saveMedicine()
-                                dismiss()
+                    if !isSaving {
+                        Button("Save") {
+                            if viewModel.isValid {
+                                Task {
+                                    isSaving = true
+                                    try await viewModel.saveMedicine()
+                                    isSaving = false
+                                    dismiss()
+                                }
+                            } else {
+                                showAlert = true
                             }
-                        } else {
-                            showAlert = true
                         }
+                    } else {
+                        ProgressView()
                     }
                 }
             }
@@ -93,6 +157,17 @@ struct AddMedicineView: View {
                     message: Text("Please fill in all required fields before saving."),
                     dismissButton: .default(Text("OK"))
                 )
+            }
+            .onChange(of: viewModel.selectedImageItems) { newItems in
+                Task {
+                    viewModel.selectedImages = []
+                    for imageItem in newItems {
+                        if let data = try? await imageItem.loadTransferable(type: Data.self),
+                           let uiImage = UIImage(data: data) {
+                            viewModel.selectedImages.append(uiImage)
+                        }
+                    }
+                }
             }
         }
     }

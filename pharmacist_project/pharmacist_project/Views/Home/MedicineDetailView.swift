@@ -194,6 +194,7 @@ struct MedicineDetailView: View {
 import SwiftUI
 
 struct DisclosureBox<Content: View>: View {
+    @Environment(\.colorScheme) private var colorScheme
     let title: String
     @Binding var isExpanded: Bool
     let content: () -> Content
@@ -208,15 +209,15 @@ struct DisclosureBox<Content: View>: View {
                 HStack {
                     Text(title)
                         .font(.headline)
-                        .foregroundColor(DarkLightModeService.shared.isDarkMode() ? .white : .black)
+                        .foregroundColor(DarkLightModeService.shared.isDarkMode(colorScheme) ? .white : .black)
                     Spacer()
                     Image(systemName: isExpanded ? "chevron.up" : "chevron.down")
-                        .foregroundColor(DarkLightModeService.shared.isDarkMode() ? .white : .gray)
+                        .foregroundColor(DarkLightModeService.shared.isDarkMode(colorScheme) ? .white : .gray)
                 }
                 .padding()
-                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
                 .cornerRadius(10)
-                .shadow(color: DarkLightModeService.shared.isDarkMode() ? Color.black.opacity(0.3) : Color.gray.opacity(0.3), radius: 4, x: 0, y: 2)
+                .shadow(color: DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.black.opacity(0.3) : Color.gray.opacity(0.3), radius: 4, x: 0, y: 2)
             }
             
             if isExpanded {
@@ -225,9 +226,9 @@ struct DisclosureBox<Content: View>: View {
                         .padding(.top, 5)
                 }
                 .padding()
-                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
                 .cornerRadius(10)
-                .shadow(color: DarkLightModeService.shared.isDarkMode() ? Color.black.opacity(0.3) : Color.gray.opacity(0.3), radius: 4, x: 0, y: 2)
+                .shadow(color: DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.black.opacity(0.3) : Color.gray.opacity(0.3), radius: 4, x: 0, y: 2)
                 .transition(.slide)
             }
         }

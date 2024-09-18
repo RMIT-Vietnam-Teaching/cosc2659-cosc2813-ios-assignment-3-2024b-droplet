@@ -108,6 +108,7 @@ struct CategorySectionView: View {
 }
 
 struct CategoryButtonView: View {
+    @Environment(\.colorScheme) private var colorScheme
     var title: String
     var isActive: Bool
     var action: () -> Void
@@ -121,9 +122,9 @@ struct CategoryButtonView: View {
             Text(title)
                 .font(.system(size: 14, weight: .medium))
                 .frame(width: buttonWidth, height: buttonHeight)
-                .background(isActive ? (DarkLightModeService.shared.isDarkMode() ? Color.blue.opacity(0.4) : Color.blue.opacity(0.2)) : (DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.4) : Color.gray.opacity(0.2)))
+                .background(isActive ? (DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.blue.opacity(0.4) : Color.blue.opacity(0.2)) : (DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.4) : Color.gray.opacity(0.2)))
                 .cornerRadius(10)
-                .foregroundColor(isActive ? .blue : (DarkLightModeService.shared.isDarkMode() ? .white : .black))
+                .foregroundColor(isActive ? .blue : (DarkLightModeService.shared.isDarkMode(colorScheme) ? .white : .black))
         }
     }
 }

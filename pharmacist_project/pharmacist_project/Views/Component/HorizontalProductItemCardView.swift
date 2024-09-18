@@ -26,6 +26,7 @@
 import SwiftUI
 
 struct HorizontalProductItemCardView: View {
+    @Environment(\.colorScheme) private var colorScheme
     let medicine: Medicine
     
     var body: some View {
@@ -78,7 +79,7 @@ struct HorizontalProductItemCardView: View {
                 }
             }
             .padding(10)
-            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+            .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
             .cornerRadius(10)
             .shadow(radius: 2)
         }

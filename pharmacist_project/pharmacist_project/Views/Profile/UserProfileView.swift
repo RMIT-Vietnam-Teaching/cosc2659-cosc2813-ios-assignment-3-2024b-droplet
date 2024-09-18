@@ -26,6 +26,7 @@
 import SwiftUI
 
 struct UserProfileView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @StateObject var viewModel = UserProfileViewModel()
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
@@ -113,7 +114,7 @@ struct UserProfileView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                            .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
                             .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
@@ -135,7 +136,7 @@ struct UserProfileView: View {
                                     .foregroundColor(.gray)
                             }
                             .padding()
-                            .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                            .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
                             .cornerRadius(8)
                             .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                             .padding(.horizontal)
@@ -158,7 +159,7 @@ struct UserProfileView: View {
                                         .foregroundColor(.gray)
                                 }
                                 .padding()
-                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                                .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
                                 .cornerRadius(8)
                                 .shadow(color: Color.gray.opacity(0.2), radius: 2, x: 0, y: 1)
                                 .padding(.horizontal)
@@ -176,7 +177,7 @@ struct UserProfileView: View {
                                 .foregroundColor(.red)
                                 .frame(maxWidth: .infinity, alignment: .center)
                                 .padding()
-                                .background(DarkLightModeService.shared.isDarkMode() ? Color.gray.opacity(0.2) : Color.white)
+                                .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
                                 .cornerRadius(10)
                                 .shadow(color: .gray.opacity(0.3), radius: 5, x: 0, y: 2)
                         }

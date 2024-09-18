@@ -34,7 +34,6 @@ enum DarkLightMode: String {
 
 class DarkLightModeService {
     static let shared = DarkLightModeService()
-    @Environment(\.colorScheme) private var colorScheme
     
     private init() {}
     
@@ -93,12 +92,16 @@ class DarkLightModeService {
         }
     }
     
-    func isDarkMode() -> Bool {
+    func isDarkMode(_ colorScheme: ColorScheme) -> Bool {
         let currentMode = getDarkLightModePreference()
         switch currentMode {
         case .dark: return true
         case .light: return false
-        case .system: return colorScheme == .dark ? true : false
+        case .system:
+            if colorScheme == .dark {
+                return true
+            }
+            return false
         }
     }
 }
