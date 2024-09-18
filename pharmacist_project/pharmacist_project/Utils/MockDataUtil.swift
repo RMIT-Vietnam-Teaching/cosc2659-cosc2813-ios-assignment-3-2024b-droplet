@@ -386,29 +386,29 @@ class MockDataUtil {
                 createdDate: Date()),
 
             
-            Medicine(
-                id: "13",
-                name: "",
-                price: 1,
-                priceDiscount: 1,
-                availableQuantity: 999,
-                description: "",
-                ingredients: "",
-                supplement: "",
-                note: "",
-                sideEffect: "",
-                dosage: "",
-                supplier: "",
-                images: [
-                    "",
-                    "",
-                    "",
-                    "",
-                    "",
-                ],
-                category: .mineral,
-                pharmacyId: "1",
-                createdDate: Date()),
+//            Medicine(
+//                id: "13",
+//                name: "",
+//                price: 1,
+//                priceDiscount: 1,
+//                availableQuantity: 999,
+//                description: "",
+//                ingredients: "",
+//                supplement: "",
+//                note: "",
+//                sideEffect: "",
+//                dosage: "",
+//                supplier: "",
+//                images: [
+//                    "",
+//                    "",
+//                    "",
+//                    "",
+//                    "",
+//                ],
+//                category: .mineral,
+//                pharmacyId: "1",
+//                createdDate: Date()),
         ]
         
         return res
