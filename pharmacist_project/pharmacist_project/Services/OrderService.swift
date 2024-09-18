@@ -30,6 +30,7 @@ final class OrderService: CRUDService<Order> {
     
     override var collectionName: String {"orders"}
     
+    @discardableResult
     func placeOrder(userId: String,
                     fullName: String,
                     phoneNumber: String,

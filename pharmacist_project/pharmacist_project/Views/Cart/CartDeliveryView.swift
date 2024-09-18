@@ -26,7 +26,9 @@
 import SwiftUI
 
 struct CartDeliveryView: View {
+    @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = CartDeliveryViewModel()
+    @State private var isShouldPopbackAfterPayment = false
     
     var body: some View {
         NavigationView {
@@ -81,7 +83,8 @@ struct CartDeliveryView: View {
                     viewModel: CartAddressViewModel(
                         payableAmount: viewModel.payableAmount,
                         paymentMethod: viewModel.selectedPaymentMethod,
-                        shippingMethod: viewModel.selectedShippingMethod)
+                        shippingMethod: viewModel.selectedShippingMethod,
+                        isShouldPopbackAfterPayment: $isShouldPopbackAfterPayment)
                     )
                 ) {
                     Text("Continue")
@@ -99,6 +102,11 @@ struct CartDeliveryView: View {
         .navigationTitle("Shopping cart")
         .task {
             await viewModel.loadCartItems()
+        }
+        .onChange(of: isShouldPopbackAfterPayment) { newValue in
+            if newValue {
+                presentationMode.wrappedValue.dismiss()
+            }
         }
     }
 }
