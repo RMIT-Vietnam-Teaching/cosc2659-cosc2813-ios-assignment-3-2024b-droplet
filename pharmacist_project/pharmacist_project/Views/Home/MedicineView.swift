@@ -29,6 +29,7 @@ struct MedicineView: View {
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel = MedicineViewModel()
     @State private var isComebackFromOrderPlaced = false
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationStack {
@@ -36,8 +37,8 @@ struct MedicineView: View {
                 VStack(spacing: 20) {
                     VStack(spacing: 10) {
                         ZStack {
-                            Color(hex: "2EB5FA")
-                                .opacity(DarkLightModeService.shared.isDarkMode(colorScheme) ? 0.2 : 1.0)
+                            Color(hex: colorScheme == .dark ? "#3A3A3C" : "2EB5FA")
+                                .opacity(colorScheme == .dark ? 0.4 : 1.0)
                                 .ignoresSafeArea(.all, edges: .top)
                                 .frame(height: 80)
                             
@@ -133,8 +134,6 @@ struct MedicineView: View {
         }
     }
 }
-
-// MARK: - Helper for Header with "View All" Button
 func headerWithViewAll(title: String, viewModel: MedicineViewModel) -> some View {
     HStack {
         Text(title)

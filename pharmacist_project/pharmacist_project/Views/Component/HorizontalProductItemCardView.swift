@@ -28,6 +28,7 @@ import SwiftUI
 struct HorizontalProductItemCardView: View {
     @Environment(\.colorScheme) private var colorScheme
     let medicine: Medicine
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
@@ -61,13 +62,13 @@ struct HorizontalProductItemCardView: View {
                             .font(.title3)
                             .fontWeight(.bold)
                         
-                        if medicine.priceDiscount != nil && medicine.price != nil && medicine.priceDiscount! > 0 {
-                            Text(medicine.priceDiscount!.formatAsCurrency())
+                        if let priceDiscount = medicine.priceDiscount, let price = medicine.price, priceDiscount > 0 {
+                            Text(priceDiscount.formatAsCurrency())
                                 .font(.subheadline)
                                 .strikethrough()
                                 .foregroundColor(.gray)
                             
-                            Text("\(medicine.price!.calculateDiscountPercentage(priceDiscount: medicine.priceDiscount!))% Off")
+                            Text("\(price.calculateDiscountPercentage(priceDiscount: priceDiscount))% Off")
                                 .font(.subheadline)
                                 .foregroundColor(.red)
                         }
@@ -79,7 +80,7 @@ struct HorizontalProductItemCardView: View {
                 }
             }
             .padding(10)
-            .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white)
+            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
             .cornerRadius(10)
             .shadow(radius: 2)
         }

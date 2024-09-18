@@ -29,6 +29,7 @@ struct VerticalProductItemCardView: View {
     @Environment(\.colorScheme) private var colorScheme
     let medicine: Medicine
     @StateObject private var cartViewModel = CartDeliveryViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {
@@ -59,8 +60,8 @@ struct VerticalProductItemCardView: View {
                 .frame(maxHeight: 50)
                 
                 HStack {
-                    if medicine.priceDiscount != nil && medicine.priceDiscount! > 0 {
-                        Text((medicine.priceDiscount ?? 0.0).formatAsCurrency())
+                    if let priceDiscount = medicine.priceDiscount, priceDiscount > 0 {
+                        Text(priceDiscount.formatAsCurrency())
                             .font(.title3)
                             .fontWeight(.bold)
                         
@@ -76,7 +77,6 @@ struct VerticalProductItemCardView: View {
                             .fontWeight(.bold)
                     }
                     
-                    
                     Spacer()
                     
                     if let price = medicine.price, let priceDiscount = medicine.priceDiscount {
@@ -91,10 +91,9 @@ struct VerticalProductItemCardView: View {
                     .padding(.top, -5)
                 
                 AddToCartButtonView(medicine: medicine)
-
             }
             .padding()
-            .background(DarkLightModeService.shared.isDarkMode(colorScheme) ? Color.gray.opacity(0.2) : Color.white) 
+            .background(colorScheme == .dark ? Color.gray.opacity(0.2) : Color.white)
             .cornerRadius(15)
             .shadow(radius: 5)
             .frame(width: 300)
