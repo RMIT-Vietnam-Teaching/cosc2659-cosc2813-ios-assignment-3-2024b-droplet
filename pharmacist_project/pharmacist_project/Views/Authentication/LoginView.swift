@@ -72,6 +72,9 @@ struct LoginScreenView: View {
                     LoadingButton(title: "Login", state: $loginVM.loginButtonState, style: .fill) {
                         // Login action
                         loginVM.signIn()
+//                        Task {
+//                            try await MockDataUtil.createMockData()
+//                        }
                     }
                     .padding(.horizontal)
                     .padding(.top, 15)

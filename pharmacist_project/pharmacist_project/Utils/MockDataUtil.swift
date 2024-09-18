@@ -40,7 +40,7 @@ class MockDataUtil {
         try await OrderService.shared.deleteAllDocuments()
         try await OrderItemService.shared.deleteAllDocuments()
         try await CartItemService.shared.deleteAllDocuments()
-//        try await MedicineService.shared.deleteAllDocuments()
+        try await MedicineService.shared.deleteAllDocuments()
         try await PharmacyService.shared.deleteAllDocuments()
     }
     

@@ -179,12 +179,21 @@ extension OrderService {
     }
     
     func getOrdersFromAllUsers() async throws -> [(Order, [OrderItem])] {
-        var res = [(Order, [OrderItem])]()
-        let users: [AppUser] = try await UserService.shared.getAllDocuments()
+//        var res = [(Order, [OrderItem])]()
+//        let users: [AppUser] = try await UserService.shared.getAllDocuments()
+//        
+//        for user in users {
+//            let userOrders = try await self.getUserOrderHistory(userId: user.id)
+//            res.append(contentsOf: userOrders)
+//        }
         
-        for user in users {
-            let userOrders = try await self.getUserOrderHistory(userId: user.id)
-            res.append(contentsOf: userOrders)
+        var orders = try await OrderService.shared.getAllDocuments()
+        var res = [(Order, [OrderItem])]()
+        for order in orders {
+            let orderItems = try await OrderItemService.shared.fetchDocuments(filter: { query in
+                query.whereField("orderId", isEqualTo: order.id)
+            })
+            res.append((order, orderItems))
         }
 
         return res.sorted(by: {
