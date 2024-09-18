@@ -37,12 +37,45 @@ struct AddMedicineView: View {
             Form {
                 Section(header: Text("Basic Information")) {
                     TextField("Name", text: $viewModel.name)
-                    TextField("Price", value: $viewModel.price, format: .currency(code: "VND"))
-                        .keyboardType(.decimalPad)
-                    TextField("Discounted Price", value: $viewModel.priceDiscount, format: .currency(code: "VND"))
-                        .keyboardType(.decimalPad)
-                    TextField("Available Quantity", value: $viewModel.availableQuantity, format: .number)
-                        .keyboardType(.numberPad)
+                    
+                    // Price
+                    ZStack(alignment: .leading) {
+                        if viewModel.price == 0.0 {
+                            Text("Price")
+                                .foregroundColor(.gray)
+                                .padding(.leading)
+                                .padding(.leading)
+                                .padding(.leading)
+                        }
+                        TextField("", value: $viewModel.price, format: .currency(code: "VND"))
+                            .keyboardType(.decimalPad)
+                    }
+                    
+                    // Discounted Price
+                    ZStack(alignment: .leading) {
+                        if viewModel.priceDiscount == 0.0 {
+                            Text("Discounted Price")
+                                .foregroundColor(.gray)
+                                .padding(.leading)
+                                .padding(.leading)
+                                .padding(.leading)
+                        }
+                        TextField("", value: $viewModel.priceDiscount, format: .currency(code: "VND"))
+                            .keyboardType(.decimalPad)
+                    }
+
+                    // Available Quantity
+                    ZStack(alignment: .leading) {
+                        if viewModel.availableQuantity == 0 {
+                            Text("Available Quantity")
+                                .foregroundColor(.gray)
+                                .padding(.leading)
+                                .padding(.leading)
+                                .padding(.leading)
+                        }
+                        TextField("", value: $viewModel.availableQuantity, format: .number)
+                            .keyboardType(.numberPad)
+                    }
                 }
                 
                 Section(header: Text("Details")) {
@@ -113,6 +146,7 @@ struct AddMedicineView: View {
                                     }
                                     .padding(.leading, 8) // Add padding between text field and delete button
                                 }
+                                .padding(.horizontal)
                             }
                             
                             if viewModel.images.count < 5 {
