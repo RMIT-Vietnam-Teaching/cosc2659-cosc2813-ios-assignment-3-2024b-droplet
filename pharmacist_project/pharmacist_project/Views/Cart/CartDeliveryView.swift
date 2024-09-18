@@ -48,9 +48,11 @@ struct CartDeliveryView: View {
                         .font(.subheadline)
                         .padding(.horizontal)
                         
-                        // Cart items
-                        ForEach($viewModel.cartItems, id: \.id) { $item in
-                            CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                        VStack(spacing: 36) {
+                            // Cart items
+                            ForEach($viewModel.cartItems, id: \.id) { $item in
+                                CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                            }
                         }
                         
                         // Payment and Shipping methods
