@@ -196,7 +196,6 @@ struct DisclosureBox<Content: View>: View {
     let title: String
     @Binding var isExpanded: Bool
     let content: () -> Content
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         VStack {

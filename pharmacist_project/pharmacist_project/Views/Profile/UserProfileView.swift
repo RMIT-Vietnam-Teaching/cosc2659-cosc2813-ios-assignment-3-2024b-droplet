@@ -31,7 +31,6 @@ struct UserProfileView: View {
     @State private var showLogoutAlert = false
     @State private var isLoggingOut = false
     @State private var isShowAvatarUploadView = false
-    @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
         NavigationStack {

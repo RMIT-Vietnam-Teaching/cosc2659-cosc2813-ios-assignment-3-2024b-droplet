@@ -29,7 +29,6 @@ struct VerticalProductItemCardView: View {
     @Environment(\.colorScheme) private var colorScheme
     let medicine: Medicine
     @StateObject private var cartViewModel = CartDeliveryViewModel()
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationLink(destination: MedicineDetailView(viewModel: MedicineDetailViewModel(medicine: medicine))) {

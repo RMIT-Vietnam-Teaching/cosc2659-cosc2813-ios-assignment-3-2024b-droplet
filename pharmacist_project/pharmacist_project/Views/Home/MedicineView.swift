@@ -29,7 +29,6 @@ struct MedicineView: View {
     @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel = MedicineViewModel()
     @State private var isComebackFromOrderPlaced = false
-    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         NavigationStack {
