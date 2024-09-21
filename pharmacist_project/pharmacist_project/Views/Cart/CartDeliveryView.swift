@@ -26,8 +26,13 @@
 import SwiftUI
 
 struct CartDeliveryView: View {
+    @Environment(\.presentationMode) var presentationMode
     @StateObject private var viewModel = CartDeliveryViewModel()
+    @State private var isShouldPopbackAfterPayment = false
+    @Binding var isComebackFromOrderPlaced: Bool
     
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         NavigationView {
             ScrollView {
@@ -46,9 +51,11 @@ struct CartDeliveryView: View {
                         .font(.subheadline)
                         .padding(.horizontal)
                         
-                        // Cart items
-                        ForEach($viewModel.cartItems, id: \.id) { $item in
-                            CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                        VStack(spacing: 36) {
+                            // Cart items
+                            ForEach($viewModel.cartItems, id: \.id) { $item in
+                                CartItemCardView(cartItem: $item).environmentObject(viewModel)
+                            }
                         }
                         
                         // Payment and Shipping methods
@@ -57,20 +64,21 @@ struct CartDeliveryView: View {
                             ShippingMethodPicker(selectedMethod: $viewModel.selectedShippingMethod)
                         }
                         .padding()
-                        .background(Color.white)
+                        .background(colorScheme == .dark ? Color.black : Color.white)
                         .cornerRadius(10)
+                        .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2)
                         
                         // Order Summary
                         OrderSummaryView(viewModel: viewModel)
                     } else {
                         Text("Your cart is empty.")
                             .font(.headline)
-                            .foregroundColor(.secondary)
+                            .foregroundColor(colorScheme == .dark ? .white : .secondary)
                     }
                 }
                 .padding()
             }
-            .background(Color.white)
+            .background(colorScheme == .dark ? Color.black : Color.white)
             .navigationBarTitleDisplayMode(.inline)
         }
         .padding()
@@ -81,7 +89,8 @@ struct CartDeliveryView: View {
                     viewModel: CartAddressViewModel(
                         payableAmount: viewModel.payableAmount,
                         paymentMethod: viewModel.selectedPaymentMethod,
-                        shippingMethod: viewModel.selectedShippingMethod)
+                        shippingMethod: viewModel.selectedShippingMethod,
+                        isShouldPopbackAfterPayment: $isShouldPopbackAfterPayment)
                     )
                 ) {
                     Text("Continue")
@@ -92,7 +101,6 @@ struct CartDeliveryView: View {
                         .cornerRadius(6)
                 }
                 .padding()
-                // Disable the "Continue" button if cart is empty
                 .disabled(viewModel.isCartItemEmpty())
             }
         )
@@ -100,16 +108,24 @@ struct CartDeliveryView: View {
         .task {
             await viewModel.loadCartItems()
         }
+        .onChange(of: isShouldPopbackAfterPayment) { newValue in
+            if newValue {
+                presentationMode.wrappedValue.dismiss()
+                isComebackFromOrderPlaced = true
+            }
+        }
     }
 }
 
 struct PaymentMethodPicker: View {
     @Binding var selectedMethod: PaymentMethod
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text("Payment Method")
                 .font(.headline)
+                .foregroundColor(colorScheme == .dark ? .white : .primary)
             
             HStack(spacing: 10) {
                 ForEach(PaymentMethod.allCases, id: \.self) { method in
@@ -119,8 +135,8 @@ struct PaymentMethodPicker: View {
                         Text(method.toString)
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, 12)
-                            .background(selectedMethod == method ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
-                            .foregroundColor(selectedMethod == method ? .white : .black)
+                            .background(selectedMethod == method ? Color(hex: "2EB5FA") : colorScheme == .dark ? Color.gray : Color.gray.opacity(0.2))
+                            .foregroundColor(selectedMethod == method ? .white : colorScheme == .dark ? .white : .black)
                             .cornerRadius(8)
                     }
                 }
@@ -131,11 +147,13 @@ struct PaymentMethodPicker: View {
 
 struct ShippingMethodPicker: View {
     @Binding var selectedMethod: ShippingMethod
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 5) {
             Text("Shipping Method")
                 .font(.headline)
+                .foregroundColor(colorScheme == .dark ? .white : .primary)
             
             HStack(spacing: 10) {
                 ForEach(ShippingMethod.allCases, id: \.self) { method in
@@ -149,8 +167,8 @@ struct ShippingMethodPicker: View {
                         }
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
-                        .background(selectedMethod == method ? Color(hex: "2EB5FA") : Color.gray.opacity(0.2))
-                        .foregroundColor(selectedMethod == method ? .white : .black)
+                        .background(selectedMethod == method ? Color(hex: "2EB5FA") : colorScheme == .dark ? Color.gray : Color.gray.opacity(0.2))
+                        .foregroundColor(selectedMethod == method ? .white : colorScheme == .dark ? .white : .black)
                         .cornerRadius(8)
                     }
                 }
@@ -161,11 +179,13 @@ struct ShippingMethodPicker: View {
 
 struct OrderSummaryView: View {
     @ObservedObject var viewModel: CartDeliveryViewModel
-    
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
+
     var body: some View {
         VStack(alignment: .leading, spacing: 10) {
             Text("Order Summary (\(viewModel.cartItems.count) items)")
                 .font(.headline)
+                .foregroundColor(colorScheme == .dark ? .white : .primary)
             
             HStack {
                 Text("Total MRP")
@@ -197,11 +217,12 @@ struct OrderSummaryView: View {
             Spacer()
         }
         .padding()
-        .background(Color.white)
+        .background(colorScheme == .dark ? Color.black : Color.white)
         .cornerRadius(6)
+        .shadow(color: colorScheme == .dark ? Color.black.opacity(0.3) : Color.gray.opacity(0.2), radius: 2)
     }
 }
 
 #Preview {
-    CartDeliveryView()
+    CartDeliveryView(isComebackFromOrderPlaced: .constant(false))
 }

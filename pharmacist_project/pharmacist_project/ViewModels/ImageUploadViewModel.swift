@@ -31,23 +31,48 @@ import UIKit
 class ImageUploadViewModel: ObservableObject {
     @Published var image: UIImage?
     private var storage = Storage.storage().reference()
+    @Published var imagePickingButtonState: ButtonState = .active
+    @Published var uploadButtonState: ButtonState = .active
     
     func uploadImage(completion: @escaping (Result<URL, Error>) -> Void) {
         guard let imageData = image?.jpegData(compressionQuality: 0.4) else {
             return
         }
-        print("uploading2")
+        
+        // Disable image picking and show loading for upload button
+        imagePickingButtonState = .disabled
+        uploadButtonState = .loading
+        
         let storageRef = storage.child("images/\(UUID().uuidString).jpg")
-        storageRef.putData(imageData, metadata: nil) { metadata, error in
+        
+        storageRef.putData(imageData, metadata: nil) { [weak self] metadata, error in
+            guard let self = self else { return }
+            
+            // Handle error
             if let error = error {
+                // Update button states on failure
+                DispatchQueue.main.async {
+                    self.imagePickingButtonState = .active
+                    self.uploadButtonState = .active
+                }
                 completion(.failure(error))
                 return
             }
+            
+            // Retrieve the download URL after successful upload
             storageRef.downloadURL { url, error in
-                if let url = url {
-                    completion(.success(url))
-                } else if let error = error {
-                    completion(.failure(error))
+                DispatchQueue.main.async {
+                    if let url = url {
+                        // Success, change the button states
+                        self.imagePickingButtonState = .active
+                        self.uploadButtonState = .active
+                        completion(.success(url))
+                    } else if let error = error {
+                        // Failure, change the button states
+                        self.imagePickingButtonState = .active
+                        self.uploadButtonState = .active
+                        completion(.failure(error))
+                    }
                 }
             }
         }

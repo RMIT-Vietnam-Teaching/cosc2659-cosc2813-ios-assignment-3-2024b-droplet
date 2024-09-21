@@ -41,16 +41,12 @@ struct ImageUploadView: View {
                     .scaledToFit()
             }
             
-            Button("Upload Image") {
+            LoadingButton(title: "Pick image", state: $uploadManager.imagePickingButtonState, style: .fill, backgroundColor: Color.blue, foregroundColor: .white) {
                 showingImagePicker = true
             }
-            .padding()
-            .foregroundColor(.white)
-            .background(Color.blue)
-            .clipShape(Capsule())
             
             if let _ = uploadManager.image {
-                Button("Save to Cloud") {
+                LoadingButton(title: "Save to Cloud", state: $uploadManager.uploadButtonState, style: .fill, backgroundColor: Color.green, foregroundColor: .white) {
                     uploadManager.uploadImage { result in
                         switch result {
                         case .success(let url):
@@ -64,12 +60,10 @@ struct ImageUploadView: View {
                         }
                     }
                 }
-                .padding()
-                .foregroundColor(.white)
-                .background(Color.green)
-                .clipShape(Capsule())
             }
         }
+        .padding()
+        .padding(.horizontal)
         .navigationTitle("Upload avatar")
         .sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
             ImagePickerView(image: $inputImage)

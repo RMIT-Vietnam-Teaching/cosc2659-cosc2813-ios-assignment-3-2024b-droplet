@@ -30,6 +30,7 @@ class CartAddressViewModel: ObservableObject {
     var payableAmount: Double
     var paymentMethod: PaymentMethod
     var shippingMethod: ShippingMethod
+    @Binding var isShouldPopbackAfterPayment: Bool
     
     var curUser: AppUser? = nil
     @Published var fullName: String = ""
@@ -40,6 +41,7 @@ class CartAddressViewModel: ObservableObject {
     @Published var isError = true
     @Published var alertMessage = ""
     @Published var isProcessingPayment = false
+    @Published var isShowOrderPlacedSuccessPopUp = false
     
     private var orderService = OrderService.shared
     
@@ -54,10 +56,11 @@ class CartAddressViewModel: ObservableObject {
         )
     }()
 
-    init(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod) {
+    init(payableAmount: Double, paymentMethod: PaymentMethod, shippingMethod: ShippingMethod, isShouldPopbackAfterPayment: Binding<Bool>) {
         self.payableAmount = payableAmount
         self.paymentMethod = paymentMethod
         self.shippingMethod = shippingMethod
+        self._isShouldPopbackAfterPayment = isShouldPopbackAfterPayment
     }
 
     func loadUserData() async {
@@ -116,7 +119,8 @@ class CartAddressViewModel: ObservableObject {
                 self.isProcessingPayment = false
                 print("Order placed successfully")
                 
-                self.showAlert(message: "Order Placed", isError: false)
+                self.isShowOrderPlacedSuccessPopUp = true
+                self.isShouldPopbackAfterPayment = true
             }
         } catch {
             DispatchQueue.main.async {

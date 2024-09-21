@@ -158,7 +158,7 @@ struct OrderDetailView: View {
     var orderHeaderView: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Order \(order.id)")
+                Text("Tracking ID \(order.id)")
                     .font(.title3)
                     .fontWeight(.bold)
                 Spacer()

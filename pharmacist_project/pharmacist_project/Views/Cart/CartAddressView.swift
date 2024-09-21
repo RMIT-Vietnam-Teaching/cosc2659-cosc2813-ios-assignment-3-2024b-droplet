@@ -24,9 +24,12 @@
 */
 
 import SwiftUI
+import PopupView
 
 struct CartAddressView: View {
+    @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: CartAddressViewModel
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
         NavigationView {
@@ -44,6 +47,7 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Full Name*")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Enter your fullname", text: $viewModel.fullName)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
@@ -51,6 +55,7 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Phone Number*")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Enter your phone number", text: $viewModel.phoneNumber)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                                     .keyboardType(.phonePad)
@@ -59,6 +64,7 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Address*")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Please add your full address", text: $viewModel.address)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
@@ -66,19 +72,20 @@ struct CartAddressView: View {
                             VStack(alignment: .leading) {
                                 Text("Note (Optional)")
                                     .font(.headline)
+                                    .foregroundColor(colorScheme == .dark ? .white : .primary)
                                 TextField("Add a note", text: $viewModel.note)
                                     .textFieldStyle(RoundedBorderTextFieldStyle())
                             }
                         }
                         .padding()
                     }
-                    .background(Color.white)
+                    .background(colorScheme == .dark ? Color.black : Color.white)
                     .alert(isPresented: $viewModel.showAlert) {
                         Alert(title: Text("Alert"), message: Text(viewModel.alertMessage), dismissButton: .default(Text("OK")))
                     }
                 }
             }
-            .navigationTitle("Receiver information")
+//            .navigationTitle("Receiver information")
             .overlay(
                 VStack {
                     Spacer()
@@ -104,10 +111,44 @@ struct CartAddressView: View {
                     await viewModel.loadUserData()
                 }
             }
+            
+            // MARK: order placed success popup
+            .popup(isPresented: $viewModel.isShowOrderPlacedSuccessPopUp) {
+                GradientBackgroundPopup(title: "") {
+                    VStack(spacing: 24) {
+                        Image("order-placed")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(maxWidth: 160)
+                        
+                        Text("Order placed")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                        
+                        Spacer()
+                        Spacer()
+                        
+                        LoadingButton(title: "Back Home", state: .constant(.active), style: .fill) {
+                            withAnimation {
+                                viewModel.isShowOrderPlacedSuccessPopUp = false
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                    .padding(.top)
+                    .padding(.top)
+                }
+                .navigationBarBackButtonHidden(true)
+            } customize: {
+                $0
+                    .closeOnTap(false)
+                    .closeOnTapOutside(false)
+            }
         }
     }
 }
 
 #Preview {
-    CartAddressView(viewModel: CartAddressViewModel(payableAmount: 100000, paymentMethod: .visa, shippingMethod: .NinjaVan))
+    CartAddressView(viewModel: CartAddressViewModel(payableAmount: 100000, paymentMethod: .visa, shippingMethod: .NinjaVan, isShouldPopbackAfterPayment: .constant(false)))
 }

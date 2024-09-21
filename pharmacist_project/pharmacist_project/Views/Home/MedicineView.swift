@@ -26,7 +26,9 @@
 import SwiftUI
 
 struct MedicineView: View {
+    @Environment(\.colorScheme) private var colorScheme
     @ObservedObject var viewModel = MedicineViewModel()
+    @State private var isComebackFromOrderPlaced = false
     
     var body: some View {
         NavigationStack {
@@ -34,9 +36,9 @@ struct MedicineView: View {
                 VStack(spacing: 20) {
                     VStack(spacing: 10) {
                         ZStack {
-                            Color(hex: "2EB5FA")
-                                .opacity(DarkLightModeService.shared.isDarkMode() ? 0.2 : 1.0)
-                                .ignoresSafeArea(.all, edges: .top) 
+                            Color(hex: colorScheme == .dark ? "#3A3A3C" : "2EB5FA")
+                                .opacity(colorScheme == .dark ? 0.4 : 1.0)
+                                .ignoresSafeArea(.all, edges: .top)
                                 .frame(height: 80)
                             
                             VStack {
@@ -50,7 +52,7 @@ struct MedicineView: View {
                                             viewModel.filterMedicines()
                                         }
                                     
-                                    NavigationLink(destination: CartDeliveryView()) {
+                                    NavigationLink(destination: CartDeliveryView(isComebackFromOrderPlaced: $isComebackFromOrderPlaced)) {
                                         HStack {
                                             Image(systemName: "cart")
                                                 .foregroundColor(.white)
@@ -120,11 +122,17 @@ struct MedicineView: View {
                     }
                 }
             }
+            .onChange(of: isComebackFromOrderPlaced) { newValue in
+                if newValue {
+                    Task {
+                        await viewModel.loadMedicines()
+                        isComebackFromOrderPlaced = false
+                    }
+                }
+            }
         }
     }
 }
-
-// MARK: - Helper for Header with "View All" Button
 func headerWithViewAll(title: String, viewModel: MedicineViewModel) -> some View {
     HStack {
         Text(title)

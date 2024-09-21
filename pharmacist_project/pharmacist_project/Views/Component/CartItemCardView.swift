@@ -30,6 +30,7 @@ struct CartItemCardView: View {
     @StateObject var cartItemVM: CartItemViewModel
     @Binding var cartItem: CartItem
     @EnvironmentObject var viewModel: CartDeliveryViewModel
+    @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var offset: CGFloat = 0
     @State private var isSwiped = false
 
@@ -66,12 +67,13 @@ struct CartItemCardView: View {
                             Image(systemName: "minus.square")
                                 .font(.title2)
                                 .frame(width: 18, height: 18)
-                                .foregroundColor(.gray)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                         
                         Text("\(cartItem.quantity ?? 0)")
                             .font(.headline)
                             .frame(width: 40, height: 20)
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                         
                         Button(action: {
                             Task {
@@ -81,7 +83,7 @@ struct CartItemCardView: View {
                             Image(systemName: "plus.square")
                                 .font(.title2)
                                 .frame(width: 18, height: 18)
-                                .foregroundColor(.gray)
+                                .foregroundColor(colorScheme == .dark ? .white : .black)
                         }
                     }
                     .padding(.top, 8)
@@ -93,6 +95,7 @@ struct CartItemCardView: View {
                         .multilineTextAlignment(.leading)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(.top, 4)
+                        .foregroundColor(colorScheme == .dark ? .white : .black)
                     
                     Spacer()
 
@@ -103,14 +106,15 @@ struct CartItemCardView: View {
                             .fontWeight(.bold)
                             .padding(.top, 4)
                             .frame(alignment: .trailing)
+                            .foregroundColor(colorScheme == .dark ? .white : .black)
                     }
                     .padding(.bottom, 4)
                 }
             }
             .padding()
-            .background(Color.white)
+            .background(colorScheme == .dark ? Color.black : Color.white)
             .cornerRadius(10)
-            .shadow(color: Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
+            .shadow(color: colorScheme == .dark ? Color.black.opacity(0.6) : Color.gray.opacity(0.4), radius: 4, x: 0, y: 2)
             .offset(x: offset)
             .gesture(
                 DragGesture()
