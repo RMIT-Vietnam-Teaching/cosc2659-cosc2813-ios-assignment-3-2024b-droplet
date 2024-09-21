@@ -33,6 +33,7 @@ struct CartItemCardView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
     @State private var offset: CGFloat = 0
     @State private var isSwiped = false
+    @State private var showAlert = false
 
     init(cartItem: Binding<CartItem>) {
         self._cartItem = cartItem
@@ -135,12 +136,10 @@ struct CartItemCardView: View {
                         }
                     }
             )
-            
+
             if isSwiped {
                 Button(action: {
-                    Task {
-                        await viewModel.removeCartItem(cartItem)
-                    }
+                    showAlert = true
                 }) {
                     Image(systemName: "trash")
                         .foregroundColor(.white)
@@ -149,6 +148,23 @@ struct CartItemCardView: View {
                         .cornerRadius(10)
                 }
                 .transition(.move(edge: .trailing))
+                .alert(isPresented: $showAlert) {
+                    Alert(
+                        title: Text("Delete Item"),
+                        message: Text("Are you sure you want to remove this item from your cart?"),
+                        primaryButton: .destructive(Text("Delete")) {
+                            Task {
+                                await viewModel.removeCartItem(cartItem)
+                            }
+                        },
+                        secondaryButton: .cancel() {
+                            withAnimation {
+                                isSwiped = false
+                                offset = 0
+                            }
+                        }
+                    )
+                }
             }
         }
         .frame(height: 150)
