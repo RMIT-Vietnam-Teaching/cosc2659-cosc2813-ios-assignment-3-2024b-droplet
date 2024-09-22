@@ -805,7 +805,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pharmacist-project-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Smart Pharmacist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Smart Pharmacy";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -837,7 +837,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "pharmacist-project-Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Smart Pharmacist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Smart Pharmacy";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.medical";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
