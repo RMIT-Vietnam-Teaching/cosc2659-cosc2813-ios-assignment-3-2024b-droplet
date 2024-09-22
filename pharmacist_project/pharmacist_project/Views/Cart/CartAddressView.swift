@@ -32,7 +32,7 @@ struct CartAddressView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ZStack {
                 if viewModel.isProcessingPayment {
                     ProgressView("Processing payment...")

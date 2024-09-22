@@ -34,7 +34,7 @@ struct CartDeliveryView: View {
     @Environment(\.colorScheme) var colorScheme: ColorScheme
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
                     // Progress indicators
