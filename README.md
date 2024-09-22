@@ -12,9 +12,9 @@
 - Smart Pharmacy aims to bridge the healthcare gap between rural and urban areas by providing underserved communities with digital access to essential medications, health consultations, and prescriptions, improving health outcomes where medical services are limited, such as rural areas in Vietnam.
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/86ff6cdf-8750-45db-b67b-07c8a8c7ab73" width="300" > 
-  <img src="https://github.com/user-attachments/assets/1f1a2a67-38b1-472e-b25d-b4ba8eff9923" width="300" > 
-  <img src="https://github.com/user-attachments/assets/5dbdf365-7484-4502-a8fd-41bae3ef8003" width="300" > 
+  <img src="https://github.com/user-attachments/assets/86ff6cdf-8750-45db-b67b-07c8a8c7ab73" width="300" style="display: inline-block;" > 
+  <img src="https://github.com/user-attachments/assets/1f1a2a67-38b1-472e-b25d-b4ba8eff9923" width="300" style="display: inline-block;" > 
+  <img src="https://github.com/user-attachments/assets/5dbdf365-7484-4502-a8fd-41bae3ef8003" width="300" style="display: inline-block;" > 
 </p>
 
 ## Demo
