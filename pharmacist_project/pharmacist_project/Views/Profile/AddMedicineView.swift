@@ -33,7 +33,7 @@ struct AddMedicineView: View {
     @State private var isSaving = false
 
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section(header: Text("Basic Information")) {
                     TextField("Name", text: $viewModel.name)
